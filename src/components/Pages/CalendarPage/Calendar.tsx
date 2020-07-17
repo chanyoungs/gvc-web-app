@@ -1,17 +1,15 @@
 import { VerboseFormattingArg } from "@fullcalendar/core"
+import { DateClickArg } from "@fullcalendar/interaction"
 import FullCalendar, { EventClickArg, EventInput } from "@fullcalendar/react"
-import dayGridPlugin from "@fullcalendar/daygrid"
-import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction"
-import listPlugin from "@fullcalendar/list"
-import rrulePlugin from "@fullcalendar/rrule"
-import timeGridPlugin from "@fullcalendar/timegrid"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import React, { FC, Fragment, useState, useRef } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { AppState } from "src/store/reducers/rootReducer"
-import { useFirestoreConnect } from "react-redux-firebase"
-import { IMemberDownload } from "src/types"
 import moment from "moment"
+import React, { FC, Fragment, useRef, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useFirestoreConnect } from "react-redux-firebase"
+import { AppState } from "src/store/reducers/rootReducer"
+import { IMemberDownload } from "src/types"
+
+import { dayGridPlugin, interactionPlugin, listPlugin, rrulePlugin, timeGridPlugin } from "./pluginModules"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
@@ -94,6 +92,8 @@ export const CustomCalendar: FC = () => {
 
   return (
     <FullCalendar
+      editable
+      selectable
       ref={calendarRef}
       plugins={[
         dayGridPlugin,
@@ -142,10 +142,12 @@ export const CustomCalendar: FC = () => {
         },
       }}
       headerToolbar={{
-        left:
-          "calendarButton,listButton dayButton,weekButton,monthButton,yearButton",
+        left: "calendarButton,listButton",
         center: "title",
         right: "today prev,next",
+      }}
+      footerToolbar={{
+        left: "dayButton,weekButton,monthButton,yearButton",
       }}
       listDayFormat={(arg: VerboseFormattingArg) =>
         moment(arg.date).format("ddd do MMM YYYY")
@@ -153,7 +155,6 @@ export const CustomCalendar: FC = () => {
       listDaySideFormat={(arg: VerboseFormattingArg) =>
         moment(arg.date).fromNow()
       }
-      editable
       events={[...birthdays, ...events]}
       dateClick={(arg: DateClickArg) => {
         console.log({ arg })

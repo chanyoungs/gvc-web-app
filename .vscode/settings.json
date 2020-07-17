@@ -6,5 +6,8 @@
     "Plains",
     "Modules",
     "Workspace"
-  ]
+  ],
+  "typescriptHero.imports.organizeOnSave": true,
+  "typescriptHero.imports.stringQuoteStyle": "\"",
+  "typescriptHero.imports.organizeSortsByFirstSpecifier": true
 }
