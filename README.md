@@ -9,6 +9,8 @@
   - [x] 27/06/20 CY - Stylised Theme editor page
   - [x] 24/06/20 CY - Finished styling prayer list item
   - [x] 24/06/20 CY - Finished styling app bar and drawer
+- [ ] Implement Calendar page
+  - [x] 17/07/20 CY - Basic implementation of calendar page
 - [x] 14/07/20 CY - Make prayers save on firestore
 - [x] 14/07/20 CY - Connect Date and Prayer query
   - [x] 14/07/20 CY - Convert prayers objects to report objects

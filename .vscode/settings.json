@@ -1,6 +1,10 @@
 {
   "typescriptHero.imports.insertSemicolons": false,
   "prettier.semi": false,
-  "typescriptHero.imports.organizeOnSave": true,
-  "typescriptHero.imports.disableImportRemovalOnOrganize": true
+  "typescriptHero.imports.disableImportRemovalOnOrganize": true,
+  "typescriptHero.imports.grouping": [
+    "Plains",
+    "Modules",
+    "Workspace"
+  ]
 }

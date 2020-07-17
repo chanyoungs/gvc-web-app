@@ -16,7 +16,6 @@ export const updateReport = (report: IReport): ThunkActionCustom<void> => (
     .set(report)
     .then(() => {
       dispatch({ type: ALERT_SAVED, payload: true })
-      console.log("firestore saved report!")
     })
     .catch((error: IFBError) => {
       dispatch({ type: ALERT_SAVED_ERROR, payload: error })
