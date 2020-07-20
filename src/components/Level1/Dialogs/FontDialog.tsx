@@ -44,7 +44,7 @@ export const FontDialog: FC = () => {
   }
 
   const extractFontFromURL = () => {
-    const regex = /(?<=family=)(.*)(:.*)(?=&display)/
+    const regex = /family=(.*)(:.*)&display/
     const groups = fontURL.match(regex)
     if (!groups || groups.length < 3) {
       return null
