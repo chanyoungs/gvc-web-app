@@ -157,7 +157,16 @@ export const CustomCalendar: FC = () => {
       listDaySideFormat={(arg: VerboseFormattingArg) =>
         moment(arg.date).fromNow()
       }
-      events={[...birthdays, ...events]}
+      events={[
+        ...birthdays,
+        ...events,
+        {
+          title: "Today",
+          date: new Date(),
+          backgroundColor: "green",
+          borderColor: "green",
+        },
+      ]}
       dateClick={(arg: DateClickArg) => {
         console.log({ arg })
         setEvents((prevEvents) => [
@@ -167,6 +176,22 @@ export const CustomCalendar: FC = () => {
       }}
       eventClick={(arg: EventClickArg) => {
         console.log({ arg })
+      }}
+      eventDidMount={(info) => {
+        if (info.event.start) {
+          if (info.event.start < new Date()) {
+            // Change background color of row
+            info.el.style.backgroundColor = "#A9A9A9"
+            info.el.style.webkitTextStrokeColor = "white"
+
+            // Change color of dot marker
+            // var dotEl = info.el.getElementsByClassName<HTMLElement>("fc-event-dot")[0]
+            // let dotEl = info.el.querySelector<HTMLElement>(".fc-event-dot")
+            // if (dotEl) {
+            //   dotEl.style.backgroundColor = "white"
+            // }
+          }
+        }
       }}
     />
   )
