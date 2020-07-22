@@ -90,6 +90,8 @@ export const CustomCalendar: FC = () => {
       }))
     : []
 
+  console.log("CustomCalendar:FC -> birthdays", birthdays)
+
   return (
     <FullCalendar
       editable
@@ -150,7 +152,7 @@ export const CustomCalendar: FC = () => {
         left: "dayButton,weekButton,monthButton,yearButton",
       }}
       listDayFormat={(arg: VerboseFormattingArg) =>
-        moment(arg.date).format("ddd do MMM YYYY")
+        moment(arg.date).format("ddd Do MMM YYYY")
       }
       listDaySideFormat={(arg: VerboseFormattingArg) =>
         moment(arg.date).fromNow()
