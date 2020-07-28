@@ -1,4 +1,4 @@
-import { createMuiTheme } from "@material-ui/core"
+import { createMuiTheme, CssBaseline } from "@material-ui/core"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { MuiThemeProvider } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
@@ -80,6 +80,7 @@ export default function App() {
             JSON.parse(themes[settings.theme.name]["output"])
           )}
         >
+          <CssBaseline />
           <div className={classes.root}>
             <BrowserRouter>
               <Switch>
