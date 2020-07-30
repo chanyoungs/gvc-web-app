@@ -1,6 +1,6 @@
 import DateFnsUtils from "@date-io/date-fns"
 import { MuiPickersUtilsProvider } from "@material-ui/pickers"
-import firebase from "firebase"
+import firebase from "firebase/app"
 import React from "react"
 import ReactDOM from "react-dom"
 import { Provider, useSelector } from "react-redux"
