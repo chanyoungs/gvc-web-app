@@ -1,5 +1,3 @@
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { Moment } from "moment"
 import React, { FC } from "react"
@@ -7,8 +5,7 @@ import { useSelector } from "react-redux"
 import { PrayerListItem } from "src/components/Level1/ListItems/PrayerListItem"
 import { AppState } from "src/store/reducers/rootReducer"
 
-import { IMemberDownload, IPrayer } from "../../../types"
-import { PrayerPaper } from "../../Level1/Papers/PrayerPaper"
+import { IMemberDownload, IReport } from "../../../types"
 import { CustomList } from "./CustomList"
 
 // import { Iprayer } from "./../../../interfaces"
@@ -46,13 +43,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface IPPrayersContainer {
   members: IMemberDownload[]
-  prayers: IPrayer[]
+  reports: IReport[]
   date: Moment
 }
 
 export const PrayersContainer: FC<IPPrayersContainer> = ({
   members,
-  prayers,
+  reports,
   date,
 }) => {
   const classes = useStyles()
@@ -68,18 +65,26 @@ export const PrayersContainer: FC<IPPrayersContainer> = ({
   // })
 
   const render = (member: IMemberDownload) => {
-    let prayer: IPrayer
+    let _report: IReport
     let query =
-      prayers && prayers.filter((prayer) => prayer.memberId === member.id)
+      reports && reports.filter((report) => report.memberId === member.id)
 
-    if (query && query.length === 1) {
-      prayer = query[0]
-    } else {
-      prayer = { content: "", memberId: member.id, date }
-    }
+    _report =
+      query && query.length === 1
+        ? query[0]
+        : {
+            memberId: member.id,
+            prayer: "",
+            cell: member.cell,
+            date: date.format("YYYY.MM.DD"),
+            attendance: {
+              service: false,
+              cell: false,
+              info: "",
+            },
+          }
 
-    return <PrayerListItem prayer={prayer} member={member} key={member.id} />
+    return <PrayerListItem report={_report} member={member} key={member.id} />
   }
-
   return <CustomList items={members_} render={render} />
 }

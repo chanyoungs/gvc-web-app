@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
       minHeight: "100vh",
       display: "flex",
       flexDirection: "column",
-      background: theme.palette.secondary.dark,
+      background: theme.palette.primary.main,
       color: theme.palette.common.white,
     },
     list: {

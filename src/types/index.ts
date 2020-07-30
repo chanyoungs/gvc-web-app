@@ -2,7 +2,9 @@ import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme"
 import firebase from "firebase"
 
 // ---Themes---
-export type Themes = { [key: string]: { string: string } }
+export type Themes = {
+  [key: string]: { output: string; input: string }
+}
 
 // ---Members---
 
@@ -43,6 +45,20 @@ export interface IPrayer {
 }
 
 export type TPrayerQueries = [string, string, any][]
+
+// --Reports--
+export interface IReport {
+  id?: string
+  memberId: string
+  cell: string
+  date: string
+  prayer: string
+  attendance: {
+    service: boolean
+    cell: boolean
+    info: string
+  }
+}
 
 // ---Auth---
 // Types

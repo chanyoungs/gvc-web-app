@@ -81,12 +81,9 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 const validationSchema = yup.object<Partial<IAuthForm>>({
-  email: yup
-    .string()
-    .email("Invalid email")
-    .required("Email is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
   password: yup.string().when("page", {
-    is: page => page === "signIn" || page === "signUp",
+    is: (page) => page === "signIn" || page === "signUp",
     then: yup
       .string()
       .min(6, "Password must be at least 6 characters")
@@ -106,10 +103,7 @@ const validationSchema = yup.object<Partial<IAuthForm>>({
     .nullable()
     .when("page", {
       is: "signUp",
-      then: yup
-        .date()
-        .nullable()
-        .required("Date of Birth is required"),
+      then: yup.date().nullable().required("Date of Birth is required"),
     }),
   agreeTAndC: yup.boolean().when("page", {
     is: "signUp",
@@ -130,7 +124,7 @@ export const AuthPage: FC = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const fbFeedback = useSelector<AppState, AppState["auth"]>(
-    state => state.auth
+    (state) => state.auth
   )
 
   const initialValues: IAuthForm = {
@@ -201,7 +195,7 @@ export const AuthPage: FC = () => {
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {({ values, errors, isSubmitting, setFieldValue }) => (
+        {({ values, isValid, dirty, isSubmitting, setFieldValue }) => (
           <Form className={classes.root}>
             <img src={Logo} className={classes.logo} alt="GVC Logo" />
             <div className={classes.grid}>
@@ -293,7 +287,7 @@ export const AuthPage: FC = () => {
                           className={classes.signInUpButton}
                           variant="contained"
                           fullWidth
-                          disabled={isSubmitting}
+                          disabled={isSubmitting || !isValid || !dirty}
                           type="submit"
                         >
                           <Typography color="textPrimary">

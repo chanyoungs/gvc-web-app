@@ -4,6 +4,13 @@
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "1.3.13",
+    "@fullcalendar/core": "^5.1.0",
+    "@fullcalendar/daygrid": "^5.1.0",
+    "@fullcalendar/interaction": "^5.1.0",
+    "@fullcalendar/list": "^5.1.0",
+    "@fullcalendar/react": "^5.1.0",
+    "@fullcalendar/rrule": "^5.1.0",
+    "@fullcalendar/timegrid": "^5.1.0",
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
@@ -19,6 +26,7 @@
     "@types/react-redux": "^7.1.6",
     "@types/react-router-dom": "^5.1.3",
     "@types/react-swipeable-views": "^0.13.0",
+    "@types/webfontloader": "^1.6.32",
     "@types/yup": "^0.26.32",
     "autosuggest-highlight": "^3.1.1",
     "date-fns": "^2.9.0",
@@ -38,8 +46,10 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-firestore": "^0.12.0",
     "redux-thunk": "^2.3.0",
+    "rrule": "^2.6.4",
     "ts-image-processor": "^1.1.17",
     "typescript": "3.7.5",
+    "webfontloader": "^1.6.28",
     "yup": "^0.28.1"
   },
   "scripts": {

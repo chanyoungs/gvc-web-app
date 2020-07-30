@@ -4,11 +4,24 @@
 - [ ] Complete the relationships between change of date from PrayersPage and state and props of PrayerListItem
 - [ ] Styling
   - [ ] Padding and spacing
+  - [x] 01/07/20 CY - Changed Appbar and side drawer to have primary main colour
+  - [x] 27/06/20 CY - Removed 'OK' & 'Cancel' on datepicker using variant="inline" and moved datepicker icon to the start
+  - [x] 27/06/20 CY - Stylised Theme editor page
   - [x] 24/06/20 CY - Finished styling prayer list item
   - [x] 24/06/20 CY - Finished styling app bar and drawer
-- [ ] Connect Date and Prayer query
-- [x] Added Storybook 'npm run storybook' - See [Link](https://storybook.js.org/)
-- [x] Typed CustomList & ContainerMain using generics
+- [ ] Implement Calendar page
+  - [x] 17/07/20 CY - Basic implementation of calendar page
+- [x] 14/07/20 CY - Make prayers save on firestore
+- [x] 14/07/20 CY - Connect Date and Prayer query
+  - [x] 14/07/20 CY - Convert prayers objects to report objects
+  - [x] 14/07/20 CY - Implemented timer and onBlur based autosave
+- [x] 14/07/20 CY - Add a FAB
+- [x] 14/07/20 CY - Add a save snackbar
+- [x] 11/07/20 CY - Install new typographies: Added font installer in theme editor page
+- [x] 01/07/20 CY - Finished adding JSON input feature on theme page
+- [x] 27/06/20 CY - Added Theme editor page
+- [x] 27/06/20 CY - Added Storybook 'npm run storybook' - See [Link](https://storybook.js.org/)
+- [x] 26/06/20 CY - Typed CustomList & ContainerMain using generics
 - [x] 26/06/20 CY - Implement Date & Datepicker dialog
 - [x] 24/06/20 CY - Changed the notice alert icon
 - [x] 24/06/20 CY - Implemented new design prayer component

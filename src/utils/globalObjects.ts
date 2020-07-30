@@ -1,4 +1,5 @@
 import moment from "moment"
+import { IReport } from "src/types"
 
 import { db } from "./../firebase"
 
@@ -28,22 +29,36 @@ export const globalObjects = () => {
   }
 
   // @ts-ignore
-  window.createPrayers = () => {
+  window.createReports = () => {
     for (let cell = 1; cell <= 5; cell++) {
       for (let member = 0; member <= 3; member++) {
         for (let day = 0; day <= 2; day++) {
           let date = moment()
             .day(0)
             .subtract(7 * day, "days")
-          db.collection("prayers")
-            .add({
-              memberId: "c" + cell + "m" + member,
-              cell: "" + cell,
-              date: date.toDate(),
-              content: `Prayer of ${
-                "Cell" + cell + (member === 0 ? "-Leader" : "-Member" + member)
-              } created at ${date.format("Do MMM YYYY")}`,
-            })
+          let report: IReport = {
+            memberId: "c" + cell + "m" + member,
+            cell: "" + cell,
+            date: date.format("YYYY.MM.DD"),
+            prayer: `Prayer of ${
+              "Cell" + cell + (member === 0 ? "-Leader" : "-Member" + member)
+            } created at ${date.format("Do MMM YYYY")}`,
+            attendance: {
+              service: Math.random() > 0.5,
+              cell: Math.random() > 0.5,
+              info:
+                Math.random() > 0.5
+                  ? `Info of ${
+                      "Cell" +
+                      cell +
+                      (member === 0 ? "-Leader" : "-Member" + member)
+                    } created at ${date.format("Do MMM YYYY")}`
+                  : "",
+            },
+          }
+          db.collection("reports")
+            .doc(`${report.date}-${report.memberId}`)
+            .set(report)
             .then(() => console.log("Complete!"))
         }
       }

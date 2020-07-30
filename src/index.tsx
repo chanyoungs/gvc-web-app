@@ -1,8 +1,7 @@
 import DateFnsUtils from "@date-io/date-fns"
-import { CssBaseline } from "@material-ui/core"
 import { MuiPickersUtilsProvider } from "@material-ui/pickers"
-import firebase from "firebase"
-import React, { Fragment } from "react"
+import firebase from "firebase/app"
+import React from "react"
 import ReactDOM from "react-dom"
 import { Provider, useSelector } from "react-redux"
 import { getFirebase, isLoaded, ReactReduxFirebaseProvider } from "react-redux-firebase"
@@ -54,20 +53,17 @@ const AuthIsLoaded = ({ children }: { children: JSX.Element }) => {
 }
 
 ReactDOM.render(
-  <Fragment>
-    <CssBaseline />
-    <BrowserRouter>
-      <Provider store={store}>
-        <ReactReduxFirebaseProvider {...rrfProps}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <AuthIsLoaded>
-              <App />
-            </AuthIsLoaded>
-          </MuiPickersUtilsProvider>
-        </ReactReduxFirebaseProvider>
-      </Provider>
-    </BrowserRouter>
-  </Fragment>,
+  <BrowserRouter>
+    <Provider store={store}>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <AuthIsLoaded>
+            <App />
+          </AuthIsLoaded>
+        </MuiPickersUtilsProvider>
+      </ReactReduxFirebaseProvider>
+    </Provider>
+  </BrowserRouter>,
   document.getElementById("root")
 )
 

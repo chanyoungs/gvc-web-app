@@ -3,10 +3,17 @@ import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme"
 import { ThunkActionCustom } from "../../types/actions"
 import { IFBError } from "./../../types"
 
-export const uploadTheme = (
-  name: string,
-  theme: ThemeOptions
-): ThunkActionCustom<void> => (
+export interface IPUploadTheme {
+  name: string
+  theme: { input: string; output: string }
+  callback: () => void
+}
+
+export const uploadTheme = ({
+  name,
+  theme,
+  callback,
+}: IPUploadTheme): ThunkActionCustom<void> => (
   dispatch,
   getState,
   { getFirestore, getFirebase }
@@ -16,8 +23,9 @@ export const uploadTheme = (
   firestore
     .collection("themes")
     .doc(name)
-    .set({ string: JSON.stringify(theme) })
+    .set(theme)
     .then(() => {
+      callback()
       dispatch({ type: "UPLOAD_THEME" })
     })
     .catch((error: IFBError) => {

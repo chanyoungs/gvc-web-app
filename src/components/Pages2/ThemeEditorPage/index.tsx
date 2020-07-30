@@ -28,8 +28,6 @@ export const ThemeEditorPage: FC = () => {
     (state) => state.firestore.data.settings
   )
 
-  console.log({ themes, settings })
-
   return (
     <Fragment>
       <AppBarMain title="Theme Editor" />

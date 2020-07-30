@@ -20,8 +20,6 @@ import { SwipeableTemporaryDrawer } from "./../Drawers/SwipeableTemporaryDrawer"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
-      background: theme.palette.secondary.dark,
-      color: theme.palette.common.white,
       paddingLeft: theme.spacing(1.5),
       paddingRight: theme.spacing(1.5),
     },

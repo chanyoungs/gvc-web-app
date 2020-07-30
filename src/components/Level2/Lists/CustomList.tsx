@@ -1,9 +1,9 @@
 import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
+import { ListItemProps } from "@material-ui/core/ListItem"
 import ListSubheader from "@material-ui/core/ListSubheader"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
-import React, { FC, ReactNode } from "react"
+import React, { ReactNode } from "react"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -12,8 +12,6 @@ const useStyles = makeStyles((theme: Theme) =>
     subheader: { background: theme.palette.background.default },
   })
 )
-
-type itemType = any | { subheader: string; subitems: any[] }
 
 export interface IPCustomList<I> {
   items: I[] | { subheader: string; subitems: I[] }[]
