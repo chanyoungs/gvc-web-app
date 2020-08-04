@@ -143,6 +143,7 @@ export type Paths =
   | "/"
   | "/auth"
   | "/bible"
+  | "/bulletin"
   | "/calendar"
   | "/dates"
   | "/members"
@@ -152,7 +153,7 @@ export type Paths =
   | "/prayers"
   | "/private"
   | "/public"
-  | "/prayers2"
+  | "/reports"
   | "/theme"
 
 // ---Bibles---

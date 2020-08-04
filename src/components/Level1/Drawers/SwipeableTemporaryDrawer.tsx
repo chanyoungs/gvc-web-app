@@ -11,6 +11,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import AnnouncementIcon from "@material-ui/icons/Announcement"
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday"
 import ExitToAppIcon from "@material-ui/icons/ExitToApp"
+import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted"
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks"
 import MenuBookIcon from "@material-ui/icons/MenuBook"
 import PaletteIcon from "@material-ui/icons/Palette"
@@ -85,9 +86,9 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
       disabled: !isAuthenticated,
     },
     {
-      name: "Prayers",
+      name: "Reports",
       icon: <LibraryBooksIcon />,
-      page: "/prayers2",
+      page: "/reports",
       // page: "/dates",
       disabled: !isAuthenticated,
     },
@@ -108,6 +109,11 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
       name: "Bible",
       icon: <MenuBookIcon />,
       page: "/bible",
+    },
+    {
+      name: "Bulletin",
+      icon: <FormatListBulletedIcon />,
+      page: "/bulletin",
     },
     {
       name: "Playground",

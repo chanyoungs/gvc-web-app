@@ -4,7 +4,15 @@ import { MuiThemeProvider } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
 import { useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
-import { BrowserRouter, Link, Route, Switch, useHistory, useLocation } from "react-router-dom"
+import {
+  BrowserRouter,
+  Link,
+  Redirect,
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+} from "react-router-dom"
 import { Themes } from "src/types"
 import WebFont from "webfontloader"
 
@@ -23,7 +31,8 @@ import { NoticesPage } from "./Pages/NoticesPage"
 import { Playground } from "./Pages/Playground"
 import { PrayersPage } from "./Pages/PrayersPage"
 import SignInUpPage from "./Pages/SignInUpPage"
-import { PrayersPage as PrayersPage2 } from "./Pages2/PrayersPage"
+import { BulletinPage } from "./Pages2/BulletinPage"
+import { ReportsPage } from "./Pages2/ReportsPage"
 import { ThemeEditorPage } from "./Pages2/ThemeEditorPage"
 
 // import LeaderDatePage from "./Pages/LeaderDatePage"
@@ -101,8 +110,10 @@ export default function App() {
                 <PrivateRoute path="/dates" component={DatesPage} />
                 <PrivateRoute path="/notices" component={NoticesPage} />
                 <PrivateRoute path="/calendar" component={CalendarPage} />
-                <PrivateRoute path="/prayers2" component={PrayersPage2} />
+                <PrivateRoute path="/reports" component={ReportsPage} />
                 <PrivateRoute path="/theme" component={ThemeEditorPage} />
+                <PrivateRoute path="/bulletin" component={BulletinPage} />
+                <Route render={() => <Redirect to="/" />} />
               </Switch>
             </BrowserRouter>
           </div>

@@ -41,9 +41,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPPrayersPage {}
+export interface IPReportsPage {}
 
-export const PrayersPage: FC<IPPrayersPage> = (props) => {
+export const ReportsPage: FC<IPReportsPage> = (props) => {
   const classes = useStyles()
   const [date, setDate] = useState<Moment>(moment().day(0))
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)
