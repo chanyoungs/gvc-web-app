@@ -26,9 +26,12 @@ const useStyles = makeStyles((theme: Theme) =>
     divider: { backgroundColor: theme.palette.common.black },
     datePicker: theme.typography.h4,
     fab: {
-      position: "absolute",
-      bottom: theme.spacing(2),
+      margin: 0,
+      top: "auto",
       right: theme.spacing(2),
+      bottom: theme.spacing(2),
+      left: "auto",
+      position: "fixed",
     },
     snackbar: {
       [theme.breakpoints.down("xs")]: {

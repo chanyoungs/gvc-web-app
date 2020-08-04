@@ -11,13 +11,21 @@ import CalendarToday from "@material-ui/icons/CalendarToday"
 import Email from "@material-ui/icons/Email"
 import Lock from "@material-ui/icons/Lock"
 import Person from "@material-ui/icons/Person"
-import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
+import {
+  Field,
+  FieldAttributes,
+  Form,
+  Formik,
+  FormikHelpers,
+  useField,
+  useFormikContext,
+} from "formik"
 import React, { FC, Fragment, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
 import * as yup from "yup"
 
-import Logo from "../../images/Logo.svg"
+import FullLogo from "../../images/gods_vision_church_logo.svg"
 import { resetPassword, signIn, signUp } from "../../store/actions/authActions"
 import { AppState } from "../../store/reducers/rootReducer"
 import { IAuthForm } from "../../types"
@@ -37,7 +45,6 @@ import { FormikTextField } from "../Level1/TextFields/FormikTextField"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      background: "#616161",
       minHeight: "100vh",
       padding: 0,
       display: "flex",
@@ -46,20 +53,19 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     grid: {
       flex: 1,
-      paddingLeft: theme.spacing(6),
-      paddingRight: theme.spacing(6),
-      paddingBottom: theme.spacing(5),
+      // paddingLeft: theme.spacing(6),
+      // paddingRight: theme.spacing(6),
+      // paddingBottom: theme.spacing(5),
     },
 
     signInUpButton: {
       textTransform: "none",
-      background: theme.palette.primary.light,
     },
     logo: {
-      width: theme.spacing(10),
       flex: 1,
-      marginTop: theme.spacing(10),
-      marginBottom: theme.spacing(5),
+      // width: theme.spacing(10),
+      // marginTop: theme.spacing(10),
+      // marginBottom: theme.spacing(5),
     },
     footer: {
       bottom: 0,
@@ -89,11 +95,6 @@ const validationSchema = yup.object<Partial<IAuthForm>>({
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
   }),
-
-  // rememberMe: yup.boolean().when("signInPage", {
-  //   is: true,
-  //   then: yup.boolean().required(),
-  // }),
   name: yup.string().when("page", {
     is: "signUp",
     then: yup.string().required("Name is required"),
@@ -197,7 +198,7 @@ export const AuthPage: FC = () => {
       >
         {({ values, isValid, dirty, isSubmitting, setFieldValue }) => (
           <Form className={classes.root}>
-            <img src={Logo} className={classes.logo} alt="GVC Logo" />
+            <img src={FullLogo} className={classes.logo} alt="GVC Logo" />
             <div className={classes.grid}>
               <ContainerMain>
                 <Grid
@@ -285,12 +286,13 @@ export const AuthPage: FC = () => {
                       <div className={classes.buttonWrapper}>
                         <Button
                           className={classes.signInUpButton}
+                          color="primary"
                           variant="contained"
                           fullWidth
-                          disabled={isSubmitting || !isValid || !dirty}
+                          disabled={isSubmitting}
                           type="submit"
                         >
-                          <Typography color="textPrimary">
+                          <Typography>
                             {values.page === "signIn" && "Sign in"}
                             {values.page === "signUp" && "Sign up"}
                             {values.page === "resetPassword" &&
