@@ -1,13 +1,19 @@
 import InputAdornment from "@material-ui/core/InputAdornment"
 import TextField, { TextFieldProps } from "@material-ui/core/TextField"
 import { FieldAttributes, useField } from "formik"
-import React, { FC } from "react"
-import { IAuthForm } from "src/types"
+import React from "react"
 
-export const FormikTextField: FC<
-  FieldAttributes<{}> &
-    TextFieldProps & { icon: JSX.Element; name: keyof IAuthForm }
-> = ({ label, type, placeholder, icon, ...props }) => {
+export type FormikTextFieldProps<Form> = FieldAttributes<{}> &
+  TextFieldProps & { icon?: JSX.Element; name: keyof Form }
+
+function FormikTextField<Form>({
+  label,
+  type,
+  placeholder,
+  variant,
+  icon,
+  ...props
+}: FormikTextFieldProps<Form>) {
   const [field, meta] = useField<{}>(props)
   const errorText = meta.error && meta.touched ? meta.error : ""
   return (
@@ -18,12 +24,48 @@ export const FormikTextField: FC<
       type={type}
       helperText={errorText}
       error={!!errorText}
-      variant="outlined"
+      variant={variant as any} // TODO: Typescript limitation
       fullWidth
-      InputProps={{
-        // className: classes.input,
-        endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
-      }}
+      InputProps={
+        icon
+          ? {
+              endAdornment: (
+                <InputAdornment position="end">{icon}</InputAdornment>
+              ),
+            }
+          : {}
+      }
     />
   )
 }
+
+export { FormikTextField }
+
+// export const FormikTextField: FC<
+//   FieldAttributes<{}> &
+//     TextFieldProps & { icon?: JSX.Element; name: keyof IAuthForm }
+// > = ({ label, type, placeholder, variant, icon, ...props }) => {
+//   const [field, meta] = useField<{}>(props)
+//   const errorText = meta.error && meta.touched ? meta.error : ""
+//   return (
+//     <TextField
+//       {...field}
+//       label={label}
+//       placeholder={placeholder}
+//       type={type}
+//       helperText={errorText}
+//       error={!!errorText}
+//       variant={variant as any} // TODO: Typescript limitation
+//       fullWidth
+//       InputProps={
+//         icon
+//           ? {
+//               endAdornment: (
+//                 <InputAdornment position="end">{icon}</InputAdornment>
+//               ),
+//             }
+//           : {}
+//       }
+//     />
+//   )
+// }

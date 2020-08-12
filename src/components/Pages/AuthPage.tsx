@@ -11,15 +11,7 @@ import CalendarToday from "@material-ui/icons/CalendarToday"
 import Email from "@material-ui/icons/Email"
 import Lock from "@material-ui/icons/Lock"
 import Person from "@material-ui/icons/Person"
-import {
-  Field,
-  FieldAttributes,
-  Form,
-  Formik,
-  FormikHelpers,
-  useField,
-  useFormikContext,
-} from "formik"
+import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
 import React, { FC, Fragment, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
@@ -37,7 +29,7 @@ import { ResetPasswordDialog } from "../Level1/Dialogs/ResetPasswordDialog"
 import { TermsAndConditionsDialog } from "../Level1/Dialogs/TermsAndConditionsDialog"
 import MyLink from "../Level1/Links/MyLink"
 import { FormikCheckBox } from "../Level1/SelectionControls/FormikCheckbox"
-import { FormikTextField } from "../Level1/TextFields/FormikTextField"
+import { AuthTextField } from "../Level1/TextFields/AuthTextField"
 
 // import Container from "@material-ui/core/Container"
 // import { updateStyle } from "../../store/actions/styleActions"
@@ -208,7 +200,7 @@ export const AuthPage: FC = () => {
                   justify="center"
                 >
                   <Grid item xs={12}>
-                    <FormikTextField
+                    <AuthTextField
                       label="Email Address"
                       placeholder="johnsmith@gmail.com"
                       name="email"
@@ -217,7 +209,7 @@ export const AuthPage: FC = () => {
                   </Grid>
                   <Grid item xs={12}>
                     {values.page !== "resetPassword" && (
-                      <FormikTextField
+                      <AuthTextField
                         label="Password"
                         placeholder="Password"
                         name="password"
@@ -231,7 +223,7 @@ export const AuthPage: FC = () => {
                   {values.page === "signUp" && (
                     <>
                       <Grid item xs={12}>
-                        <FormikTextField
+                        <AuthTextField
                           label="Name"
                           placeholder="김철수/John Smith"
                           name="name"
@@ -243,6 +235,7 @@ export const AuthPage: FC = () => {
                           label="Date of Birth"
                           placeholder="01/01/2000"
                           name="dob"
+                          variant="outlined"
                           icon={<CalendarToday />}
                         />
                       </Grid>

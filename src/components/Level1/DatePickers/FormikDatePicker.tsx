@@ -9,10 +9,11 @@ export const FormikDatePicker: FC<
   FieldAttributes<{}> & {
     label: string
     name: keyof IAuthForm
+    variant?: "standard" | "filled" | "outlined"
   } & {
-    icon: JSX.Element
+    icon?: JSX.Element
   }
-> = ({ label, placeholder, icon, ...props }) => {
+> = ({ label, placeholder, variant, icon, ...props }) => {
   const [field, meta] = useField<{}>(props)
   const { setFieldValue } = useFormikContext()
   const errorText = meta.error && meta.touched ? meta.error : ""
@@ -29,13 +30,19 @@ export const FormikDatePicker: FC<
       format="dd/MM/yyyy"
       views={["year", "month", "date"]}
       fullWidth
-      inputVariant="outlined"
+      inputVariant={variant}
       onChange={(val) => {
         setFieldValue(field.name, val)
       }}
-      InputProps={{
-        endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
-      }}
+      InputProps={
+        icon
+          ? {
+              endAdornment: (
+                <InputAdornment position="end">{icon}</InputAdornment>
+              ),
+            }
+          : {}
+      }
     />
   )
 }
