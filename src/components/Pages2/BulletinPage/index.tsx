@@ -1,25 +1,33 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import React, { FC, Fragment, useState } from "react"
+import { Form, Formik, FormikHelpers } from "formik"
+import moment from "moment"
+import { Moment } from "moment"
+import React, { FC, Fragment } from "react"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
+import { FormikDatePicker } from "src/components/Level1/DatePickers/FormikDatePicker"
+import * as yup from "yup"
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}))
-
-export interface IPBulletinPage {}
-
-export interface ISBulletinPage {}
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {},
+  })
+)
 
 export interface IBibleVerseRef {
   book: number
   chapter: number
   verse: number
 }
+
+export type Reading = { from: IBibleVerseRef; to: IBibleVerseRef }
+
 export interface IBulletin {
-  date: string
+  date: Date | null
   preacher: string
   praise: string
   choir: string
-  readings: [IBibleVerseRef, IBibleVerseRef][]
+  readings: Reading[]
   sermon: string
   offeringHymn: string
   notices: string
@@ -27,127 +35,78 @@ export interface IBulletin {
   benediction: string
 }
 
-// const validationSchema = yup.object<Partial<IAuthForm>>({
-//   email: yup.string().email("Invalid email").required("Email is required"),
-//   password: yup.string().when("page", {
-//     is: (page) => page === "signIn" || page === "signUp",
-//     then: yup
-//       .string()
-//       .min(6, "Password must be at least 6 characters")
-//       .required("Password is required"),
-//   }),
-//   name: yup.string().when("page", {
-//     is: "signUp",
-//     then: yup.string().required("Name is required"),
-//   }),
-//   dob: yup
-//     .date()
-//     .nullable()
-//     .when("page", {
-//       is: "signUp",
-//       then: yup.date().nullable().required("Date of Birth is required"),
-//     }),
-//   agreeTAndC: yup.boolean().when("page", {
-//     is: "signUp",
-//     then: yup
-//       .boolean()
-//       .required()
-//       .test({
-//         name: "readTAndC",
-//         message: "You must agree with the Terms & Conditions",
-//         test: (agreeTAndC: boolean) => agreeTAndC,
-//       }),
-//   }),
-// })
+const validationSchema = yup.object<Partial<IBulletin>>({
+  date: yup.date().nullable(),
+  preacher: yup.string().required(),
+  praise: yup.string().required(),
+  choir: yup.string().required(),
+  sermon: yup.string().required(),
+  offeringHymn: yup.string().required(),
+  notices: yup.string().required(),
+  blessing: yup.string().required(),
+  benediction: yup.string().required(),
+})
 
-// export interface Props {}
-
-// export const AuthPage: FC = () => {
-//   const classes = useStyles()
-//   const dispatch = useDispatch()
-//   const fbFeedback = useSelector<AppState, AppState["auth"]>(
-//     (state) => state.auth
-//   )
-
-//   const initialValues: IAuthForm = {
-//     email: "",
-//     password: "",
-//     name: "",
-//     dob: null,
-//     rememberMe: false,
-//     agreeTAndC: false,
-//     page: "signIn",
-//     alertResetPassword: false,
-//     alertSignUp: false,
-//   }
-
-//   const onSubmit = (
-//     values: IAuthForm,
-//     { setSubmitting, setFieldValue }: FormikHelpers<IAuthForm>
-//   ) => {
-//     const { email, password, name, dob, rememberMe, agreeTAndC, page } = values
-
-//     const openAlertResetPassword = () =>
-//       setFieldValue("alertResetPassword", true)
-//     const openAlertSignUp = () => setFieldValue("alertSignUp", true)
-
-//     switch (page) {
-//       case "signIn":
-//         dispatch(
-//           signIn({
-//             email,
-//             password,
-//             rememberMe,
-//             setSubmitting,
-//           })
-//         )
-//         break
-
-//       case "signUp":
-//         dispatch(
-//           signUp({
-//             email,
-//             password,
-//             name,
-//             dob,
-//             agreeTAndC,
-//             setSubmitting,
-//             openAlert: openAlertSignUp,
-//           })
-//         )
-//         break
-
-//       case "resetPassword":
-//         dispatch(
-//           resetPassword({
-//             email,
-//             setSubmitting,
-//             openAlert: openAlertResetPassword,
-//           })
-//         )
-//         break
-//     }
-//   }
-
-//   return (
-//     <Fragment>
-//       <Formik<IAuthForm>
-//         validateOnChange
-//         initialValues={initialValues}
-//         validationSchema={validationSchema}
-//         onSubmit={onSubmit}
-//       >
-//         {({ values, isValid, dirty, isSubmitting, setFieldValue }) => (
-//           <Form className={classes.root}>
-
-export const BulletinPage: FC<IPBulletinPage> = (props) => {
+export const BulletinPage: FC = (props) => {
   const classes = useStyles()
-  const [values, setValues] = useState<ISBulletinPage>({})
+
+  const initBibleVerseRef: IBibleVerseRef = {
+    book: 0,
+    chapter: 0,
+    verse: 0,
+  }
+
+  const initialValues: IBulletin = {
+    date: moment().toDate(),
+    preacher: "",
+    praise: "",
+    choir: "",
+    readings: [
+      {
+        from: initBibleVerseRef,
+        to: { ...initBibleVerseRef, verse: 1 },
+      },
+    ],
+    sermon: "",
+    offeringHymn: "",
+    notices: "",
+    blessing: "",
+    benediction: "",
+  }
+
+  const onSubmit = (
+    values: IBulletin,
+    { setSubmitting, setFieldValue }: FormikHelpers<IBulletin>
+  ) => {
+    const {
+      date,
+      preacher,
+      praise,
+      choir,
+      readings,
+      sermon,
+      offeringHymn,
+      notices,
+      blessing,
+      benediction,
+    } = values
+  }
 
   return (
     <Fragment>
       <AppBarMain title="Bulletin" />
-      <ContainerMain>주보</ContainerMain>
+      <ContainerMain>
+        <Formik<IBulletin>
+          validateOnChange
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {({ values, isValid, dirty, isSubmitting, setFieldValue }) => (
+            <Form className={classes.root}></Form>
+          )}
+        </Formik>
+      </ContainerMain>
     </Fragment>
   )
 }

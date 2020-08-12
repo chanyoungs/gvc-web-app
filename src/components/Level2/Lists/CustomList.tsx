@@ -1,5 +1,4 @@
 import List from "@material-ui/core/List"
-import { ListItemProps } from "@material-ui/core/ListItem"
 import ListSubheader from "@material-ui/core/ListSubheader"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"

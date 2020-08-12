@@ -14,26 +14,21 @@ import Person from "@material-ui/icons/Person"
 import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
 import React, { FC, Fragment, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Redirect, useHistory, useLocation } from "react-router-dom"
 import * as yup from "yup"
 
-import FullLogo from "../../images/gods_vision_church_logo.svg"
-import { resetPassword, signIn, signUp } from "../../store/actions/authActions"
-import { AppState } from "../../store/reducers/rootReducer"
-import { IAuthForm } from "../../types"
-import { ChangeSignInUp } from "../Level1/Buttons/ChangeSignInUp"
-import { ContainerMain } from "../Level1/Containers/ContainerMain"
-import { FormikDatePicker } from "../Level1/DatePickers/FormikDatePicker"
-import { AlertDialog } from "../Level1/Dialogs/AlertDialog"
-import { ResetPasswordDialog } from "../Level1/Dialogs/ResetPasswordDialog"
-import { TermsAndConditionsDialog } from "../Level1/Dialogs/TermsAndConditionsDialog"
-import MyLink from "../Level1/Links/MyLink"
-import { FormikCheckBox } from "../Level1/SelectionControls/FormikCheckbox"
-import { AuthTextField } from "../Level1/TextFields/AuthTextField"
+import FullLogo from "../../../images/gods_vision_church_logo.svg"
+import { resetPassword, signIn, signUp } from "../../../store/actions/authActions"
+import { AppState } from "../../../store/reducers/rootReducer"
+import { IAuthForm } from "../../../types"
+import { ChangeSignInUp } from "../../Level1/Buttons/ChangeSignInUp"
+import { ContainerMain } from "../../Level1/Containers/ContainerMain"
+import { FormikDatePicker } from "../../Level1/DatePickers/FormikDatePicker"
+import { AlertDialog } from "../../Level1/Dialogs/AlertDialog"
+import { ResetPasswordDialog } from "../../Level1/Dialogs/ResetPasswordDialog"
+import { TermsAndConditionsDialog } from "../../Level1/Dialogs/TermsAndConditionsDialog"
+import { FormikCheckBox } from "../../Level1/SelectionControls/FormikCheckbox"
+import { AuthTextField } from "./AuthTextField"
 
-// import Container from "@material-ui/core/Container"
-// import { updateStyle } from "../../store/actions/styleActions"
-// import DateOfBirthTextField from "../Level1/TextFields/DateOfBirthTextField"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -45,9 +40,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     grid: {
       flex: 1,
-      // paddingLeft: theme.spacing(6),
-      // paddingRight: theme.spacing(6),
-      // paddingBottom: theme.spacing(5),
     },
 
     signInUpButton: {
@@ -55,9 +47,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     logo: {
       flex: 1,
-      // width: theme.spacing(10),
-      // marginTop: theme.spacing(10),
-      // marginBottom: theme.spacing(5),
     },
     footer: {
       bottom: 0,
