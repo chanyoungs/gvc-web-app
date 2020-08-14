@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface Props {
+export interface PrayersListProps {
   membersDic: {
     [memberId: string]: IMemberDownload
   }
@@ -49,7 +49,11 @@ export interface Props {
   filter: string
 }
 
-export const PrayersList: FC<Props> = ({ membersDic, prayers, filter }) => {
+export const PrayersList: FC<PrayersListProps> = ({
+  membersDic,
+  prayers,
+  filter,
+}) => {
   const classes = useStyles()
 
   const prayers_ =

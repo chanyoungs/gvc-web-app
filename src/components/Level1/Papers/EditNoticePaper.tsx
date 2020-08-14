@@ -1,13 +1,14 @@
-import React, { FC } from 'react'
-import { INotice, INoticeWithMeta } from '../../../types'
-import Paper from '@material-ui/core/Paper'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import { updateNotice } from '../../../store/actions/noticeActions'
-import { useDispatch } from 'react-redux'
+import Button from "@material-ui/core/Button"
+import Paper from "@material-ui/core/Paper"
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import TextField from "@material-ui/core/TextField"
+import React, { FC } from "react"
+import { useDispatch } from "react-redux"
 
-export interface IPEditNoticePaper {
+import { updateNotice } from "../../../store/actions/noticeActions"
+import { INotice, INoticeWithMeta } from "../../../types"
+
+export interface EditNoticePaperProps {
   notice: INoticeWithMeta
 }
 
@@ -16,20 +17,20 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       background: theme.palette.grey[700],
       padding: theme.spacing(2),
-      display: 'flex',
-      overflow: 'auto',
-      flexDirection: 'column',
-      height: '100%',
-      margin: '10px'
-    }
+      display: "flex",
+      overflow: "auto",
+      flexDirection: "column",
+      height: "100%",
+      margin: "10px",
+    },
   })
 )
 
-export const EditNoticePaper: FC<IPEditNoticePaper> = ({ notice }) => {
+export const EditNoticePaper: FC<EditNoticePaperProps> = ({ notice }) => {
   const classes = useStyles()
   const [values, setValues] = React.useState<INotice>({
     title: notice.title,
-    content: notice.content
+    content: notice.content,
   })
 
   React.useEffect(() => {
@@ -48,8 +49,8 @@ export const EditNoticePaper: FC<IPEditNoticePaper> = ({ notice }) => {
   ) => {
     e.preventDefault()
     setValues({
-      title: '',
-      content: ''
+      title: "",
+      content: "",
     })
     dispatch(updateNotice(values))
   }
@@ -61,7 +62,7 @@ export const EditNoticePaper: FC<IPEditNoticePaper> = ({ notice }) => {
           data-testid="title"
           label="Title"
           fullWidth
-          onChange={onChange('title')}
+          onChange={onChange("title")}
           value={values.title}
         />
         <TextField
@@ -71,7 +72,7 @@ export const EditNoticePaper: FC<IPEditNoticePaper> = ({ notice }) => {
           multiline
           rowsMax="4"
           label="Content"
-          onChange={onChange('content')}
+          onChange={onChange("content")}
           value={values.content}
         />
         <Button
@@ -79,7 +80,7 @@ export const EditNoticePaper: FC<IPEditNoticePaper> = ({ notice }) => {
           onClick={onSubmit({
             ...values,
             id: notice.id,
-            createdAt: notice.createdAt
+            createdAt: notice.createdAt,
           })}
         >
           Update notice

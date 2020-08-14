@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPBiblePage {}
+export interface BiblePageProps {}
 export interface IBibleRef {
   translation: "niv" | "nkrv" | "aeb"
   book: number | null
@@ -51,7 +51,7 @@ export type IBiblePageOpen = {
 
 export type IBiblePageSetOpen = (open: IBiblePageOpen) => void
 
-export const BiblePage: FC<IPBiblePage> = props => {
+export const BiblePage: FC<BiblePageProps> = (props) => {
   const classes = useStyles()
 
   const [open, setOpen] = useState<IBiblePageOpen>({
@@ -61,19 +61,19 @@ export const BiblePage: FC<IPBiblePage> = props => {
   })
 
   const bibleRef = useSelector<AppState, BibleState["ref"]>(
-    state => state.bible.ref
+    (state) => state.bible.ref
   )
 
   const dispatch = useDispatch()
 
   const bibleIndex = useSelector<AppState, BibleState["index"]>(
-    state => state.bible.index
+    (state) => state.bible.index
   )
-  const uid = useSelector<AppState, string>(state => state.firebase.auth.uid)
+  const uid = useSelector<AppState, string>((state) => state.firebase.auth.uid)
 
   useFirestoreConnect([{ collection: "bibleRefs", doc: uid }])
   const remoteBibleRef = useSelector<AppState, BibleState["ref"]>(
-    state =>
+    (state) =>
       state.firestore.data.bibleRefs && state.firestore.data.bibleRefs[uid]
   )
 
@@ -180,7 +180,7 @@ export const BiblePage: FC<IPBiblePage> = props => {
                     "book",
                     "chapter",
                   ] as (keyof IBibleRef)[]).map(
-                    bibleRefKey =>
+                    (bibleRefKey) =>
                       (bibleRefKey !== "chapter" || bibleRef.book !== null) && (
                         <Grid item>
                           <BibleDialog

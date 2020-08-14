@@ -86,11 +86,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPProfileEditDialog {
+export interface ProfileEditDialogProps {
   member: IMemberDownload
 }
 
-export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
+export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
   const [open, setOpen] = React.useState<boolean>(false)
   const [edit, setEdit] = React.useState<boolean>(false)
   const [localImage, setLocalImage] = React.useState<{
@@ -155,10 +155,10 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const imageFile = event.target.files && event.target.files[0]
     const reader = new FileReader()
-    reader.onloadstart = e => {
+    reader.onloadstart = (e) => {
       setUpdating(true)
     }
-    reader.onloadend = e => {
+    reader.onloadend = (e) => {
       const imageUrl = typeof reader.result === "string" ? reader.result : ""
       setLocalImage({ ...localImage, file: imageFile, url: imageUrl })
       setUpdating(false)

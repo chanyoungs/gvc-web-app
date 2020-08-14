@@ -8,7 +8,7 @@ import Select from "@material-ui/core/Select"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { FC, Fragment, useState } from "react"
 
-import { PrayersList, Props as IPPrayersList } from "../../Level2/Lists/PrayersList"
+import { PrayersList, PrayersListProps } from "../../Level2/Lists/PrayersList"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,7 +27,7 @@ interface State {
   date: "all" | "2020/01/01" | "2020/01/08" | "2020/01/15"
 }
 
-export const PrayersFilter: FC<IPPrayersList> = ({
+export const PrayersFilter: FC<PrayersListProps> = ({
   prayers,
   membersDic,
   filter,
@@ -46,7 +46,7 @@ export const PrayersFilter: FC<IPPrayersList> = ({
 
   const filteredPrayers =
     prayers &&
-    prayers.filter((prayer: IPPrayersList["prayers"][0]) => {
+    prayers.filter((prayer: PrayersListProps["prayers"][0]) => {
       if (
         (cell !== "all" && membersDic[prayer.memberId].cell !== cell) ||
         (date !== "all" &&

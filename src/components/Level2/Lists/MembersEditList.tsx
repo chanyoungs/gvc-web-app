@@ -21,41 +21,41 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: "100%",
       overflow: "auto",
-      maxHeight: 200
+      maxHeight: 200,
     },
     avatarEdit: {
       background: theme.palette.common.white,
-      color: theme.palette.background.default
+      color: theme.palette.background.default,
     },
     avatarMember: {
       background: theme.palette.background.default,
-      color: theme.palette.common.white
+      color: theme.palette.common.white,
     },
     subheader: {
-      background: theme.palette.background.default
+      background: theme.palette.background.default,
     },
     paper: {
-      background: theme.palette.primary.main
+      background: theme.palette.primary.main,
     },
     textEdit: {
-      color: theme.palette.secondary.light
+      color: theme.palette.secondary.light,
     },
     textMember: {
-      color: theme.palette.secondary.dark
+      color: theme.palette.secondary.dark,
     },
     container: {
-      padding: theme.spacing(0.5)
-    }
+      padding: theme.spacing(0.5),
+    },
   })
 )
 
-export interface IPMembersEditList {
+export interface MembersEditListProps {
   members: { name: string; dob: string }[]
 }
 
 export interface State {}
 
-function MembersEditList(props: IPMembersEditList) {
+function MembersEditList(props: MembersEditListProps) {
   const classes = useStyles()
   const { members } = props
   return (
@@ -69,7 +69,7 @@ function MembersEditList(props: IPMembersEditList) {
         <ListItemText primary="Add cell member" className={classes.textEdit} />
       </ListItem>
       {members ? (
-        members.map((member: IPMembersEditList["members"][0]) => {
+        members.map((member: MembersEditListProps["members"][0]) => {
           return (
             <Container className={classes.container} key={member.name}>
               <Paper className={classes.paper}>

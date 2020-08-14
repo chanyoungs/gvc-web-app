@@ -8,8 +8,8 @@ import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberDownload } from "../../../types"
 import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
 import { AddCellMemberPaper } from "../../Level1/Papers/AddCellMemberPaper"
-import { IPMemberPaper } from "../../Level1/Papers/MemberPaper"
 import { MemberPaper } from "../../Level1/Papers/MemberPaper"
+import { MemberPaperProps } from "../../Level1/Papers/MemberPaper"
 import { CustomList } from "./CustomList"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -46,12 +46,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPMembersList {
+export interface MembersListProps {
   members: IMemberDownload[]
   editMode: boolean
 }
 
-export const MembersList: FC<IPMembersList> = ({ members, editMode }) => {
+export const MembersList: FC<MembersListProps> = ({ members, editMode }) => {
   const classes = useStyles()
 
   const search = useSelector<AppState, string>((state) => state.appBar.search)

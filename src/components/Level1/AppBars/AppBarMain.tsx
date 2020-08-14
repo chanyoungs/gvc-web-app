@@ -77,13 +77,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPAppBarMain {
+export interface AppBarMainProps {
   title: React.ReactNode
   color?: AppBarProps["color"]
   toolbar?: ReactNode
 }
 
-export const AppBarMain: React.FC<IPAppBarMain> = ({
+export const AppBarMain: React.FC<AppBarMainProps> = ({
   title,
   color,
   toolbar,

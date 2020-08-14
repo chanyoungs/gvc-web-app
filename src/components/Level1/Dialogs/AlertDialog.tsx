@@ -6,14 +6,14 @@ import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import React, { FC } from "react"
 
-export interface IPAlertDialog {
+export interface AlertDialogProps {
   title: string
   content: string
   handleClose: () => void
   open: boolean
 }
 
-export const AlertDialog: FC<IPAlertDialog> = ({
+export const AlertDialog: FC<AlertDialogProps> = ({
   title,
   content,
   handleClose,

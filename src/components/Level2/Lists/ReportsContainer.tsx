@@ -42,14 +42,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPReportsContainer {
+export interface ReportsContainerProps {
   members: IMemberDownload[]
   reports: IReport[]
   date: Moment
   reportMode: ReportMode
 }
 
-export const ReportsContainer: FC<IPReportsContainer> = ({
+export const ReportsContainer: FC<ReportsContainerProps> = ({
   members,
   reports,
   date,

@@ -37,11 +37,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPProfileDialog {
+export interface ProfileDialogProps {
   children: React.ReactElement<any>
 }
 
-export const ProfileDialog: FC<IPProfileDialog> = ({ children }) => {
+export const ProfileDialog: FC<ProfileDialogProps> = ({ children }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
 

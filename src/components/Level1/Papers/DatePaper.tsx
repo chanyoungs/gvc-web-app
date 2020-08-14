@@ -32,11 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPDatePaper {
+export interface DatePaperProps {
   date: Moment
 }
 
-export const DatePaper: FC<IPDatePaper> = ({ date }) => {
+export const DatePaper: FC<DatePaperProps> = ({ date }) => {
   const classes = useStyles()
 
   return (

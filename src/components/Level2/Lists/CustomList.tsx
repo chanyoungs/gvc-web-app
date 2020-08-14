@@ -13,13 +13,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPCustomList<I> {
+export interface CustomListProps<I> {
   items: I[] | { subheader: string; subitems: I[] }[]
   render: (item: I) => ReactNode
   divider?: boolean
 }
 
-function CustomList<I>({ items, render, divider }: IPCustomList<I>) {
+function CustomList<I>({ items, render, divider }: CustomListProps<I>) {
   const classes = useStyles()
   return (
     <List className={classes.list} subheader={<li />}>

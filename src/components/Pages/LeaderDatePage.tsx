@@ -5,11 +5,11 @@ import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
-export interface IPLeaderDatePage {}
+export interface LeaderDatePageProps {}
 
 export interface ISLeaderDatePage {}
 
-export const LeaderDatePage: FC<IPLeaderDatePage> = props => {
+export const LeaderDatePage: FC<LeaderDatePageProps> = (props) => {
   const classes = useStyles()
   const [values, setValues] = useState<ISLeaderDatePage>({})
 

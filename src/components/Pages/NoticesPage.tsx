@@ -1,23 +1,24 @@
-import React, { FC, Fragment, useState } from 'react'
-import { AppBarMain } from 'src/components/Level1/AppBars/AppBarMain'
-import { ContainerMain } from 'src/components/Level1/Containers/ContainerMain'
-import { NoticeCreator } from '../Level2/NoticeCreator'
+import React, { FC, Fragment, useState } from "react"
+import { useSelector } from "react-redux"
+import { useFirestoreConnect } from "react-redux-firebase"
+import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
+import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 
-import { useSelector } from 'react-redux'
-import { AppState } from '../../store/reducers/rootReducer'
-import { EditNotice } from '../Level2/EditNotice'
-import { useFirestoreConnect } from 'react-redux-firebase'
-export interface IPNoticesPage {}
+import { AppState } from "../../store/reducers/rootReducer"
+import { EditNotice } from "../Level2/EditNotice"
+import { NoticeCreator } from "../Level2/NoticeCreator"
+
+export interface NoticesPageProps {}
 
 export interface ISNoticesPage {}
 
-export const NoticesPage: FC<IPNoticesPage> = props => {
+export const NoticesPage: FC<NoticesPageProps> = (props) => {
   useFirestoreConnect([
-    { collection: 'notices', orderBy: ['createdAt', 'asc'] }
+    { collection: "notices", orderBy: ["createdAt", "asc"] },
   ])
 
   const noticesArr = useSelector<AppState, any>(
-    state => state.firestore.ordered.notices
+    (state) => state.firestore.ordered.notices
   )
 
   return (

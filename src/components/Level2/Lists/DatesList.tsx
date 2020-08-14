@@ -52,14 +52,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPDatesList {
+export interface DatesListProps {
   from: Moment
   to: Moment
 }
 type MYandS = { subheader: string; subitems: Moment[] }
 export interface State {}
 
-export const DatesList: FC<IPDatesList> = ({ from, to }) => {
+export const DatesList: FC<DatesListProps> = ({ from, to }) => {
   const classes = useStyles()
 
   const search = useSelector<AppState, string>((state) => state.appBar.search)

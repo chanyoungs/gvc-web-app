@@ -27,13 +27,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPBibleDisplay {
+export interface BibleDisplayProps {
   translation: IBibleRef["translation"]
   book: number
   chapter: number
 }
 
-export const BibleDisplay: FC<IPBibleDisplay> = ({
+export const BibleDisplay: FC<BibleDisplayProps> = ({
   translation,
   chapter,
   book,
@@ -41,9 +41,9 @@ export const BibleDisplay: FC<IPBibleDisplay> = ({
   const classes = useStyles()
 
   const bibleIndex = useSelector<AppState, BibleState["index"]>(
-    state => state.bible.index
+    (state) => state.bible.index
   )
-  const search = useSelector<AppState, string>(state => state.appBar.search)
+  const search = useSelector<AppState, string>((state) => state.appBar.search)
 
   const docId = `${String(
     bibleIndex.cumulativeChapters[book] + chapter
@@ -52,7 +52,7 @@ export const BibleDisplay: FC<IPBibleDisplay> = ({
   useFirestoreConnect([{ collection: "bibles", doc: docId }])
 
   const reading = useSelector<AppState, IBibles>(
-    state => state.firestore.data.bibles && state.firestore.data.bibles[docId]
+    (state) => state.firestore.data.bibles && state.firestore.data.bibles[docId]
   )
 
   const highlight = (text: string, search: string) => {
@@ -76,10 +76,10 @@ export const BibleDisplay: FC<IPBibleDisplay> = ({
     <List>
       {reading &&
         [...reading.verses]
-          .filter(v =>
+          .filter((v) =>
             v.text.toLocaleLowerCase().includes(search.toLocaleLowerCase())
           )
-          .map(v => (
+          .map((v) => (
             <ListItem className={classes.listItem} key={v.indexVerse}>
               <Typography className={classes.verse} align="left">
                 {v.verse}

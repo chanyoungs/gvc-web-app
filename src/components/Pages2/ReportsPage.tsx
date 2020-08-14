@@ -54,11 +54,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPReportsPage {}
+export interface ReportsPageProps {}
 
 export type ReportMode = "prayer" | "attendance"
 
-export const ReportsPage: FC<IPReportsPage> = (props) => {
+export const ReportsPage: FC<ReportsPageProps> = (props) => {
   const classes = useStyles()
   const [date, setDate] = useState<Moment>(moment().day(0))
   const [reportMode, setReportMode] = useState<ReportMode>("prayer")

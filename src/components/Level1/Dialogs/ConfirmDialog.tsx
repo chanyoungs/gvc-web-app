@@ -7,14 +7,14 @@ import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import React, { FC, Fragment } from "react"
 
-export interface IPConfirmDialog {
+export interface ConfirmDialogProps {
   title: string | JSX.Element
   content?: JSX.Element
   contentText?: string
   onConfirm: () => void
 }
 
-export const ConfirmDialog: FC<IPConfirmDialog> = props => {
+export const ConfirmDialog: FC<ConfirmDialogProps> = (props) => {
   const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {

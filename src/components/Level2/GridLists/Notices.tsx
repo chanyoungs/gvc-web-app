@@ -24,17 +24,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPNotices {
+export interface NoticesProps {
   notices: INoticeWithMeta[]
 }
 
-export const Notices: FC<IPNotices> = ({ notices }) => {
+export const Notices: FC<NoticesProps> = ({ notices }) => {
   const classes = useStyles()
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={1.1}>
         {notices ? (
-          notices.map(notice => (
+          notices.map((notice) => (
             <GridListTile
               key={notice.id}
               className={classes.gridListTile}

@@ -28,12 +28,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPThemeEditor {
+export interface ThemeEditorProps {
   currentThemeName: string
   themes: Themes
 }
 
-export const ThemeEditor: FC<IPThemeEditor> = ({
+export const ThemeEditor: FC<ThemeEditorProps> = ({
   currentThemeName,
   themes,
 }) => {

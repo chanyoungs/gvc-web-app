@@ -11,9 +11,9 @@ import { Notices } from "../Level2/SwipeableListViews/Notices"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
-export interface IPPrayersPage {}
+export interface PrayersPageProps {}
 
-export const PrayersPage: FC<IPPrayersPage> = (props) => {
+export const PrayersPage: FC<PrayersPageProps> = (props) => {
   const classes = useStyles()
 
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)

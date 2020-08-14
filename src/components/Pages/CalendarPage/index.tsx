@@ -7,11 +7,11 @@ import { CustomCalendar } from "./Calendar"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
-export interface IPCalendarPage {}
+export interface CalendarPageProps {}
 
 export interface ISCalendarPage {}
 
-export const CalendarPage: FC<IPCalendarPage> = (props) => {
+export const CalendarPage: FC<CalendarPageProps> = (props) => {
   const classes = useStyles()
 
   return (

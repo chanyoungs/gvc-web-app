@@ -10,11 +10,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPContainerMain<C> {
+export interface ContainerMainProps<C> {
   children: C
 }
 
-function ContainerMain<C>({ children }: PropsWithChildren<IPContainerMain<C>>) {
+function ContainerMain<C>({
+  children,
+}: PropsWithChildren<ContainerMainProps<C>>) {
   const classes = useStyles()
   return (
     <Container maxWidth="xs" className={classes.container}>

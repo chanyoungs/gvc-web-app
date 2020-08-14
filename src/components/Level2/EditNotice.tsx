@@ -1,12 +1,13 @@
-import React from 'react'
-import { INoticeWithMeta } from '../../types'
-import { EditNoticePaper } from '../Level1/Papers/EditNoticePaper'
+import React from "react"
 
-export interface IPEditNotice {
+import { INoticeWithMeta } from "../../types"
+import { EditNoticePaper } from "../Level1/Papers/EditNoticePaper"
+
+export interface EditNoticeProps {
   notices: INoticeWithMeta[] | undefined
 }
 
-export const EditNotice: React.FC<IPEditNotice> = ({ notices }) => {
+export const EditNotice: React.FC<EditNoticeProps> = ({ notices }) => {
   let contents
   if (!notices) {
     contents = <div data-testid="edit-loading">Loading...</div>
@@ -15,7 +16,7 @@ export const EditNotice: React.FC<IPEditNotice> = ({ notices }) => {
   } else {
     contents = (
       <div>
-        {notices.map(notice => (
+        {notices.map((notice) => (
           <div key={notice.id} data-testid="edit-notices">
             <EditNoticePaper notice={notice} />
           </div>

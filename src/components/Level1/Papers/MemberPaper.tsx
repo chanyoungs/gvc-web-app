@@ -31,12 +31,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPMemberPaper {
+export interface MemberPaperProps {
   member: IMemberDownload
   editMode: boolean
 }
 
-export const MemberPaper: FC<IPMemberPaper> = ({
+export const MemberPaper: FC<MemberPaperProps> = ({
   member: { id, name, dob, cell, positions, photoUrl, thumbnailUrl },
   editMode,
 }) => {

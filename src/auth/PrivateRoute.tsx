@@ -5,21 +5,21 @@ import { Redirect, Route, RouteProps, useLocation } from "react-router"
 import { AppState } from "../store/reducers/rootReducer"
 import { Paths } from "./../types"
 
-export interface IPPrivateRoute extends RouteProps {
+export interface PrivateRouteProps extends RouteProps {
   path: Paths
   redirectConditionMet?: boolean
   redirectPath?: string
   checkFrom?: boolean
 }
 
-export const PrivateRoute: FC<IPPrivateRoute> = ({
+export const PrivateRoute: FC<PrivateRouteProps> = ({
   redirectConditionMet,
   redirectPath,
   checkFrom,
   ...rest
 }) => {
   const isAuthenticated = useSelector<AppState, boolean>(
-    state => !state.firebase.auth.isEmpty
+    (state) => !state.firebase.auth.isEmpty
   )
 
   const location = useLocation<{ from: string }>()

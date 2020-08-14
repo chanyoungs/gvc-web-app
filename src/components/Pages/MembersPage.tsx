@@ -12,13 +12,13 @@ import { Notices } from "../Level2/SwipeableListViews/Notices"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
-export interface IPMembersPage {}
+export interface MembersPageProps {}
 
 export interface ISMembersPage {
   editMode: boolean
 }
 
-export const MembersPage: FC<IPMembersPage> = (props) => {
+export const MembersPage: FC<MembersPageProps> = (props) => {
   const classes = useStyles()
   const [values, setValues] = useState<ISMembersPage>({
     editMode: false,

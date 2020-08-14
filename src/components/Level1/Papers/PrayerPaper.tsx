@@ -35,14 +35,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPPrayerPaper {
+export interface PrayerPaperProps {
   member: IMemberDownload
   prayer: IPrayer
 }
 
 export interface ISPrayerPaper {}
 
-function PrayerPaper({ member, prayer }: IPPrayerPaper) {
+function PrayerPaper({ member, prayer }: PrayerPaperProps) {
   const classes = useStyles()
   const [values, setValues] = React.useState<ISPrayerPaper>({})
 

@@ -14,14 +14,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-interface IPNoticeAlert {
+interface NoticeAlertProps {
   title: string
   content: string
   severity: AlertProps["severity"]
   icon?: ReactNode
 }
 
-export const NoticeAlert: FC<IPNoticeAlert> = ({
+export const NoticeAlert: FC<NoticeAlertProps> = ({
   title,
   content,
   severity,

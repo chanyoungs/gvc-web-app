@@ -5,11 +5,11 @@ import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
-export interface IPMyAccountPage {}
+export interface MyAccountPageProps {}
 
 export interface ISMyAccountPage {}
 
-export const MyAccountPage: FC<IPMyAccountPage> = props => {
+export const MyAccountPage: FC<MyAccountPageProps> = (props) => {
   const classes = useStyles()
   const [values, setValues] = useState<ISMyAccountPage>({})
 

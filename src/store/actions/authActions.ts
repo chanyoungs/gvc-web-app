@@ -85,7 +85,7 @@ export const signIn = ({
       dispatch({ type: "REMEMBER_ME", payload: rememberMe })
       firebase
         .login({ email, password })
-        .then(userCredentials => {
+        .then((userCredentials) => {
           dispatch({ type: "SIGN_IN" })
           console.log("Sign in succesful!")
         })
@@ -149,7 +149,7 @@ export const signOut = (): ThunkActionCustom<void> => (
     })
 }
 
-interface IPEditProfile {
+interface EditProfileProps {
   member: IMemberUpload
   image: { file: File | null; url: string }
   deleteImage: boolean
@@ -166,7 +166,7 @@ export const editProfile = ({
   setProgress,
   setUpdating,
   handleClose,
-}: IPEditProfile): ThunkActionCustom<void> => (
+}: EditProfileProps): ThunkActionCustom<void> => (
   dispatch,
   getState,
   { getFirestore, getFirebase }
@@ -179,7 +179,7 @@ export const editProfile = ({
   const refThumbnail = storageRef.child("thumbnail")
   const refFull = storageRef.child("full")
 
-  const updatePhoto = (image: IPEditProfile["image"]) =>
+  const updatePhoto = (image: EditProfileProps["image"]) =>
     new Promise(
       (
         resolve: (memberWithPhotoUrl: IMemberUpload) => void,
@@ -241,11 +241,11 @@ export const editProfile = ({
                 resThumbnail: (urlThumbnail: string) => void,
                 rejThumbnail: (errThumbnail: Error) => void
               ) => {
-                fileToBase64(imageFile).then(base64 => {
+                fileToBase64(imageFile).then((base64) => {
                   imageProcessor
                     .src(base64)
                     .pipe(applyExifOrientation())
-                    .then(result => {
+                    .then((result) => {
                       imageProcessor
                         .src(result)
                         .pipe(
@@ -257,7 +257,7 @@ export const editProfile = ({
                           //   sharpness: +sharpness / 100,
                           // }),
                         )
-                        .then(resultBase64 => {
+                        .then((resultBase64) => {
                           const uploadTaskThumbnail = refThumbnail.put(
                             base64ToArrayBuffer(resultBase64),
                             {
@@ -267,21 +267,21 @@ export const editProfile = ({
                           )
                           uploadTaskThumbnail.on(
                             "state_changed",
-                            snapshot => {
+                            (snapshot) => {
                               //   // progrss function ....
                               //   const progress = Math.round(
                               //     (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                               //   )
                               //   setProgress(progress)
                             },
-                            errThumbnail => {
+                            (errThumbnail) => {
                               // error function ....
                               rejThumbnail(errThumbnail)
                             },
                             () => {
                               refThumbnail
                                 .getDownloadURL()
-                                .then(photoUrl => {
+                                .then((photoUrl) => {
                                   resThumbnail(photoUrl)
                                 })
                                 .catch((error: IFBError) => {
@@ -304,14 +304,14 @@ export const editProfile = ({
               ) => {
                 uploadTaskFull.on(
                   "state_changed",
-                  snapshot => {
+                  (snapshot) => {
                     // progrss function ....
                     const progress = Math.round(
                       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                     )
                     setProgress(progress)
                   },
-                  errFull => {
+                  (errFull) => {
                     // error function ....
                     rejFull(errFull)
                   },
@@ -319,7 +319,7 @@ export const editProfile = ({
                     // complete function ....
                     refFull
                       .getDownloadURL()
-                      .then(photoUrl => {
+                      .then((photoUrl) => {
                         resFull(photoUrl)
                       })
                       .catch((error: IFBError) => {
@@ -331,7 +331,7 @@ export const editProfile = ({
               }
             )
 
-            Promise.all([promiseThumbnail, promiseFull]).then(Urls => {
+            Promise.all([promiseThumbnail, promiseFull]).then((Urls) => {
               resolve({
                 ...member,
                 thumbnailUrl: Urls[0],
@@ -349,7 +349,7 @@ export const editProfile = ({
     )
 
   updatePhoto(image)
-    .then(memberWithPhotoUrl => {
+    .then((memberWithPhotoUrl) => {
       dispatch({ type: "UPLOAD_PHOTO" })
 
       firestore
@@ -367,7 +367,7 @@ export const editProfile = ({
           console.log("Profile Edit Error!", error)
         })
     })
-    .catch(error => {
+    .catch((error) => {
       dispatch({ type: "UPLOAD_PHOTO_ERROR", payload: error })
       console.log("Upload photo error", error)
     })

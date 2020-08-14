@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPBibleDialog {
+export interface BibleDialogProps {
   bibleRefKey: keyof IBibleRef
   bibleRef: IBibleRef
   setAndUploadBibleRef: (bibleRef: IBibleRef) => void
@@ -46,12 +46,12 @@ export interface IPBibleDialog {
   setOpen: IBiblePageSetOpen
 }
 
-export const BibleDialog: FC<IPBibleDialog> = props => {
+export const BibleDialog: FC<BibleDialogProps> = (props) => {
   const { bibleRefKey, bibleRef, setAndUploadBibleRef, open, setOpen } = props
   const classes = useStyles()
 
   const bibleIndex = useSelector<AppState, BibleState["index"]>(
-    state => state.bible.index
+    (state) => state.bible.index
   )
 
   const handleClickOpen = () => {
@@ -137,7 +137,7 @@ export const BibleDialog: FC<IPBibleDialog> = props => {
       case "book":
         return (
           <div className={classes.containerHorizontal}>
-            {["old", "new"].map(testament => (
+            {["old", "new"].map((testament) => (
               <div key={testament} className={classes.itemHorizontal}>
                 <Typography variant="h6" align="center">
                   {testament === "old"
@@ -152,7 +152,7 @@ export const BibleDialog: FC<IPBibleDialog> = props => {
                 <div className={classes.containerVertical}>
                   {bibleIndex[
                     testament === "old" ? "indicesOld" : "indicesNew"
-                  ].map(i => (
+                  ].map((i) => (
                     <Button
                       key={i}
                       onClick={onClickItem(i)}
@@ -180,7 +180,7 @@ export const BibleDialog: FC<IPBibleDialog> = props => {
 
         return (
           <Grid container justify="center" alignItems="center" spacing={1}>
-            {chaptersArray().map(i => (
+            {chaptersArray().map((i) => (
               <Grid item key={i}>
                 <Button
                   onClick={onClickItem(i)}
