@@ -25,15 +25,15 @@ function CustomList<I>({ items, render, divider }: IPCustomList<I>) {
     <List className={classes.list} subheader={<li />}>
       {items ? (
         (items as Array<I | { subheader: string; subitems: I[] }>).map(
-          (item: I | { subheader: string; subitems: I[] }) => {
+          (item: I | { subheader: string; subitems: I[] }, i) => {
             return "subheader" in item ? (
               <li key={item.subheader}>
                 <ul className={classes.ul}>
                   <ListSubheader className={classes.subheader}>
                     <Typography align="center">{item.subheader}</Typography>
                   </ListSubheader>
-                  {item.subitems.map((item) => (
-                    <Fragment>
+                  {item.subitems.map((item, i) => (
+                    <Fragment key={i}>
                       {render(item)}
                       {divider && <Divider variant="inset" component="li" />}
                     </Fragment>
@@ -41,7 +41,7 @@ function CustomList<I>({ items, render, divider }: IPCustomList<I>) {
                 </ul>
               </li>
             ) : (
-              <Fragment>
+              <Fragment key={i}>
                 {render(item)}
                 {divider && <Divider variant="inset" component="li" />}
               </Fragment>
