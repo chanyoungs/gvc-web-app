@@ -1,4 +1,4 @@
-import AppBar from "@material-ui/core/AppBar"
+import AppBar, { AppBarProps } from "@material-ui/core/AppBar"
 import Avatar from "@material-ui/core/Avatar"
 import IconButton from "@material-ui/core/IconButton"
 import InputBase from "@material-ui/core/InputBase"
@@ -10,7 +10,7 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger"
 import EditIcon from "@material-ui/icons/Edit"
 import MenuIcon from "@material-ui/icons/Menu"
 import SearchIcon from "@material-ui/icons/Search"
-import React, { Fragment } from "react"
+import React, { Fragment, ReactNode } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 import { appBarSearchOnChange } from "../../../store/actions/appBarActions"
@@ -79,9 +79,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface IPAppBarMain {
   title: React.ReactNode
+  color?: AppBarProps["color"]
+  toolbar?: ReactNode
 }
 
-export const AppBarMain: React.FC<IPAppBarMain> = ({ title }) => {
+export const AppBarMain: React.FC<IPAppBarMain> = ({
+  title,
+  color,
+  toolbar,
+}) => {
   const classes = useStyles()
 
   const [state, setState] = React.useState({
@@ -105,37 +111,44 @@ export const AppBarMain: React.FC<IPAppBarMain> = ({ title }) => {
   return (
     <Fragment>
       <Slide appear={false} direction="down" in={!useScrollTrigger()}>
-        <AppBar className={classes.appBar} position="sticky">
-          <Toolbar disableGutters={!state.drawerOpen}>
-            <IconButton
-              aria-label="Open drawer"
-              onClick={toggleDrawer(true)}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography className={classes.title} noWrap>
-              {title}
-            </Typography>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
+        <AppBar color={color} className={classes.appBar} position="sticky">
+          {toolbar ? (
+            toolbar
+          ) : (
+            <Toolbar disableGutters={!state.drawerOpen}>
+              <IconButton
+                aria-label="Open drawer"
+                onClick={toggleDrawer(true)}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography className={classes.title} noWrap>
+                {title}
+              </Typography>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  value={search}
+                  onChange={setSearch}
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                />
               </div>
-              <InputBase
-                placeholder="Search…"
-                value={search}
-                onChange={setSearch}
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-              />
-            </div>
-            <IconButton>
-              <Avatar src={profile.thumbnailUrl} className={classes.profile} />
-            </IconButton>
-          </Toolbar>
+              <IconButton>
+                <Avatar
+                  src={profile.thumbnailUrl}
+                  className={classes.profile}
+                />
+              </IconButton>
+            </Toolbar>
+          )}
         </AppBar>
       </Slide>
       <SwipeableTemporaryDrawer

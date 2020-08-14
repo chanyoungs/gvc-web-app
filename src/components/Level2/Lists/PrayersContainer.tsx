@@ -3,6 +3,7 @@ import { Moment } from "moment"
 import React, { FC } from "react"
 import { useSelector } from "react-redux"
 import { PrayerListItem } from "src/components/Level1/ListItems/PrayerListItem"
+import { ReportMode } from "src/components/Pages2/ReportsPage"
 import { AppState } from "src/store/reducers/rootReducer"
 
 import { IMemberDownload, IReport } from "../../../types"
@@ -45,12 +46,14 @@ export interface IPPrayersContainer {
   members: IMemberDownload[]
   reports: IReport[]
   date: Moment
+  reportMode: ReportMode
 }
 
 export const PrayersContainer: FC<IPPrayersContainer> = ({
   members,
   reports,
   date,
+  reportMode,
 }) => {
   const classes = useStyles()
   const search = useSelector<AppState, string>((state) => state.appBar.search)
@@ -84,7 +87,20 @@ export const PrayersContainer: FC<IPPrayersContainer> = ({
             },
           }
 
-    return <PrayerListItem report={_report} member={member} key={member.id} />
+    return (
+      <PrayerListItem
+        report={_report}
+        member={member}
+        key={member.id}
+        reportMode={reportMode}
+      />
+    )
   }
-  return <CustomList items={members_} render={render} />
+  return (
+    <CustomList
+      items={members_}
+      render={render}
+      divider={reportMode === "attendance"}
+    />
+  )
 }
