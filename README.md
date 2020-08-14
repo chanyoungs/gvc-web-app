@@ -2,9 +2,11 @@
 
 - [ ] Currently, there are multiple instances of profileeditdialogs. Fix if unnecessary
 - [ ] Complete the relationships between change of date from PrayersPage and state and props of PrayerListItem
+- [x] 14/08/20 CY - Implemented Attendance mode in report page
 - [x] 04/08/20 CY - Fixed positioning of FAB
 - [ ] Styling
   - [ ] Padding and spacing
+  - [ ] Issue: There seems to be some sizing problem with Textfield in list in reports page. Transitioning from prayer<->attendance causes some unwanted movement throughout the whole page
   - [x] 04/08/20 CY - AuthPage new style
   - [x] 01/07/20 CY - Changed Appbar and side drawer to have primary main colour
   - [x] 27/06/20 CY - Removed 'OK' & 'Cancel' on datepicker using variant="inline" and moved datepicker icon to the start

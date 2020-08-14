@@ -20,13 +20,7 @@ import { IMemberDownload, IReport } from "src/types"
 import { ProfileEditDialog } from "../Dialogs/ProfileEditDialog"
 import { ProfileMenu } from "../Menus/ProfileMenu"
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    attendanceButton: {
-      // background: theme.palette.primary.light,
-    },
-  })
-)
+const useStyles = makeStyles((theme: Theme) => createStyles({}))
 export interface IPPrayerListItem {
   member: IMemberDownload
   report: IReport
@@ -100,59 +94,54 @@ export const PrayerListItem: FC<IPPrayerListItem> = ({
               helperText={prayer !== report.prayer && "Unsaved changes"}
             />
           ) : (
-            <Fragment>
-              <ButtonGroup fullWidth>
-                <Button
-                  className={classes.attendanceButton}
-                  color={attendance.service ? "primary" : undefined}
-                  variant={attendance.service ? "contained" : undefined}
-                  // variant="contained"
-                  onClick={() => {
-                    setAttendance((prevAttendance) => ({
-                      ...prevAttendance,
-                      service: !prevAttendance.service,
-                    }))
-                  }}
-                >
-                  예배
-                </Button>
-                <Button
-                  color={attendance.cell ? "primary" : undefined}
-                  // variant="contained"
-                  variant={attendance.cell ? "contained" : undefined}
-                  onClick={() => {
-                    setAttendance((prevAttendance) => ({
-                      ...prevAttendance,
-                      cell: !prevAttendance.cell,
-                    }))
-                  }}
-                >
-                  셀모임
-                </Button>
-                <Button
-                  color={
-                    attendance.service && attendance.cell
-                      ? "primary"
-                      : undefined
-                  }
-                  // variant="contained"
-                  variant={
-                    attendance.service && attendance.cell
-                      ? "contained"
-                      : undefined
-                  }
-                  onClick={() => {
-                    setAttendance((prevAttendance) =>
-                      prevAttendance.service && prevAttendance.cell
-                        ? { ...prevAttendance, service: false, cell: false }
-                        : { ...prevAttendance, service: true, cell: true }
-                    )
-                  }}
-                >
-                  전체
-                </Button>
-              </ButtonGroup>
-            </Fragment>
+            <ButtonGroup fullWidth>
+              <Button
+                color={attendance.service ? "primary" : undefined}
+                variant={attendance.service ? "contained" : undefined}
+                // variant="contained"
+                onClick={() => {
+                  setAttendance((prevAttendance) => ({
+                    ...prevAttendance,
+                    service: !prevAttendance.service,
+                  }))
+                }}
+              >
+                예배
+              </Button>
+              <Button
+                color={attendance.cell ? "primary" : undefined}
+                // variant="contained"
+                variant={attendance.cell ? "contained" : undefined}
+                onClick={() => {
+                  setAttendance((prevAttendance) => ({
+                    ...prevAttendance,
+                    cell: !prevAttendance.cell,
+                  }))
+                }}
+              >
+                셀모임
+              </Button>
+              <Button
+                color={
+                  attendance.service && attendance.cell ? "primary" : undefined
+                }
+                // variant="contained"
+                variant={
+                  attendance.service && attendance.cell
+                    ? "contained"
+                    : undefined
+                }
+                onClick={() => {
+                  setAttendance((prevAttendance) =>
+                    prevAttendance.service && prevAttendance.cell
+                      ? { ...prevAttendance, service: false, cell: false }
+                      : { ...prevAttendance, service: true, cell: true }
+                  )
+                }}
+              >
+                전체
+              </Button>
+            </ButtonGroup>
           )
         }
       />

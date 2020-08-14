@@ -100,7 +100,7 @@ export const PrayersContainer: FC<IPPrayersContainer> = ({
     <CustomList
       items={members_}
       render={render}
-      divider={reportMode === "attendance"}
+      // divider={reportMode === "attendance"}
     />
   )
 }
