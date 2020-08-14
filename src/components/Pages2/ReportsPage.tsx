@@ -93,8 +93,8 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   const members = useSelector<AppState, IMemberDownload[]>(
     (state) => state.firestore.ordered.members
   )
-  const reports = useSelector<AppState, IReport[]>(
-    (state) => state.firestore.ordered.reports
+  const reports = useSelector<AppState, { [key: string]: IReport }>(
+    (state) => state.firestore.data.reports
   )
 
   const alertSaved = useSelector<AppState, IAlertState["saved"]>(

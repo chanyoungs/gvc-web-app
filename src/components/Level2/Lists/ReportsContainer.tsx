@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface ReportsContainerProps {
   members: IMemberDownload[]
-  reports: IReport[]
+  reports: { [key: string]: IReport }
   date: Moment
   reportMode: ReportMode
 }
@@ -68,28 +68,41 @@ export const ReportsContainer: FC<ReportsContainerProps> = ({
   // })
 
   const render = (member: IMemberDownload) => {
-    let _report: IReport
-    let query =
-      reports && reports.filter((report) => report.memberId === member.id)
+    // let _report: IReport
+    // let query =
+    //   reports && reports.filter((report) => report.memberId === member.id)
 
-    _report =
-      query && query.length === 1
-        ? query[0]
-        : {
-            memberId: member.id,
-            prayer: "",
-            cell: member.cell,
-            date: date.format("YYYY.MM.DD"),
-            attendance: {
-              service: false,
-              cell: false,
-              info: "",
-            },
-          }
+    // _report =
+    //   query && query.length === 1
+    //     ? query[0]
+    //     : {
+    //         memberId: member.id,
+    //         prayer: "",
+    //         cell: member.cell,
+    //         date: date.format("YYYY.MM.DD"),
+    //         attendance: {
+    //           service: false,
+    //           cell: false,
+    //           info: "",
+    //         },
+    //       }
+
+    const reportKey = `${date.format("YYYY.MM.DD")}-${member.id}`
+    const reportDefault: IReport = {
+      memberId: member.id,
+      prayer: "",
+      cell: member.cell,
+      date: date.format("YYYY.MM.DD"),
+      attendance: {
+        service: false,
+        cell: false,
+        info: "",
+      },
+    }
 
     return (
       <ReportListItem
-        report={_report}
+        report={(reports && reports[reportKey]) || reportDefault}
         member={member}
         key={member.id}
         reportMode={reportMode}

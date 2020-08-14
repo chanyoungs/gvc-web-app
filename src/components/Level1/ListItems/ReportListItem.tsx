@@ -39,7 +39,6 @@ export const ReportListItem: FC<ReportListItem> = ({
     info: "",
   })
 
-  const [timeoutID, setTimeoutID] = useState<NodeJS.Timeout | null>(null)
   const classes = useStyles()
 
   useEffect(() => {
