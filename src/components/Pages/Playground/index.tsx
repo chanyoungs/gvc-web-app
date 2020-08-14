@@ -14,7 +14,7 @@ import { useSelector } from "react-redux"
 import { ExtendedFirestoreInstance, useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
-import { PrayerListItem } from "src/components/Level1/ListItems/PrayerListItem"
+import { ReportListItem } from "src/components/Level1/ListItems/ReportListItem"
 
 import { AppState } from "../../../store/reducers/rootReducer"
 import { INoticeWithMeta } from "../../../types"

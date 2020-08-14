@@ -2,7 +2,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { Moment } from "moment"
 import React, { FC } from "react"
 import { useSelector } from "react-redux"
-import { PrayerListItem } from "src/components/Level1/ListItems/PrayerListItem"
+import { ReportListItem } from "src/components/Level1/ListItems/ReportListItem"
 import { ReportMode } from "src/components/Pages2/ReportsPage"
 import { AppState } from "src/store/reducers/rootReducer"
 
@@ -42,14 +42,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPPrayersContainer {
+export interface IPReportsContainer {
   members: IMemberDownload[]
   reports: IReport[]
   date: Moment
   reportMode: ReportMode
 }
 
-export const PrayersContainer: FC<IPPrayersContainer> = ({
+export const ReportsContainer: FC<IPReportsContainer> = ({
   members,
   reports,
   date,
@@ -88,7 +88,7 @@ export const PrayersContainer: FC<IPPrayersContainer> = ({
           }
 
     return (
-      <PrayerListItem
+      <ReportListItem
         report={_report}
         member={member}
         key={member.id}

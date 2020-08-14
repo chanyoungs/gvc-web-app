@@ -2,7 +2,7 @@ import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { FC } from "react"
-import { PrayerListItem } from "src/components/Level1/ListItems/PrayerListItem"
+import { ReportListItem } from "src/components/Level1/ListItems/ReportListItem"
 
 import { IMemberDownload, IPrayer } from "../../../types"
 import { PrayerPaper } from "../../Level1/Papers/PrayerPaper"

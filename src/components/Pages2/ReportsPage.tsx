@@ -24,7 +24,7 @@ import { ALERT_SAVED } from "src/types/actions"
 
 import { AppState } from "../../store/reducers/rootReducer"
 import { NoticeAlert } from "../Level1/Alerts/NoticeAlert"
-import { PrayersContainer } from "../Level2/Lists/PrayersContainer"
+import { ReportsContainer } from "../Level2/Lists/ReportsContainer"
 import { Notices } from "../Level2/SwipeableListViews/Notices"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -175,7 +175,7 @@ export const ReportsPage: FC<IPReportsPage> = (props) => {
           }}
         />
         {isLoaded(reports) && isLoaded(members) ? (
-          <PrayersContainer
+          <ReportsContainer
             reports={reports}
             members={members}
             date={date}

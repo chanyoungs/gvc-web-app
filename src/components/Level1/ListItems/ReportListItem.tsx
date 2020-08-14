@@ -21,13 +21,13 @@ import { ProfileEditDialog } from "../Dialogs/ProfileEditDialog"
 import { ProfileMenu } from "../Menus/ProfileMenu"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
-export interface IPPrayerListItem {
+export interface ReportListItem {
   member: IMemberDownload
   report: IReport
   reportMode: ReportMode
 }
 
-export const PrayerListItem: FC<IPPrayerListItem> = ({
+export const ReportListItem: FC<ReportListItem> = ({
   member,
   report,
   reportMode,
