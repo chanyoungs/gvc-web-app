@@ -85,7 +85,7 @@ export default function App() {
           <div className={classes.root}>
             <BrowserRouter>
               <Switch>
-                <PrivateRoute path="/" exact component={MembersPage} />
+                <PrivateRoute path="/" exact component={ReportsPage} />
                 <Route path="/public" component={Playground} />
                 <Route path="/bible" component={BiblePage} />
                 <Route path="/playground" component={Playground} />
