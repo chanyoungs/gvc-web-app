@@ -9,7 +9,7 @@ const initState: AppBarState = {
 }
 
 export const appBarReducer = (
-  state: AppBarState = initState,
+  state = initState,
   action: AppBarActionTypes
 ): AppBarState => {
   switch (action.type) {

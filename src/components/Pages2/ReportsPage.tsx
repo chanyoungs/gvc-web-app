@@ -19,7 +19,7 @@ import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 import { IAlertState } from "src/store/reducers/alertReducer"
-import { IMemberDownload, IReport } from "src/types"
+import { IMemberDownload, IReports } from "src/types"
 import { ALERT_SAVED } from "src/types/actions"
 
 import { AppState } from "../../store/reducers/rootReducer"
@@ -93,7 +93,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   const members = useSelector<AppState, IMemberDownload[]>(
     (state) => state.firestore.ordered.members
   )
-  const reports = useSelector<AppState, { [key: string]: IReport }>(
+  const reports = useSelector<AppState, IReports>(
     (state) => state.firestore.data.reports
   )
 

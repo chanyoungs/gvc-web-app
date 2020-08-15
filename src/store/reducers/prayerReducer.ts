@@ -11,7 +11,7 @@ const initState: PrayerState = {
 }
 
 export const prayerReducer = (
-  state: PrayerState = initState,
+  state = initState,
   action: PrayerActionTypes
 ): PrayerState => {
   switch (action.type) {

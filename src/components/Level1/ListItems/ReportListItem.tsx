@@ -12,9 +12,10 @@ import Typography from "@material-ui/core/Typography"
 import DeleteIcon from "@material-ui/icons/Delete"
 import { Moment } from "moment"
 import React, { FC, Fragment, useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { ReportMode } from "src/components/Pages2/ReportsPage"
-import { updateReport } from "src/store/actions/reportActions"
+import { updateAttendance, updatePrayer, updateReport, uploadReport } from "src/store/actions/reportActions"
+import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberDownload, IReport } from "src/types"
 
 import { ProfileEditDialog } from "../Dialogs/ProfileEditDialog"
@@ -32,31 +33,56 @@ export const ReportListItem: FC<ReportListItem> = ({
   report,
   reportMode,
 }) => {
-  const [prayer, setPrayer] = useState<string>(report.prayer)
-  const [attendance, setAttendance] = useState<IReport["attendance"]>({
-    service: false,
-    cell: false,
-    info: "",
-  })
-
   const classes = useStyles()
 
-  useEffect(() => {
-    setPrayer(report.prayer)
-    setAttendance(report.attendance)
-  }, [report])
-
-  const AUTOSAVE_INTERVAL = 1000
-  useEffect(() => {
-    const timer = setTimeout(savePrayerChanges, AUTOSAVE_INTERVAL)
-    return () => clearTimeout(timer)
-  }, [prayer])
+  let prayer = report.prayer
+  let attendance = report.attendance
+  const reportId = `${report.date}-${member.id}`
 
   const dispatch = useDispatch()
+  const setPrayer = (prayer: string) =>
+    dispatch(updateReport({ ...report, prayer }))
+  const setAttendance = (attendance: IReport["attendance"]) =>
+    dispatch(updateReport({ ...report, attendance }))
+
+  useEffect(() => {
+    console.log({ report })
+    setPrayer(report.prayer)
+    setAttendance(report.attendance)
+    // dispatch(updateReport(report))
+  }, [])
+  // useEffect(() => {
+  //   setPrayer(report.prayer)
+  // }, [report.prayer])
+
+  // useEffect(() => {
+  //   setAttendance(report.attendance)
+  // }, [report.attendance])
+
+  const reportLocal = useSelector<AppState, IReport | undefined>(
+    (state) => state.reports[member.id]
+  )
+
+  if (reportLocal) {
+    prayer = reportLocal.prayer
+    attendance = reportLocal.attendance
+  }
+  // const [prayer, setPrayer] = useState<string>(report.prayer)
+  // const [attendance, setAttendance] = useState<IReport["attendance"]>({
+  //   service: false,
+  //   cell: false,
+  //   info: "",
+  // })
+
+  const AUTOSAVE_INTERVAL = 1000
+  // useEffect(() => {
+  //   const timer = setTimeout(savePrayerChanges, AUTOSAVE_INTERVAL)
+  //   return () => clearTimeout(timer)
+  // }, [prayer])
 
   const savePrayerChanges = () => {
     if (prayer !== report.prayer)
-      dispatch(updateReport({ ...report, prayer: prayer }))
+      dispatch(uploadReport({ ...report, prayer: prayer }))
   }
 
   const onPrayerChange = (
@@ -99,10 +125,10 @@ export const ReportListItem: FC<ReportListItem> = ({
                 variant={attendance.service ? "contained" : undefined}
                 // variant="contained"
                 onClick={() => {
-                  setAttendance((prevAttendance) => ({
-                    ...prevAttendance,
-                    service: !prevAttendance.service,
-                  }))
+                  setAttendance({
+                    ...attendance,
+                    service: !attendance.service,
+                  })
                 }}
               >
                 예배
@@ -112,10 +138,10 @@ export const ReportListItem: FC<ReportListItem> = ({
                 // variant="contained"
                 variant={attendance.cell ? "contained" : undefined}
                 onClick={() => {
-                  setAttendance((prevAttendance) => ({
-                    ...prevAttendance,
-                    cell: !prevAttendance.cell,
-                  }))
+                  setAttendance({
+                    ...attendance,
+                    cell: !attendance.cell,
+                  })
                 }}
               >
                 셀모임
@@ -131,11 +157,11 @@ export const ReportListItem: FC<ReportListItem> = ({
                     : undefined
                 }
                 onClick={() => {
-                  setAttendance((prevAttendance) =>
-                    prevAttendance.service && prevAttendance.cell
-                      ? { ...prevAttendance, service: false, cell: false }
-                      : { ...prevAttendance, service: true, cell: true }
-                  )
+                  const newAttendance =
+                    attendance.service && attendance.cell
+                      ? { ...attendance, service: false, cell: false }
+                      : { ...attendance, service: true, cell: true }
+                  setAttendance(newAttendance)
                 }}
               >
                 전체
