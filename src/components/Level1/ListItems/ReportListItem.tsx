@@ -20,7 +20,13 @@ import { IMemberDownload, IReport } from "src/types"
 import { ProfileEditDialog } from "../Dialogs/ProfileEditDialog"
 import { ProfileMenu } from "../Menus/ProfileMenu"
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}))
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    textFieldInputProps: {
+      paddingBottom: 0, // Fixes styling break problem when switching between prayer<->attendance
+    },
+  })
+)
 export interface ReportListItem {
   member: IMemberDownload
   report: IReport
@@ -82,6 +88,7 @@ export const ReportListItem: FC<ReportListItem> = ({
         secondary={
           reportMode === "prayer" ? (
             <TextField
+              InputProps={{ className: classes.textFieldInputProps }}
               fullWidth
               placeholder="기도제목을 입력해주세요"
               multiline
