@@ -10,6 +10,8 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import DeleteIcon from "@material-ui/icons/Delete"
+import ToggleButton from "@material-ui/lab/ToggleButton"
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup"
 import { Moment } from "moment"
 import React, { FC, Fragment, useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
@@ -23,7 +25,7 @@ import { ProfileMenu } from "../Menus/ProfileMenu"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     textFieldInputProps: {
-      paddingBottom: 0, // Fixes styling break problem when switching between prayer<->attendance
+      // paddingBottom: 0, // Fixes styling break problem when switching between prayer<->attendance
     },
   })
 )
@@ -100,11 +102,9 @@ export const ReportListItem: FC<ReportListItem> = ({
               helperText={prayer !== report.prayer && "Unsaved changes"}
             />
           ) : (
-            <ButtonGroup fullWidth>
-              <Button
-                color={attendance.service ? "primary" : undefined}
-                variant={attendance.service ? "contained" : undefined}
-                // variant="contained"
+            <ToggleButtonGroup>
+              <ToggleButton
+                selected={attendance.service}
                 onClick={() => {
                   setAttendance((prevAttendance) => ({
                     ...prevAttendance,
@@ -113,11 +113,9 @@ export const ReportListItem: FC<ReportListItem> = ({
                 }}
               >
                 예배
-              </Button>
-              <Button
-                color={attendance.cell ? "primary" : undefined}
-                // variant="contained"
-                variant={attendance.cell ? "contained" : undefined}
+              </ToggleButton>
+              <ToggleButton
+                selected={attendance.cell}
                 onClick={() => {
                   setAttendance((prevAttendance) => ({
                     ...prevAttendance,
@@ -125,18 +123,10 @@ export const ReportListItem: FC<ReportListItem> = ({
                   }))
                 }}
               >
-                셀모임
-              </Button>
-              <Button
-                color={
-                  attendance.service && attendance.cell ? "primary" : undefined
-                }
-                // variant="contained"
-                variant={
-                  attendance.service && attendance.cell
-                    ? "contained"
-                    : undefined
-                }
+                셀
+              </ToggleButton>
+              <ToggleButton
+                selected={attendance.service && attendance.cell}
                 onClick={() => {
                   setAttendance((prevAttendance) =>
                     prevAttendance.service && prevAttendance.cell
@@ -146,8 +136,56 @@ export const ReportListItem: FC<ReportListItem> = ({
                 }}
               >
                 전체
-              </Button>
-            </ButtonGroup>
+              </ToggleButton>
+            </ToggleButtonGroup>
+            // <ButtonGroup fullWidth>
+            //   <Button
+            //     color={attendance.service ? "primary" : undefined}
+            //     variant={attendance.service ? "contained" : undefined}
+            //     // variant="contained"
+            //     onClick={() => {
+            //       setAttendance((prevAttendance) => ({
+            //         ...prevAttendance,
+            //         service: !prevAttendance.service,
+            //       }))
+            //     }}
+            //   >
+            //     예배
+            //   </Button>
+            //   <Button
+            //     color={attendance.cell ? "primary" : undefined}
+            //     // variant="contained"
+            //     variant={attendance.cell ? "contained" : undefined}
+            //     onClick={() => {
+            //       setAttendance((prevAttendance) => ({
+            //         ...prevAttendance,
+            //         cell: !prevAttendance.cell,
+            //       }))
+            //     }}
+            //   >
+            //     셀모임
+            //   </Button>
+            //   <Button
+            //     color={
+            //       attendance.service && attendance.cell ? "primary" : undefined
+            //     }
+            //     // variant="contained"
+            //     variant={
+            //       attendance.service && attendance.cell
+            //         ? "contained"
+            //         : undefined
+            //     }
+            //     onClick={() => {
+            //       setAttendance((prevAttendance) =>
+            //         prevAttendance.service && prevAttendance.cell
+            //           ? { ...prevAttendance, service: false, cell: false }
+            //           : { ...prevAttendance, service: true, cell: true }
+            //       )
+            //     }}
+            //   >
+            //     전체
+            //   </Button>
+            // </ButtonGroup>
           )
         }
       />

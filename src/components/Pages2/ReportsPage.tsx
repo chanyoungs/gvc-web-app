@@ -4,9 +4,10 @@ import Fab from "@material-ui/core/Fab"
 import IconButton from "@material-ui/core/IconButton"
 import InputAdornment from "@material-ui/core/InputAdornment"
 import Snackbar from "@material-ui/core/Snackbar"
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
+import Zoom from "@material-ui/core/Zoom"
 import ClearIcon from "@material-ui/icons/Clear"
 import DoneAllIcon from "@material-ui/icons/DoneAll"
 import EventIcon from "@material-ui/icons/Event"
@@ -63,6 +64,13 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   const [date, setDate] = useState<Moment>(moment().day(0))
   const [reportMode, setReportMode] = useState<ReportMode>("prayer")
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)
+
+  const theme = useTheme()
+
+  const transitionDuration = {
+    enter: theme.transitions.duration.enteringScreen,
+    exit: theme.transitions.duration.leavingScreen,
+  }
 
   const dispatch = useDispatch()
 
@@ -184,15 +192,24 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
         ) : (
           "Loading data..."
         )}
-        <Fab
-          color="secondary"
-          className={classes.fab}
-          onClick={() => {
-            setReportMode("attendance")
-          }}
+        <Zoom
+          in={reportMode === "prayer"}
+          timeout={transitionDuration}
+          // style={{
+          //   transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
+          // }}
+          unmountOnExit
         >
-          <DoneAllIcon />
-        </Fab>
+          <Fab
+            color="secondary"
+            className={classes.fab}
+            onClick={() => {
+              setReportMode("attendance")
+            }}
+          >
+            <DoneAllIcon />
+          </Fab>
+        </Zoom>
         <Snackbar
           open={alertSaved}
           autoHideDuration={1000}
