@@ -287,7 +287,13 @@ export interface SearchOnChange {
   payload: string
 }
 
-export type AppBarActionTypes = SearchOnChange
+export const SET_DRAWER_OPEN = "SET_DRAWER_OPEN"
+export interface SetDrawerOpen {
+  type: typeof SET_DRAWER_OPEN
+  payload: boolean
+}
+
+export type AppBarActionTypes = SearchOnChange | SetDrawerOpen
 
 // Bible Actions
 export const SET_BIBLE_REFERENCE = "SET_BIBLE_REFERENCE"

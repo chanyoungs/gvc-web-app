@@ -3,27 +3,41 @@ import Avatar from "@material-ui/core/Avatar"
 import IconButton from "@material-ui/core/IconButton"
 import InputBase from "@material-ui/core/InputBase"
 import Slide from "@material-ui/core/Slide"
-import { createStyles, fade, makeStyles, Theme } from "@material-ui/core/styles"
+import { createStyles, fade, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
+import useMediaQuery from "@material-ui/core/useMediaQuery"
 import useScrollTrigger from "@material-ui/core/useScrollTrigger"
 import EditIcon from "@material-ui/icons/Edit"
 import MenuIcon from "@material-ui/icons/Menu"
 import SearchIcon from "@material-ui/icons/Search"
-import React, { Fragment, ReactNode } from "react"
+import clsx from "clsx"
+import React, { Fragment, ReactNode, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { SET_DRAWER_OPEN } from "src/types/actions"
 
 import { appBarSearchOnChange } from "../../../store/actions/appBarActions"
 import { AppState } from "../../../store/reducers/rootReducer"
-import { SwipeableTemporaryDrawer } from "./../Drawers/SwipeableTemporaryDrawer"
+import { CustomDrawer } from "../Drawers/CustomDrawer"
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<Theme, { drawerWidth: number }>((theme) =>
   createStyles({
     appBar: {
       paddingLeft: theme.spacing(1.5),
       paddingRight: theme.spacing(1.5),
+      transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
     },
-
+    appBarShift: {
+      width: (props) => `calc(100% - ${props.drawerWidth}px)`,
+      marginLeft: (props) => props.drawerWidth,
+      transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
     title: {
       flexGrow: 1,
       // paddingLeft: theme.spacing(1.5),
@@ -50,6 +64,12 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+    },
+    hide: {
+      display: "none",
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
     },
     inputRoot: {
       color: "inherit",
@@ -88,15 +108,17 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
   color,
   toolbar,
 }) => {
-  const classes = useStyles()
-
-  const [state, setState] = React.useState({
-    drawerOpen: false,
-  })
-
   const dispatch = useDispatch()
-  const search = useSelector<AppState, string>((state) => state.appBar.search)
+  const theme = useTheme()
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)
+  const { drawerWidth, drawerOpen, search } = useSelector<
+    AppState,
+    AppState["appBar"]
+  >((state) => state.appBar)
+  const setDrawerOpen = (open: boolean) => {
+    dispatch({ type: SET_DRAWER_OPEN, payload: open })
+  }
+  const classes = useStyles({ drawerWidth })
 
   const setSearch = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -104,22 +126,32 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
     dispatch(appBarSearchOnChange(event.target.value))
   }
 
-  const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
-    setState({ drawerOpen: open })
-  }
-
+  const desktopMode = useMediaQuery(theme.breakpoints.up("sm"))
   return (
     <Fragment>
       <Slide appear={false} direction="down" in={!useScrollTrigger()}>
-        <AppBar color={color} className={classes.appBar} position="sticky">
+        <AppBar
+          color={color}
+          className={clsx(classes.appBar, {
+            [classes.appBarShift]: drawerOpen && desktopMode,
+          })}
+          position="sticky"
+        >
           {toolbar ? (
             toolbar
           ) : (
-            <Toolbar disableGutters={!state.drawerOpen}>
+            <Toolbar>
               <IconButton
                 aria-label="Open drawer"
-                onClick={toggleDrawer(true)}
+                onClick={() => {
+                  setDrawerOpen(true)
+                }}
                 color="inherit"
+                edge="start"
+                className={clsx(
+                  classes.menuButton,
+                  drawerOpen && desktopMode && classes.hide
+                )}
               >
                 <MenuIcon />
               </IconButton>
@@ -151,10 +183,7 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
           )}
         </AppBar>
       </Slide>
-      <SwipeableTemporaryDrawer
-        drawerOpen={state.drawerOpen}
-        toggleDrawer={toggleDrawer}
-      />
+      <CustomDrawer />
     </Fragment>
   )
 }

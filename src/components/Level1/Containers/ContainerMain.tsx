@@ -1,11 +1,23 @@
 import Container from "@material-ui/core/Container"
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
+import useMediaQuery from "@material-ui/core/useMediaQuery"
+import clsx from "clsx"
 import React, { PropsWithChildren } from "react"
+import { useSelector } from "react-redux"
+import { AppState } from "src/store/reducers/rootReducer"
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<Theme, { drawerWidth: number }>((theme) =>
   createStyles({
     container: {
       width: "100%",
+    },
+    containerShift: {
+      width: (props) => `calc(100% - ${props.drawerWidth}px)`,
+      marginLeft: (props) => props.drawerWidth,
+      transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
     },
   })
 )
@@ -17,11 +29,22 @@ export interface ContainerMainProps<C> {
 function ContainerMain<C>({
   children,
 }: PropsWithChildren<ContainerMainProps<C>>) {
-  const classes = useStyles()
+  const theme = useTheme()
+  const { drawerWidth, drawerOpen } = useSelector<AppState, AppState["appBar"]>(
+    (state) => state.appBar
+  )
+  const classes = useStyles({ drawerWidth })
+  const desktopMode = useMediaQuery(theme.breakpoints.up("sm"))
   return (
-    <Container maxWidth="xs" className={classes.container}>
-      {children}
-    </Container>
+    <div
+      className={clsx({
+        [classes.containerShift]: drawerOpen && desktopMode,
+      })}
+    >
+      <Container maxWidth="xs" className={classes.container}>
+        {children}
+      </Container>
+    </div>
   )
 }
 

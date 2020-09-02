@@ -2,6 +2,7 @@
 
 - [ ] Currently, there are multiple instances of profileeditdialogs. Fix if unnecessary
 - [ ] Complete the relationships between change of date from PrayersPage and state and props of PrayerListItem
+- [x] 02/09/20 CY - Implemented responsive sidebar
 - [x] 29/08/20 CY - FAB now zooms in and out
 - [x] 14/08/20 CY - Implemented Attendance mode in report page
 - [x] 04/08/20 CY - Fixed positioning of FAB
