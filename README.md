@@ -8,6 +8,7 @@
 - [x] 04/08/20 CY - Fixed positioning of FAB
 - [ ] Styling
   - [ ] Padding and spacing
+  - [x] 02/09/20 CY - Removed unnecessary paddings on reports listitem
   - [x] 15/08/20 CY - ~~Issue: There seems to be some sizing problem with Textfield in list in reports page. Transitioning from prayer<->attendance causes some unwanted movement throughout the whole page~~ &larr; Solved by adding a "paddingBottom: 0" to TextField InputProps. UPDATE: Actually, it turns out the problem is using textfield and buttongroup at the same time. When using ToggleButtonGroup, the problem disappears
   - [x] 04/08/20 CY - AuthPage new style
   - [x] 01/07/20 CY - Changed Appbar and side drawer to have primary main colour

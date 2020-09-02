@@ -27,6 +27,10 @@ const useStyles = makeStyles((theme: Theme) =>
     textFieldInputProps: {
       // paddingBottom: 0, // Fixes styling break problem when switching between prayer<->attendance
     },
+    listItem: {
+      paddingLeft: 0,
+      paddingRight: 0,
+    },
   })
 )
 export interface ReportListItem {
@@ -78,7 +82,7 @@ export const ReportListItem: FC<ReportListItem> = ({
   }
 
   return (
-    <ListItem alignItems="flex-start">
+    <ListItem alignItems="flex-start" className={classes.listItem}>
       <ListItemAvatar>
         <ProfileEditDialog member={member}>
           <Avatar alt={member.name} src={member.thumbnailUrl} />
