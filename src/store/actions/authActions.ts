@@ -10,7 +10,6 @@ import {
   sharpen,
 } from "ts-image-processor"
 
-import { auth } from "../../firebase"
 import { IFBError, IMemberUpload, IResetPassword, ISignIn, ISignUp } from "../../types"
 import { ThunkActionCustom } from "../../types/actions"
 
@@ -75,11 +74,14 @@ export const signIn = ({
   console.log("Remember me: ", rememberMe)
 
   const firebase = getFirebase()
+  const firebaseAuth: any = firebase.auth
 
   firebase
     .auth()
     .setPersistence(
-      rememberMe ? auth.Auth.Persistence.LOCAL : auth.Auth.Persistence.SESSION // There are some type definition missing on ExtendedFirebaseInstance and so used original auth function from firebase
+      rememberMe
+        ? firebaseAuth.Auth.Persistence.LOCAL
+        : firebaseAuth.Auth.Persistence.SESSION // There are some type definition missing on ExtendedFirebaseInstance and so used original auth function from firebase
     )
     .then(() => {
       dispatch({ type: "REMEMBER_ME", payload: rememberMe })
