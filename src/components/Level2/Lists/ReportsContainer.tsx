@@ -6,7 +6,7 @@ import { ReportListItem } from "src/components/Level1/ListItems/ReportListItem"
 import { ReportMode } from "src/components/Pages2/ReportsPage"
 import { AppState } from "src/store/reducers/rootReducer"
 
-import { IMemberDownload, IReport } from "../../../types"
+import { IMemberDownload, IReport, IReports } from "../../../types"
 import { CustomList } from "./CustomList"
 
 // import { Iprayer } from "./../../../interfaces"
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface ReportsContainerProps {
   members: IMemberDownload[]
-  reports: { [key: string]: IReport }
+  reports: IReports
   date: Moment
   reportMode: ReportMode
 }
@@ -68,25 +68,6 @@ export const ReportsContainer: FC<ReportsContainerProps> = ({
   // })
 
   const render = (member: IMemberDownload) => {
-    // let _report: IReport
-    // let query =
-    //   reports && reports.filter((report) => report.memberId === member.id)
-
-    // _report =
-    //   query && query.length === 1
-    //     ? query[0]
-    //     : {
-    //         memberId: member.id,
-    //         prayer: "",
-    //         cell: member.cell,
-    //         date: date.format("YYYY.MM.DD"),
-    //         attendance: {
-    //           service: false,
-    //           cell: false,
-    //           info: "",
-    //         },
-    //       }
-
     const reportKey = `${date.format("YYYY.MM.DD")}-${member.id}`
     const reportDefault: IReport = {
       memberId: member.id,
@@ -113,7 +94,7 @@ export const ReportsContainer: FC<ReportsContainerProps> = ({
     <CustomList
       items={members_}
       render={render}
-      // divider={reportMode === "attendance"}
+      divider={reportMode === "attendance"}
     />
   )
 }

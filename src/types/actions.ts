@@ -3,7 +3,7 @@ import { ThunkAction } from "redux-thunk"
 import { Font } from "src/components/Level1/Dialogs/FontDialog"
 import { IBibleRef } from "src/components/Pages/BiblePage"
 
-import { IFBError, INotice, TPrayerQueries } from "."
+import { IFBError, INotice, IReport, TPrayerQueries } from "."
 import { AppState } from "../store/reducers/rootReducer"
 
 // Setup
@@ -17,6 +17,51 @@ export type ThunkActionCustom<ReturnType> = ThunkAction<
   },
   AppActions
 >
+
+// Report actions
+export const UPDATE_REPORT = "UPDATE_REPORT"
+export interface UpdateReport {
+  type: typeof UPDATE_REPORT
+  payload: IReport
+}
+
+export const UPDATE_REPORT_ERROR = "UPDATE_REPORT_ERROR"
+export interface UpdateReportError {
+  type: typeof UPDATE_REPORT_ERROR
+  payload: IFBError
+}
+
+export const UPDATE_PRAYER = "UPDATE_PRAYER"
+export interface UpdatePrayer {
+  type: typeof UPDATE_PRAYER
+  payload: { reportId: string; prayer: string }
+}
+
+export const UPDATE_PRAYER_ERROR = "UPDATE_PRAYER_ERROR"
+export interface UpdatePrayerError {
+  type: typeof UPDATE_PRAYER_ERROR
+  payload: IFBError
+}
+
+export const UPDATE_ATTENDANCE = "UPDATE_ATTENDANCE"
+export interface UpdateAttendance {
+  type: typeof UPDATE_ATTENDANCE
+  payload: { reportId: string; attendance: IReport["attendance"] }
+}
+
+export const UPDATE_ATTENDANCE_ERROR = "UPDATE_ATTENDANCE_ERROR"
+export interface UpdateAttendanceError {
+  type: typeof UPDATE_ATTENDANCE_ERROR
+  payload: IFBError
+}
+
+export type ReportActionTypes =
+  | UpdateReport
+  | UpdateReportError
+  | UpdatePrayer
+  | UpdatePrayerError
+  | UpdateAttendance
+  | UpdateAttendanceError
 
 // Alert actions
 export const ALERT_SAVED = "ALERT_SAVED"
@@ -320,3 +365,4 @@ export type AppActions =
   | ThemeActionTypes
   | FontActionTypes
   | AlertActionTypes
+  | ReportActionTypes

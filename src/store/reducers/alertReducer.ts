@@ -9,7 +9,7 @@ const initState: IAlertState = {
 }
 
 export const alertReducer = (
-  state: IAlertState = initState,
+  state = initState,
   action: AlertActionTypes
 ): IAlertState => {
   switch (action.type) {

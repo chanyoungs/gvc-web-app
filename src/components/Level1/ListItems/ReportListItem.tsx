@@ -13,10 +13,11 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import ToggleButton from "@material-ui/lab/ToggleButton"
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup"
 import { Moment } from "moment"
-import React, { FC, Fragment, useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import React, { FC, Fragment, useCallback, useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { ReportMode } from "src/components/Pages2/ReportsPage"
-import { updateReport } from "src/store/actions/reportActions"
+import { updateAttendance, updatePrayer, updateReport, uploadReport } from "src/store/actions/reportActions"
+import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberDownload, IReport } from "src/types"
 
 import { ProfileEditDialog } from "../Dialogs/ProfileEditDialog"
@@ -44,36 +45,52 @@ export const ReportListItem: FC<ReportListItem> = ({
   report,
   reportMode,
 }) => {
-  const [prayer, setPrayer] = useState<string>(report.prayer)
-  const [attendance, setAttendance] = useState<IReport["attendance"]>({
-    service: false,
-    cell: false,
-    info: "",
-  })
-
   const classes = useStyles()
+
+  const reportLocal = useSelector<AppState, IReport | undefined>(
+    (state) => state.reports[member.id]
+  )
+
+  const prayer = reportLocal ? reportLocal.prayer : report.prayer
+  const attendance = reportLocal ? reportLocal.attendance : report.attendance
+
+  const dispatch = useDispatch()
+  const setPrayer = useCallback(
+    (prayer: string) => dispatch(updateReport({ ...report, prayer })),
+    []
+  )
+  const setAttendance = useCallback(
+    (attendance: IReport["attendance"]) =>
+      dispatch(updateReport({ ...report, attendance })),
+    []
+  )
+
+  useEffect(() => {
+    dispatch(updateReport(report))
+  }, [])
 
   useEffect(() => {
     setPrayer(report.prayer)
-    setAttendance(report.attendance)
-  }, [report])
+  }, [report.prayer])
 
-  const AUTOSAVE_INTERVAL = 1000
+  const { cell, service, info } = report.attendance
   useEffect(() => {
-    const timer = setTimeout(savePrayerChanges, AUTOSAVE_INTERVAL)
+    setAttendance(report.attendance)
+  }, [cell, service, info])
+
+  useEffect(() => {
+    const timer = setTimeout(savePrayerChanges, 1000)
     return () => clearTimeout(timer)
   }, [prayer])
 
-  const dispatch = useDispatch()
-
   const savePrayerChanges = () => {
-    if (prayer !== report.prayer)
-      dispatch(updateReport({ ...report, prayer: prayer }))
+    if (prayer !== report.prayer) dispatch(uploadReport({ ...report, prayer }))
   }
 
   const onPrayerChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
+    console.log(event.target.value)
     setPrayer(event.target.value)
   }
 
@@ -110,10 +127,10 @@ export const ReportListItem: FC<ReportListItem> = ({
               <ToggleButton
                 selected={attendance.service}
                 onClick={() => {
-                  setAttendance((prevAttendance) => ({
-                    ...prevAttendance,
-                    service: !prevAttendance.service,
-                  }))
+                  setAttendance({
+                    ...attendance,
+                    service: !attendance.service,
+                  })
                 }}
               >
                 예배
@@ -121,10 +138,10 @@ export const ReportListItem: FC<ReportListItem> = ({
               <ToggleButton
                 selected={attendance.cell}
                 onClick={() => {
-                  setAttendance((prevAttendance) => ({
-                    ...prevAttendance,
-                    cell: !prevAttendance.cell,
-                  }))
+                  setAttendance({
+                    ...attendance,
+                    cell: !attendance.cell,
+                  })
                 }}
               >
                 셀
@@ -132,11 +149,11 @@ export const ReportListItem: FC<ReportListItem> = ({
               <ToggleButton
                 selected={attendance.service && attendance.cell}
                 onClick={() => {
-                  setAttendance((prevAttendance) =>
-                    prevAttendance.service && prevAttendance.cell
-                      ? { ...prevAttendance, service: false, cell: false }
-                      : { ...prevAttendance, service: true, cell: true }
-                  )
+                  const newAttendance =
+                    attendance.service && attendance.cell
+                      ? { ...attendance, service: false, cell: false }
+                      : { ...attendance, service: true, cell: true }
+                  setAttendance(newAttendance)
                 }}
               >
                 전체

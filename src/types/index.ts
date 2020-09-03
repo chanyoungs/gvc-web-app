@@ -60,6 +60,8 @@ export interface IReport {
   }
 }
 
+export type IReports = { [key: string]: IReport }
+
 // ---Auth---
 // Types
 export type AuthTypes = {
