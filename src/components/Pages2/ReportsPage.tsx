@@ -1,5 +1,7 @@
+import Backdrop from "@material-ui/core/Backdrop"
 import Button from "@material-ui/core/Button"
 import ButtonBase from "@material-ui/core/ButtonBase"
+import CircularProgress from "@material-ui/core/CircularProgress"
 import Fab from "@material-ui/core/Fab"
 import IconButton from "@material-ui/core/IconButton"
 import InputAdornment from "@material-ui/core/InputAdornment"
@@ -18,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
+import { batchUploadReports } from "src/store/actions/reportActions"
 import { IAlertState } from "src/store/reducers/alertReducer"
 import { IMemberDownload, IReports } from "src/types"
 import { ALERT_SAVED } from "src/types/actions"
@@ -29,6 +32,10 @@ import { Notices } from "../Level2/SwipeableListViews/Notices"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: "#fff",
+    },
     noticeAlert: {
       paddingTop: theme.spacing(2),
       paddingBottom: theme.spacing(2),
@@ -96,10 +103,13 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   const reports = useSelector<AppState, IReports>(
     (state) => state.firestore.data.reports
   )
+  const localReports = useSelector<AppState, IReports>((state) => state.reports)
 
   const alertSaved = useSelector<AppState, IAlertState["saved"]>(
     (state) => state.alert.saved
   )
+
+  const [backdropOpen, setBackdropOpen] = useState(false)
 
   const handleSnackbarClose = (
     event: React.SyntheticEvent | React.MouseEvent,
@@ -126,7 +136,18 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
               >
                 <ClearIcon />
               </IconButton>
-              <ButtonBase>
+              <ButtonBase
+                onClick={() => {
+                  setBackdropOpen(true)
+                  console.log("clicked")
+                  dispatch(
+                    batchUploadReports(() => {
+                      setBackdropOpen(false)
+                      setReportMode("prayer")
+                    })
+                  )
+                }}
+              >
                 <Typography>저장</Typography>
               </ButtonBase>
             </Toolbar>
@@ -209,6 +230,9 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
           }
           className={classes.snackbar}
         />
+        <Backdrop className={classes.backdrop} open={backdropOpen}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </ContainerMain>
     </Fragment>
   )

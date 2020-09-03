@@ -11,7 +11,7 @@ import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import DeleteIcon from "@material-ui/icons/Delete"
 import { Moment } from "moment"
-import React, { FC, Fragment, useEffect, useState } from "react"
+import React, { FC, Fragment, useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { ReportMode } from "src/components/Pages2/ReportsPage"
 import { updateAttendance, updatePrayer, updateReport, uploadReport } from "src/store/actions/reportActions"
@@ -35,59 +35,50 @@ export const ReportListItem: FC<ReportListItem> = ({
 }) => {
   const classes = useStyles()
 
-  let prayer = report.prayer
-  let attendance = report.attendance
-  const reportId = `${report.date}-${member.id}`
-
-  const dispatch = useDispatch()
-  const setPrayer = (prayer: string) =>
-    dispatch(updateReport({ ...report, prayer }))
-  const setAttendance = (attendance: IReport["attendance"]) =>
-    dispatch(updateReport({ ...report, attendance }))
-
-  useEffect(() => {
-    console.log({ report })
-    setPrayer(report.prayer)
-    setAttendance(report.attendance)
-    // dispatch(updateReport(report))
-  }, [])
-  // useEffect(() => {
-  //   setPrayer(report.prayer)
-  // }, [report.prayer])
-
-  // useEffect(() => {
-  //   setAttendance(report.attendance)
-  // }, [report.attendance])
-
   const reportLocal = useSelector<AppState, IReport | undefined>(
     (state) => state.reports[member.id]
   )
 
-  if (reportLocal) {
-    prayer = reportLocal.prayer
-    attendance = reportLocal.attendance
-  }
-  // const [prayer, setPrayer] = useState<string>(report.prayer)
-  // const [attendance, setAttendance] = useState<IReport["attendance"]>({
-  //   service: false,
-  //   cell: false,
-  //   info: "",
-  // })
+  const prayer = reportLocal ? reportLocal.prayer : report.prayer
+  const attendance = reportLocal ? reportLocal.attendance : report.attendance
 
-  const AUTOSAVE_INTERVAL = 1000
-  // useEffect(() => {
-  //   const timer = setTimeout(savePrayerChanges, AUTOSAVE_INTERVAL)
-  //   return () => clearTimeout(timer)
-  // }, [prayer])
+  const dispatch = useDispatch()
+  const setPrayer = useCallback(
+    (prayer: string) => dispatch(updateReport({ ...report, prayer })),
+    []
+  )
+  const setAttendance = useCallback(
+    (attendance: IReport["attendance"]) =>
+      dispatch(updateReport({ ...report, attendance })),
+    []
+  )
+
+  useEffect(() => {
+    dispatch(updateReport(report))
+  }, [])
+
+  useEffect(() => {
+    setPrayer(report.prayer)
+  }, [report.prayer])
+
+  const { cell, service, info } = report.attendance
+  useEffect(() => {
+    setAttendance(report.attendance)
+  }, [cell, service, info])
+
+  useEffect(() => {
+    const timer = setTimeout(savePrayerChanges, 1000)
+    return () => clearTimeout(timer)
+  }, [prayer])
 
   const savePrayerChanges = () => {
-    if (prayer !== report.prayer)
-      dispatch(uploadReport({ ...report, prayer: prayer }))
+    if (prayer !== report.prayer) dispatch(uploadReport({ ...report, prayer }))
   }
 
   const onPrayerChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
+    console.log(event.target.value)
     setPrayer(event.target.value)
   }
 

@@ -11,7 +11,7 @@ export const reportReducer = (
     case UPDATE_REPORT:
       return {
         ...state,
-        [`${action.payload.date}-${action.payload.memberId}`]: action.payload,
+        [action.payload.memberId]: action.payload,
       }
     case UPDATE_PRAYER:
       return {

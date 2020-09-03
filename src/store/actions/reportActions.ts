@@ -49,3 +49,30 @@ export const uploadReport = (report: IReport): ThunkActionCustom<void> => (
       console.error("Upload Report Error", error)
     })
 }
+
+export const batchUploadReports = (
+  callback: () => void
+): ThunkActionCustom<void> => async (
+  dispatch,
+  getState,
+  { getFirestore, getFirebase }
+) => {
+  const firestore = getFirestore()
+  const reports = getState().reports
+
+  const Promises = Object.keys(reports).map((key) =>
+    firestore
+      .collection("reports")
+      .doc(getDocId(reports[key]))
+      .set(reports[key])
+  )
+
+  try {
+    await Promise.all(Promises)
+    dispatch({ type: ALERT_SAVED, payload: true })
+    callback()
+  } catch (error) {
+    dispatch({ type: ALERT_SAVED_ERROR, payload: error })
+    console.error("Upload Report Error", error)
+  }
+}
