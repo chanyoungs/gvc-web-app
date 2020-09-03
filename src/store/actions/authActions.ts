@@ -11,7 +11,7 @@ import {
 } from "ts-image-processor"
 
 import { IFBError, IMemberUpload, IResetPassword, ISignIn, ISignUp } from "../../types"
-import { ThunkActionCustom } from "../../types/actions"
+import { ThunkActionCustom } from "./types"
 
 // Sign Up Member
 export const signUp = ({

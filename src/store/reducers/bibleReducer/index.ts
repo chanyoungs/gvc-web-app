@@ -1,5 +1,5 @@
 import { IBibleRef } from "src/components/Pages/BiblePage"
-import { BibleActionTypes } from "src/types/actions"
+import { BibleActionTypes } from "src/store/actions/types"
 
 import { bibleIndex, BibleIndex } from "./bibleIndex"
 

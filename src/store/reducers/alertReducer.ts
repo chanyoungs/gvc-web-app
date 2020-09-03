@@ -1,4 +1,4 @@
-import { ALERT_SAVED, AlertActionTypes } from "src/types/actions"
+import { ALERT_SAVED, AlertActionTypes } from "src/store/actions/types"
 
 export interface IAlertState {
   saved: boolean

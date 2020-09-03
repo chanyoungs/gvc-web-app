@@ -1,16 +1,23 @@
 import { IReports } from "src/types"
 
+import { IFBError, IReport } from "./../../types"
 import {
   ALERT_SAVED,
   ALERT_SAVED_ERROR,
   ThunkActionCustom,
   UPDATE_ATTENDANCE,
+  UPDATE_BATCH_REPORTS,
   UPDATE_PRAYER,
   UPDATE_REPORT,
-} from "../../types/actions"
-import { IFBError, IReport } from "./../../types"
+} from "./types"
 
-const getDocId = (report: IReport) => `${report.date}-${report.memberId}`
+export const getReportDocId = (report: IReport) =>
+  `${report.date}-${report.memberId}`
+
+export const updateBatchReports = (reports: IReports) => ({
+  type: UPDATE_BATCH_REPORTS,
+  payload: reports,
+})
 
 export const updateReport = (report: IReport) => ({
   type: UPDATE_REPORT,
@@ -39,7 +46,7 @@ export const uploadReport = (report: IReport): ThunkActionCustom<void> => (
 
   firestore
     .collection("reports")
-    .doc(getDocId(report))
+    .doc(getReportDocId(report))
     .set(report)
     .then(() => {
       dispatch({ type: ALERT_SAVED, payload: true })
@@ -63,7 +70,7 @@ export const batchUploadReports = (
   const Promises = Object.keys(reports).map((key) =>
     firestore
       .collection("reports")
-      .doc(getDocId(reports[key]))
+      .doc(getReportDocId(reports[key]))
       .set(reports[key])
   )
 

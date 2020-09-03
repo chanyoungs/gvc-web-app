@@ -1,5 +1,13 @@
+import {
+  ReportActionTypes,
+  UPDATE_ATTENDANCE,
+  UPDATE_BATCH_REPORTS,
+  UPDATE_PRAYER,
+  UPDATE_REPORT,
+} from "src/store/actions/types"
 import { IReport, IReports } from "src/types"
-import { ReportActionTypes, UPDATE_ATTENDANCE, UPDATE_PRAYER, UPDATE_REPORT } from "src/types/actions"
+
+import { getReportDocId } from "../actions/reportActions"
 
 const initState: IReports = {}
 
@@ -11,7 +19,12 @@ export const reportReducer = (
     case UPDATE_REPORT:
       return {
         ...state,
-        [action.payload.memberId]: action.payload,
+        [getReportDocId(action.payload)]: action.payload,
+      }
+    case UPDATE_BATCH_REPORTS:
+      return {
+        ...state,
+        ...action.payload,
       }
     case UPDATE_PRAYER:
       return {

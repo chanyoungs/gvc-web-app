@@ -1,6 +1,6 @@
 import { Dispatch } from "redux"
+import { QUERY_PRAYER } from "src/store/actions/types"
 import { TPrayerQueries } from "src/types"
-import { QUERY_PRAYER } from "src/types/actions"
 
 export const queryPrayer = (
   prayerQueries: TPrayerQueries,

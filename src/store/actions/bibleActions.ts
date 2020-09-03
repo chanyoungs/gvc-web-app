@@ -1,5 +1,5 @@
-import { ThunkActionCustom } from "../../types/actions"
 import { IBibleRef } from "./../../components/Pages/BiblePage"
+import { ThunkActionCustom } from "./types"
 
 // Set Bible Reference
 export const uploadBibleRef = (
@@ -20,7 +20,7 @@ export const uploadBibleRef = (
       console.log("Bible reference set!")
       dispatch({ type: "SET_BIBLE_REFERENCE", payload: bibleRef })
     })
-    .catch(error => {
+    .catch((error) => {
       console.log("Bible reference set error!")
       dispatch({ type: "SET_BIBLE_REFERENCE_ERROR", payload: error })
     })

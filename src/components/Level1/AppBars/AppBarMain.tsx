@@ -14,7 +14,7 @@ import SearchIcon from "@material-ui/icons/Search"
 import clsx from "clsx"
 import React, { Fragment, ReactNode, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { SET_DRAWER_OPEN } from "src/types/actions"
+import { SET_DRAWER_OPEN } from "src/store/actions/types"
 
 import { appBarSearchOnChange } from "../../../store/actions/appBarActions"
 import { AppState } from "../../../store/reducers/rootReducer"

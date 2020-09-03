@@ -24,7 +24,7 @@ import WidgetsIcon from "@material-ui/icons/Widgets"
 import React, { FC, Fragment } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
-import { SET_DRAWER_OPEN } from "src/types/actions"
+import { SET_DRAWER_OPEN } from "src/store/actions/types"
 
 import { signOut } from "../../../store/actions/authActions"
 import { AppState } from "../../../store/reducers/rootReducer"

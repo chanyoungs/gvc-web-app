@@ -1,4 +1,4 @@
-import { AppBarActionTypes, SEARCH_ON_CHANGE, SET_DRAWER_OPEN } from "../../types/actions"
+import { AppBarActionTypes, SEARCH_ON_CHANGE, SET_DRAWER_OPEN } from "../actions/types"
 
 export interface AppBarState {
   search: string

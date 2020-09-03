@@ -1,8 +1,8 @@
 import { ThunkAction } from "redux-thunk"
 
-import { AppActions, ThunkActionCustom } from "../../types/actions"
 import { INotice } from "./../../types"
 import { AppState } from "./../reducers/rootReducer"
+import { AppActions, ThunkActionCustom } from "./types"
 
 export const createNotice = (notice: INotice): ThunkActionCustom<void> => (
   dispatch,

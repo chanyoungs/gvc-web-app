@@ -21,10 +21,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
-import { batchUploadReports } from "src/store/actions/reportActions"
+import { batchUploadReports, updateBatchReports } from "src/store/actions/reportActions"
+import { ALERT_SAVED } from "src/store/actions/types"
 import { IAlertState } from "src/store/reducers/alertReducer"
 import { IMemberDownload, IReports } from "src/types"
-import { ALERT_SAVED } from "src/types/actions"
 
 import { AppState } from "../../store/reducers/rootReducer"
 import { NoticeAlert } from "../Level1/Alerts/NoticeAlert"
@@ -140,6 +140,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
                 color="inherit"
                 onClick={() => {
                   setReportMode("prayer")
+                  dispatch(updateBatchReports(reports))
                 }}
               >
                 <ClearIcon />

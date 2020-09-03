@@ -1,7 +1,7 @@
 import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme"
 
-import { ThunkActionCustom } from "../../types/actions"
 import { IFBError } from "./../../types"
+import { ThunkActionCustom } from "./types"
 
 export interface UploadThemeProps {
   name: string

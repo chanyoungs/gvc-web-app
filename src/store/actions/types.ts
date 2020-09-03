@@ -3,8 +3,8 @@ import { ThunkAction } from "redux-thunk"
 import { Font } from "src/components/Level1/Dialogs/FontDialog"
 import { IBibleRef } from "src/components/Pages/BiblePage"
 
-import { IFBError, INotice, IReport, TPrayerQueries } from "."
-import { AppState } from "../store/reducers/rootReducer"
+import { IFBError, INotice, IReport, IReports, TPrayerQueries } from "../../types"
+import { AppState } from "../reducers/rootReducer"
 
 // Setup
 export type ThunkActionCustom<ReturnType> = ThunkAction<
@@ -23,6 +23,18 @@ export const UPDATE_REPORT = "UPDATE_REPORT"
 export interface UpdateReport {
   type: typeof UPDATE_REPORT
   payload: IReport
+}
+
+export const UPDATE_BATCH_REPORTS = "UPDATE_BATCH_REPORTS"
+export interface UpdateBatchReports {
+  type: typeof UPDATE_BATCH_REPORTS
+  payload: IReports
+}
+
+export const UPDATE_BATCH_REPORTS_ERROR = "UPDATE_BATCH_REPORTS_ERROR"
+export interface UpdateBatchReportsError {
+  type: typeof UPDATE_BATCH_REPORTS_ERROR
+  payload: IFBError
 }
 
 export const UPDATE_REPORT_ERROR = "UPDATE_REPORT_ERROR"
@@ -57,6 +69,8 @@ export interface UpdateAttendanceError {
 
 export type ReportActionTypes =
   | UpdateReport
+  | UpdateBatchReports
+  | UpdateBatchReportsError
   | UpdateReportError
   | UpdatePrayer
   | UpdatePrayerError

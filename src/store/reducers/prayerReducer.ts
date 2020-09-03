@@ -1,6 +1,6 @@
 import { TPrayerQueries } from "src/types"
 
-import { PrayerActionTypes } from "../../types/actions"
+import { PrayerActionTypes } from "../actions/types"
 
 export interface PrayerState {
   queries: TPrayerQueries

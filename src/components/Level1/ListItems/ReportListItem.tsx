@@ -11,7 +11,7 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup"
 import React, { FC, useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { ReportMode } from "src/components/Pages2/ReportsPage"
-import { updateAttendance, updatePrayer, updateReport, uploadReport } from "src/store/actions/reportActions"
+import { getReportDocId, updateAttendance, updatePrayer, updateReport, uploadReport } from "src/store/actions/reportActions"
 import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberDownload, IReport } from "src/types"
 
@@ -43,7 +43,7 @@ export const ReportListItem: FC<ReportListItem> = ({
   const classes = useStyles()
 
   const reportLocal = useSelector<AppState, IReport | undefined>(
-    (state) => state.reports[member.id]
+    (state) => state.reports[getReportDocId(report)]
   )
 
   const prayer = reportLocal ? reportLocal.prayer : report.prayer

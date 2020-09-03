@@ -1,6 +1,6 @@
-import { ThunkActionCustom } from "../../types/actions"
 import { Font } from "./../../components/Level1/Dialogs/FontDialog"
 import { IFBError } from "./../../types"
+import { ThunkActionCustom } from "./types"
 
 export const uploadFont = (font: Font): ThunkActionCustom<void> => (
   dispatch,

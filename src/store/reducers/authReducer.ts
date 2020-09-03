@@ -1,5 +1,5 @@
 import { IFBError } from "../../types"
-import { AuthActionTypes } from "../../types/actions"
+import { AuthActionTypes } from "../actions/types"
 
 export interface AuthState {
   signInError: IFBError | null
