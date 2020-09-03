@@ -1,7 +1,4 @@
 import Avatar from "@material-ui/core/Avatar"
-import Button from "@material-ui/core/Button"
-import ButtonGroup from "@material-ui/core/ButtonGroup"
-import IconButton from "@material-ui/core/IconButton"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
@@ -9,11 +6,9 @@ import ListItemText from "@material-ui/core/ListItemText"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
-import DeleteIcon from "@material-ui/icons/Delete"
 import ToggleButton from "@material-ui/lab/ToggleButton"
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup"
-import { Moment } from "moment"
-import React, { FC, Fragment, useCallback, useEffect, useState } from "react"
+import React, { FC, useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { ReportMode } from "src/components/Pages2/ReportsPage"
 import { updateAttendance, updatePrayer, updateReport, uploadReport } from "src/store/actions/reportActions"
@@ -125,6 +120,7 @@ export const ReportListItem: FC<ReportListItem> = ({
           ) : (
             <ToggleButtonGroup>
               <ToggleButton
+                value="service"
                 selected={attendance.service}
                 onClick={() => {
                   setAttendance({
@@ -136,6 +132,7 @@ export const ReportListItem: FC<ReportListItem> = ({
                 예배
               </ToggleButton>
               <ToggleButton
+                value="cell"
                 selected={attendance.cell}
                 onClick={() => {
                   setAttendance({
@@ -147,6 +144,7 @@ export const ReportListItem: FC<ReportListItem> = ({
                 셀
               </ToggleButton>
               <ToggleButton
+                value="all"
                 selected={attendance.service && attendance.cell}
                 onClick={() => {
                   const newAttendance =
