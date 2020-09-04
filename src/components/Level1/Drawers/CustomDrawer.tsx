@@ -8,6 +8,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
 import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
 import { SvgIconProps } from "@material-ui/core/SvgIcon"
+import Typography from "@material-ui/core/Typography"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import AnnouncementIcon from "@material-ui/icons/Announcement"
@@ -21,8 +22,10 @@ import MenuBookIcon from "@material-ui/icons/MenuBook"
 import PaletteIcon from "@material-ui/icons/Palette"
 import PeopleIcon from "@material-ui/icons/People"
 import WidgetsIcon from "@material-ui/icons/Widgets"
+import preval from "preval.macro"
 import React, { FC, Fragment } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useFirestoreConnect } from "react-redux-firebase"
 import { useHistory, useLocation } from "react-router-dom"
 import { SET_DRAWER_OPEN } from "src/store/actions/types"
 
@@ -32,6 +35,10 @@ import { IMemberDownload, Paths } from "../../../types"
 
 const useStyles = makeStyles<Theme, { drawerWidth: number }>((theme: Theme) =>
   createStyles({
+    divider: {
+      // color: theme.palette.common.white,
+      // background: theme.palette.common.white,
+    },
     drawer: {
       width: (props) => props.drawerWidth,
       flexShrink: 0,
@@ -60,6 +67,10 @@ const useStyles = makeStyles<Theme, { drawerWidth: number }>((theme: Theme) =>
     },
     listItemIcon: {
       color: theme.palette.common.white,
+    },
+    version: {
+      display: "flex",
+      justifyContent: "center",
     },
   })
 )
@@ -125,7 +136,6 @@ export const CustomDrawer: FC = () => {
       icon: <CalendarTodayIcon />,
       page: "/calendar",
       disabled: !isAuthenticated,
-      divider: "below",
     },
     {
       name: "Bible",
@@ -141,6 +151,7 @@ export const CustomDrawer: FC = () => {
       name: "Playground",
       icon: <WidgetsIcon />,
       page: "/playground",
+      divider: "above",
     },
     {
       name: "Theme",
@@ -148,6 +159,14 @@ export const CustomDrawer: FC = () => {
       page: "/theme",
     },
   ]
+
+  const version = preval`module.exports =
+  "Build: " +
+  ("0" + (new Date()).getFullYear()).slice(-2) + "/" +
+  ("0"+((new Date()).getMonth()+1)).slice(-2) + "/" +
+  ("0" + (new Date()).getDate()).slice(-2) + " " +
+  ("0" + (new Date()).getHours()).slice(-2) + ":" +
+  ("0" + (new Date()).getMinutes()).slice(-2)`
 
   return (
     <Drawer
@@ -169,7 +188,7 @@ export const CustomDrawer: FC = () => {
           setDrawerOpen(false)
         }}
       >
-        <List className={classes.list}>
+        <List className={classes.list} color="inherit">
           {desktopMode && (
             <div className={classes.drawerHeader}>
               <IconButton
@@ -188,7 +207,9 @@ export const CustomDrawer: FC = () => {
           )}
           {items.map((item) => (
             <Fragment key={item.name}>
-              {item.divider === "above" && <Divider />}
+              {item.divider === "above" && (
+                <Divider className={classes.divider} color="inherit" />
+              )}
               <ListItem
                 button
                 onClick={() => history.push(item.page)}
@@ -200,7 +221,9 @@ export const CustomDrawer: FC = () => {
                 </ListItemIcon>
                 <ListItemText primary={item.name} />
               </ListItem>
-              {item.divider === "below" && <Divider />}
+              {item.divider === "below" && (
+                <Divider className={classes.divider} color="inherit" />
+              )}
             </Fragment>
           ))}
         </List>
@@ -216,6 +239,9 @@ export const CustomDrawer: FC = () => {
                 <ExitToAppIcon />
               </ListItemIcon>
               <ListItemText primary={"Sign Out"} />
+            </ListItem>
+            <ListItem className={classes.version}>
+              <Typography variant="caption">{version}</Typography>
             </ListItem>
           </List>
         )}
