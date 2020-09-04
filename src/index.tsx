@@ -13,6 +13,7 @@ import thunk, { ThunkMiddleware } from "redux-thunk"
 
 import { AppState, rootReducer } from "../src/store/reducers/rootReducer"
 import App from "./components/App"
+import * as serviceWorker from "./serviceWorker"
 import { globalObjects } from "./utils/globalObjects"
 
 // Define global objects for testing
@@ -67,6 +68,4 @@ ReactDOM.render(
   document.getElementById("root")
 )
 
-if (module.hot) {
-  module.hot.accept()
-}
+serviceWorker.register()
