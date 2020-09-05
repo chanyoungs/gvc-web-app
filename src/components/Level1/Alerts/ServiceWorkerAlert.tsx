@@ -38,25 +38,10 @@ export const ServiceWorkerAlert: FC = () => {
     }
   }
 
-  const [test, setTest] = useState(0)
   const anchorOrigin: SnackbarOrigin = { vertical: "top", horizontal: "center" }
 
   return (
     <Fragment>
-      {/* <Button
-        onClick={() => {
-          setTest(1)
-        }}
-      >
-        1
-      </Button>
-      <Button
-        onClick={() => {
-          setTest(2)
-        }}
-      >
-        2
-      </Button> */}
       <Snackbar anchorOrigin={anchorOrigin} open={serviceWorker.initialised}>
         <Alert
           severity="success"
@@ -76,9 +61,7 @@ export const ServiceWorkerAlert: FC = () => {
               color="inherit"
               size="small"
               variant="outlined"
-              onClick={() => {
-                dispatch({ type: SERVICE_WORKER_INIT, payload: false })
-              }}
+              onClick={updateServiceWorker}
             >
               UPDATE
             </Button>
