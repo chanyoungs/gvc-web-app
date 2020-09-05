@@ -1,6 +1,5 @@
 import AppBar, { AppBarProps } from "@material-ui/core/AppBar"
 import Avatar from "@material-ui/core/Avatar"
-import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
 import InputBase from "@material-ui/core/InputBase"
 import Slide from "@material-ui/core/Slide"
@@ -165,13 +164,6 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
               <Typography className={classes.title} noWrap>
                 {title}
               </Typography>
-              <Button
-                onClick={() => {
-                  dispatch({ type: SET_DRAWER_TRANSITION, payload: false })
-                }}
-              >
-                TRANSITION
-              </Button>
               <div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
