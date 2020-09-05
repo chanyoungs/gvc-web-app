@@ -1,6 +1,8 @@
 ## TODO LIST
 
 - [ ] Currently, there are multiple instances of profileeditdialogs. Fix if unnecessary
+- [x] 05/09/20 CY - Implemented PWA + Live Update feature
+- [x] 05/09/20 CY - Updated Icons
 - [x] 03/09/20 CY - Added build time in drawer
 - [x] 03/09/20 CY - Made attendance link with firestore
 - [x] 03/09/20 CY - Complete the relationships between change of date from PrayersPage and state and props of PrayerListItem

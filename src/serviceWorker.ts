@@ -63,14 +63,11 @@ function registerValidSW(swUrl: string, config?: Config) {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
-      // Testing for periodic registration update
-      // *****************
-      console.log("Check")
+      // Check for new update every minute
       setInterval(() => {
         registration.update()
-        console.log({ registration })
-      }, 1000)
-      // *****************
+      }, 60 * 1000)
+
       registration.onupdatefound = () => {
         const installingWorker = registration.installing
         if (installingWorker == null) {
