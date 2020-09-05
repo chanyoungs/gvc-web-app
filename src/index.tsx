@@ -14,6 +14,7 @@ import thunk, { ThunkMiddleware } from "redux-thunk"
 import { AppState, rootReducer } from "../src/store/reducers/rootReducer"
 import App from "./components/App"
 import * as serviceWorker from "./serviceWorker"
+import { SERVICE_WORKER_INIT, SERVICE_WORKER_UPDATE } from "./store/actions/types"
 import { globalObjects } from "./utils/globalObjects"
 
 // Define global objects for testing
@@ -68,4 +69,11 @@ ReactDOM.render(
   document.getElementById("root")
 )
 
-serviceWorker.register()
+serviceWorker.register({
+  onSuccess: () => store.dispatch({ type: SERVICE_WORKER_INIT, payload: true }),
+  onUpdate: (serviceWorkerRegistration) =>
+    store.dispatch({
+      type: SERVICE_WORKER_UPDATE,
+      payload: serviceWorkerRegistration,
+    }),
+})

@@ -18,6 +18,21 @@ export type ThunkActionCustom<ReturnType> = ThunkAction<
   AppActions
 >
 
+// ServiceWorker Actions
+export const SERVICE_WORKER_INIT = "SERVICE_WORKER_INIT"
+export interface ServiceWorkerInit {
+  type: typeof SERVICE_WORKER_INIT
+  payload: boolean
+}
+
+export const SERVICE_WORKER_UPDATE = "SERVICE_WORKER_UPDATE"
+export interface ServiceWorkerUpdate {
+  type: typeof SERVICE_WORKER_UPDATE
+  payload: ServiceWorkerRegistration
+}
+
+export type ServiceWorkerTypes = ServiceWorkerInit | ServiceWorkerUpdate
+
 // Report actions
 export const UPDATE_REPORT = "UPDATE_REPORT"
 export interface UpdateReport {
@@ -380,3 +395,4 @@ export type AppActions =
   | FontActionTypes
   | AlertActionTypes
   | ReportActionTypes
+  | ServiceWorkerTypes

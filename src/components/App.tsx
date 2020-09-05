@@ -10,6 +10,7 @@ import WebFont from "webfontloader"
 
 import { PrivateRoute } from "../auth/PrivateRoute"
 import { AppState } from "../store/reducers/rootReducer"
+import { ServiceWorkerAlert } from "./Level1/Alerts/ServiceWorkerAlert"
 import { AppBarMain } from "./Level1/AppBars/AppBarMain"
 import { Font } from "./Level1/Dialogs/FontDialog"
 import { AuthPage } from "./Pages/AuthPage"
@@ -82,6 +83,7 @@ export default function App() {
         >
           <CssBaseline />
           <div className={classes.root}>
+            <ServiceWorkerAlert />
             <BrowserRouter>
               <Switch>
                 <PrivateRoute path="/" exact component={ReportsPage} />

@@ -9,6 +9,7 @@ import { bibleReducer } from "./bibleReducer"
 import { noticeReducer } from "./noticeReducer"
 import { prayerReducer } from "./prayerReducer"
 import { reportReducer } from "./reportReducer"
+import { serviceWorkerReducer } from "./serviceWorkerReducer"
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -20,6 +21,7 @@ export const rootReducer = combineReducers({
   prayers: prayerReducer,
   alert: alertReducer,
   reports: reportReducer,
+  serviceWorker: serviceWorkerReducer,
 })
 
 export type AppState = ReturnType<typeof rootReducer>
