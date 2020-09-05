@@ -236,13 +236,9 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
             className={classes.share}
             onClick={() => {
               console.log("Share!")
-              window.alert("Share!")
-
               const nav: any = navigator
               if (nav.share) {
-                window.alert("nav.share exists!")
                 console.log("nav.share exists!")
-
                 nav
                   .share({
                     title: `Prayer list ${date.format("YYYY/MM/DD")}`,
@@ -250,20 +246,16 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
                       .map((member) => {
                         const report =
                           reports[`${date.format("YYYY.MM.DD")}-${member.id}`]
-                        return `-${member.name}[Service: ${
-                          report.attendance.service ? "O" : "X"
-                        } Cell: ${report.attendance.cell}]-\n${report.prayer}`
+                        return `${member.name}:\n${report.prayer}\n`
                       })
-                      .join("\n\n"),
+                      .join("\n"),
                     url: "https://london-gvc.web.app",
                   })
                   .then(() => {
                     console.log("Successful share")
-                    window.alert("Successful share")
                   })
                   .catch((error: Error) => {
                     console.error(error)
-                    window.alert("Error share")
                   })
               }
             }}
