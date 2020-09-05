@@ -14,6 +14,7 @@ import ClearIcon from "@material-ui/icons/Clear"
 import DoneAllIcon from "@material-ui/icons/DoneAll"
 import EventIcon from "@material-ui/icons/Event"
 import InfoIcon from "@material-ui/icons/Info"
+import ShareIcon from "@material-ui/icons/Share"
 import { DatePicker } from "@material-ui/pickers"
 import moment, { Moment } from "moment"
 import React, { FC, Fragment, useState } from "react"
@@ -52,6 +53,14 @@ const useStyles = makeStyles((theme: Theme) =>
       right: theme.spacing(2),
       bottom: theme.spacing(2),
       left: "auto",
+      position: "fixed",
+    },
+    share: {
+      margin: 0,
+      top: "auto",
+      right: "auto",
+      left: theme.spacing(2),
+      bottom: theme.spacing(2),
       position: "fixed",
     },
     snackbar: {
@@ -214,6 +223,54 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
         ) : (
           "Loading data..."
         )}
+        <Zoom
+          in={reportMode === "prayer"}
+          timeout={transitionDuration}
+          // style={{
+          //   transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
+          // }}
+          unmountOnExit
+        >
+          <Fab
+            color="primary"
+            className={classes.share}
+            onClick={() => {
+              console.log("Share!")
+              window.alert("Share!")
+
+              const nav: any = navigator
+              if (nav.share) {
+                window.alert("nav.share exists!")
+                console.log("nav.share exists!")
+
+                nav
+                  .share({
+                    title: `Prayer list ${date.format("YYYY/MM/DD")}`,
+                    text: members
+                      .map((member) => {
+                        const report =
+                          reports[`${date.format("YYYY.MM.DD")}-${member.id}`]
+                        return `-${member.name}[Service: ${
+                          report.attendance.service ? "O" : "X"
+                        } Cell: ${report.attendance.cell}]-\n${report.prayer}`
+                      })
+                      .join("\n\n"),
+                    url: "https://london-gvc.web.app",
+                  })
+                  .then(() => {
+                    console.log("Successful share")
+                    window.alert("Successful share")
+                  })
+                  .catch((error: Error) => {
+                    console.error(error)
+                    window.alert("Error share")
+                  })
+              }
+            }}
+          >
+            <ShareIcon />
+          </Fab>
+        </Zoom>
         <Zoom
           in={reportMode === "prayer"}
           timeout={transitionDuration}
