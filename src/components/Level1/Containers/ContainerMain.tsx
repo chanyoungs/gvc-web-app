@@ -6,18 +6,28 @@ import React, { PropsWithChildren } from "react"
 import { useSelector } from "react-redux"
 import { AppState } from "src/store/reducers/rootReducer"
 
-const useStyles = makeStyles<Theme, { drawerWidth: number }>((theme) =>
+const useStyles = makeStyles<
+  Theme,
+  { drawerWidth: number; drawerTransition: boolean }
+>((theme) =>
   createStyles({
     container: {
       width: "100%",
+      transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
     },
     containerShift: {
       width: (props) => `calc(100% - ${props.drawerWidth}px)`,
       marginLeft: (props) => props.drawerWidth,
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+      transition: (props) =>
+        theme.transitions.create(["margin", "width"], {
+          easing: theme.transitions.easing.easeOut,
+          duration: props.drawerTransition
+            ? theme.transitions.duration.enteringScreen
+            : 0,
+        }),
     },
   })
 )
@@ -30,10 +40,11 @@ function ContainerMain<C>({
   children,
 }: PropsWithChildren<ContainerMainProps<C>>) {
   const theme = useTheme()
-  const { drawerWidth, drawerOpen } = useSelector<AppState, AppState["appBar"]>(
-    (state) => state.appBar
-  )
-  const classes = useStyles({ drawerWidth })
+  const { drawerWidth, drawerOpen, drawerTransition } = useSelector<
+    AppState,
+    AppState["appBar"]
+  >((state) => state.appBar)
+  const classes = useStyles({ drawerWidth, drawerTransition })
   const desktopMode = useMediaQuery(theme.breakpoints.up("sm"))
   return (
     <div

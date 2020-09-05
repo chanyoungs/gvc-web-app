@@ -27,7 +27,7 @@ import React, { FC, Fragment } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
 import { useHistory, useLocation } from "react-router-dom"
-import { SET_DRAWER_OPEN } from "src/store/actions/types"
+import { SET_DRAWER_OPEN, SET_DRAWER_TRANSITION } from "src/store/actions/types"
 
 import { signOut } from "../../../store/actions/authActions"
 import { AppState } from "../../../store/reducers/rootReducer"
@@ -94,9 +94,10 @@ export const CustomDrawer: FC = () => {
   const setDrawerOpen = (open: boolean) => {
     dispatch({ type: SET_DRAWER_OPEN, payload: open })
   }
-  const { drawerWidth, drawerOpen } = useSelector<AppState, AppState["appBar"]>(
-    (state) => state.appBar
-  )
+  const { drawerWidth, drawerOpen, drawerTransition } = useSelector<
+    AppState,
+    AppState["appBar"]
+  >((state) => state.appBar)
   const classes = useStyles({ drawerWidth })
 
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)
@@ -175,17 +176,33 @@ export const CustomDrawer: FC = () => {
       anchor="left"
       open={drawerOpen}
       onClose={() => {
-        setDrawerOpen(false)
+        if (!desktopMode) setDrawerOpen(false)
       }}
       classes={{
         paper: classes.drawerPaper,
+      }}
+      SlideProps={{
+        timeout: {
+          enter: drawerTransition
+            ? theme.transitions.duration.enteringScreen
+            : 0,
+          exit: theme.transitions.duration.leavingScreen,
+        },
+        onEntered: () => {
+          if (desktopMode)
+            dispatch({ type: SET_DRAWER_TRANSITION, payload: false })
+        },
+        onExited: () => {
+          if (desktopMode)
+            dispatch({ type: SET_DRAWER_TRANSITION, payload: true })
+        },
       }}
     >
       <div
         className={classes.drawerContents}
         role="presentation"
         onClick={() => {
-          setDrawerOpen(false)
+          if (!desktopMode) setDrawerOpen(false)
         }}
       >
         <List className={classes.list} color="inherit">

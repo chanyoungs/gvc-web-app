@@ -367,7 +367,16 @@ export interface SetDrawerOpen {
   payload: boolean
 }
 
-export type AppBarActionTypes = SearchOnChange | SetDrawerOpen
+export const SET_DRAWER_TRANSITION = "SET_DRAWER_TRANSITION"
+export interface SetDrawerTransition {
+  type: typeof SET_DRAWER_TRANSITION
+  payload: boolean
+}
+
+export type AppBarActionTypes =
+  | SearchOnChange
+  | SetDrawerOpen
+  | SetDrawerTransition
 
 // Bible Actions
 export const SET_BIBLE_REFERENCE = "SET_BIBLE_REFERENCE"

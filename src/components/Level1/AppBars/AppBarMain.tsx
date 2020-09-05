@@ -1,5 +1,6 @@
 import AppBar, { AppBarProps } from "@material-ui/core/AppBar"
 import Avatar from "@material-ui/core/Avatar"
+import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
 import InputBase from "@material-ui/core/InputBase"
 import Slide from "@material-ui/core/Slide"
@@ -14,13 +15,16 @@ import SearchIcon from "@material-ui/icons/Search"
 import clsx from "clsx"
 import React, { Fragment, ReactNode, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { SET_DRAWER_OPEN } from "src/store/actions/types"
+import { SET_DRAWER_OPEN, SET_DRAWER_TRANSITION } from "src/store/actions/types"
 
 import { appBarSearchOnChange } from "../../../store/actions/appBarActions"
 import { AppState } from "../../../store/reducers/rootReducer"
 import { CustomDrawer } from "../Drawers/CustomDrawer"
 
-const useStyles = makeStyles<Theme, { drawerWidth: number }>((theme) =>
+const useStyles = makeStyles<
+  Theme,
+  { drawerWidth: number; drawerTransition: boolean }
+>((theme) =>
   createStyles({
     appBar: {
       paddingLeft: theme.spacing(1.5),
@@ -33,10 +37,13 @@ const useStyles = makeStyles<Theme, { drawerWidth: number }>((theme) =>
     appBarShift: {
       width: (props) => `calc(100% - ${props.drawerWidth}px)`,
       marginLeft: (props) => props.drawerWidth,
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+      transition: (props) =>
+        theme.transitions.create(["margin", "width"], {
+          easing: theme.transitions.easing.easeOut,
+          duration: props.drawerTransition
+            ? theme.transitions.duration.enteringScreen
+            : 0,
+        }),
     },
     title: {
       flexGrow: 1,
@@ -111,14 +118,14 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
   const dispatch = useDispatch()
   const theme = useTheme()
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)
-  const { drawerWidth, drawerOpen, search } = useSelector<
+  const { drawerWidth, drawerOpen, drawerTransition, search } = useSelector<
     AppState,
     AppState["appBar"]
   >((state) => state.appBar)
   const setDrawerOpen = (open: boolean) => {
     dispatch({ type: SET_DRAWER_OPEN, payload: open })
   }
-  const classes = useStyles({ drawerWidth })
+  const classes = useStyles({ drawerWidth, drawerTransition })
 
   const setSearch = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -158,6 +165,13 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
               <Typography className={classes.title} noWrap>
                 {title}
               </Typography>
+              <Button
+                onClick={() => {
+                  dispatch({ type: SET_DRAWER_TRANSITION, payload: false })
+                }}
+              >
+                TRANSITION
+              </Button>
               <div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
