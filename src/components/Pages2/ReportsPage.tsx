@@ -218,7 +218,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
             reportMode={reportMode}
           />
         ) : (
-          "Loading data..."
+          <LoadingBackdrop />
         )}
         <Zoom
           in={reportMode === "prayer"}
