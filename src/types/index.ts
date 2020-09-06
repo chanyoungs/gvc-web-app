@@ -8,6 +8,8 @@ export type Themes = {
 
 // ---Members---
 
+export type Language = "english" | "korean"
+
 interface IMember {
   id: string
   name: string
@@ -15,6 +17,7 @@ interface IMember {
   positions: string[]
   photoUrl: string
   thumbnailUrl: string
+  settings?: { language: Language }
 }
 
 export interface IMemberDownload extends IMember {

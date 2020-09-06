@@ -1,7 +1,15 @@
 import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme"
 
 import { IFBError } from "./../../types"
-import { ThunkActionCustom } from "./types"
+import {
+  DELETE_THEME,
+  DELETE_THEME_ERROR,
+  SET_CURRENT_THEME_NAME,
+  SET_CURRENT_THEME_NAME_ERROR,
+  ThunkActionCustom,
+  UPLOAD_THEME,
+  UPLOAD_THEME_ERROR,
+} from "./types"
 
 export interface UploadThemeProps {
   name: string
@@ -26,10 +34,10 @@ export const uploadTheme = ({
     .set(theme)
     .then(() => {
       callback()
-      dispatch({ type: "UPLOAD_THEME" })
+      dispatch({ type: UPLOAD_THEME })
     })
     .catch((error: IFBError) => {
-      dispatch({ type: "UPLOAD_THEME_ERROR", payload: error })
+      dispatch({ type: UPLOAD_THEME_ERROR, payload: error })
     })
 }
 
@@ -45,10 +53,10 @@ export const deleteTheme = (name: string): ThunkActionCustom<void> => (
     .doc(name)
     .delete()
     .then(() => {
-      dispatch({ type: "DELETE_THEME" })
+      dispatch({ type: DELETE_THEME })
     })
     .catch((error: IFBError) => {
-      dispatch({ type: "DELETE_THEME_ERROR", payload: error })
+      dispatch({ type: DELETE_THEME_ERROR, payload: error })
     })
 }
 
@@ -64,9 +72,9 @@ export const setCurrentThemeName = (name: string): ThunkActionCustom<void> => (
     .doc("theme")
     .set({ name: name })
     .then(() => {
-      dispatch({ type: "SET_CURRENT_THEME_NAME", payload: name })
+      dispatch({ type: SET_CURRENT_THEME_NAME, payload: name })
     })
     .catch((error: IFBError) => {
-      dispatch({ type: "SET_CURRENT_THEME_NAME_ERROR", payload: error })
+      dispatch({ type: SET_CURRENT_THEME_NAME_ERROR, payload: error })
     })
 }

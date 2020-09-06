@@ -1,6 +1,6 @@
 import { Font } from "./../../components/Level1/Dialogs/FontDialog"
 import { IFBError } from "./../../types"
-import { ThunkActionCustom } from "./types"
+import { DELETE_FONT, DELETE_FONT_ERROR, ThunkActionCustom, UPLOAD_FONT, UPLOAD_FONT_ERROR } from "./types"
 
 export const uploadFont = (font: Font): ThunkActionCustom<void> => (
   dispatch,
@@ -14,10 +14,10 @@ export const uploadFont = (font: Font): ThunkActionCustom<void> => (
     .doc(font.name)
     .set(font)
     .then(() => {
-      dispatch({ type: "UPLOAD_FONT" })
+      dispatch({ type: UPLOAD_FONT })
     })
     .catch((error: IFBError) => {
-      dispatch({ type: "UPLOAD_FONT_ERROR", payload: error })
+      dispatch({ type: UPLOAD_FONT_ERROR, payload: error })
     })
 }
 
@@ -33,9 +33,9 @@ export const deleteFont = (name: Font["name"]): ThunkActionCustom<void> => (
     .doc(name)
     .delete()
     .then(() => {
-      dispatch({ type: "DELETE_FONT" })
+      dispatch({ type: DELETE_FONT })
     })
     .catch((error: IFBError) => {
-      dispatch({ type: "DELETE_FONT_ERROR", payload: error })
+      dispatch({ type: DELETE_FONT_ERROR, payload: error })
     })
 }

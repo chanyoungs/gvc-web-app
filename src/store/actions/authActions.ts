@@ -1,4 +1,24 @@
 import {
+  DELETE_PHOTO,
+  DELETE_PHOTO_ERROR,
+  EDIT_PROFILE,
+  EDIT_PROFILE_ERROR,
+  MEMBER_PROFILE_CREATED,
+  REMEMBER_ME,
+  REMEMBER_ME_ERROR,
+  RESET_PASSWORD,
+  RESET_PASSWORD_ERROR,
+  SET_DRAWER_OPEN,
+  SET_DRAWER_TRANSITION,
+  SIGN_IN,
+  SIGN_IN_ERROR,
+  SIGN_OUT,
+  SIGN_OUT_ERROR,
+  SIGN_UP_ERROR,
+  UPLOAD_PHOTO,
+  UPLOAD_PHOTO_ERROR,
+} from "src/store/actions/types"
+import {
   applyExifOrientation,
   base64ToArrayBuffer,
   fileToBase64,
@@ -46,12 +66,12 @@ export const signUp = ({
       }
     )
     .then(() => {
-      dispatch({ type: "MEMBER_PROFILE_CREATED" })
+      dispatch({ type: MEMBER_PROFILE_CREATED })
       openAlertSignUp()
       setSubmitting(false)
     })
     .catch((error: IFBError) => {
-      dispatch({ type: "SIGN_UP_ERROR", payload: error })
+      dispatch({ type: SIGN_UP_ERROR, payload: error })
       console.log(error)
       setSubmitting(false)
     })
@@ -84,22 +104,22 @@ export const signIn = ({
         : firebaseAuth.Auth.Persistence.SESSION // There are some type definition missing on ExtendedFirebaseInstance and so used original auth function from firebase
     )
     .then(() => {
-      dispatch({ type: "REMEMBER_ME", payload: rememberMe })
+      dispatch({ type: REMEMBER_ME, payload: rememberMe })
       firebase
         .login({ email, password })
         .then((userCredentials) => {
-          dispatch({ type: "SIGN_IN" })
+          dispatch({ type: SIGN_IN })
           console.log("Sign in succesful!")
         })
         .catch((error: IFBError) => {
-          dispatch({ type: "SIGN_IN_ERROR", payload: error })
+          dispatch({ type: SIGN_IN_ERROR, payload: error })
           console.log(error)
           setSubmitting(false)
           console.log("autherror", getState().firebase.authError)
         })
     })
     .catch((error: IFBError) => {
-      dispatch({ type: "REMEMBER_ME_ERROR", payload: error })
+      dispatch({ type: REMEMBER_ME_ERROR, payload: error })
       console.log(error)
       setSubmitting(false)
     })
@@ -121,13 +141,13 @@ export const resetPassword = ({
     .resetPassword(email)
     .then(() => {
       console.log("Password reset link sent!")
-      dispatch({ type: "RESET_PASSWORD" })
+      dispatch({ type: RESET_PASSWORD })
       openAlertResetPassword()
       setSubmitting(false)
     })
     .catch((error: IFBError) => {
       console.log("Password reset link sending error!")
-      dispatch({ type: "RESET_PASSWORD_ERROR", payload: error })
+      dispatch({ type: RESET_PASSWORD_ERROR, payload: error })
       setSubmitting(false)
     })
 }
@@ -143,10 +163,12 @@ export const signOut = (): ThunkActionCustom<void> => (
   firebase
     .logout()
     .then(() => {
-      dispatch({ type: "SIGN_OUT" })
+      dispatch({ type: SIGN_OUT })
+      dispatch({ type: SET_DRAWER_TRANSITION, payload: true })
+      dispatch({ type: SET_DRAWER_OPEN, payload: false })
     })
     .catch((error: IFBError) => {
-      dispatch({ type: "SIGN_OUT_ERROR", payload: error })
+      dispatch({ type: SIGN_OUT_ERROR, payload: error })
       console.log(error)
     })
 }
@@ -224,11 +246,11 @@ export const editProfile = ({
           Promise.all([promiseThumbnail, promiseFull])
             .then(() => {
               console.log("Photo deleted!")
-              dispatch({ type: "DELETE_PHOTO" })
+              dispatch({ type: DELETE_PHOTO })
               resolve({ ...member, photoUrl: "", thumbnailUrl: "" })
             })
             .catch((error: IFBError) => {
-              dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
+              dispatch({ type: DELETE_PHOTO_ERROR, payload: error })
               console.log("Photo delete error!", error)
             })
         } else {
@@ -352,25 +374,25 @@ export const editProfile = ({
 
   updatePhoto(image)
     .then((memberWithPhotoUrl) => {
-      dispatch({ type: "UPLOAD_PHOTO" })
+      dispatch({ type: UPLOAD_PHOTO })
 
       firestore
         .collection("members")
         .doc(memberWithPhotoUrl.id)
         .set(memberWithPhotoUrl)
         .then(() => {
-          dispatch({ type: "EDIT_PROFILE" })
+          dispatch({ type: EDIT_PROFILE })
           console.log("Profile Edited!")
           handleClose()
           setUpdating(false)
         })
         .catch((error: IFBError) => {
-          dispatch({ type: "EDIT_PROFILE_ERROR", payload: error })
+          dispatch({ type: EDIT_PROFILE_ERROR, payload: error })
           console.log("Profile Edit Error!", error)
         })
     })
     .catch((error) => {
-      dispatch({ type: "UPLOAD_PHOTO_ERROR", payload: error })
+      dispatch({ type: UPLOAD_PHOTO_ERROR, payload: error })
       console.log("Upload photo error", error)
     })
 }

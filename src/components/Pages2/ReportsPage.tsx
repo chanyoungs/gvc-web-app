@@ -235,7 +235,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
             color="primary"
             className={classes.share}
             onClick={() => {
-              console.log("Share!")
+              console.log("Attempting to share")
               const nav: any = navigator
               if (nav.share) {
                 console.log("nav.share exists!")
@@ -257,6 +257,8 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
                   .catch((error: Error) => {
                     console.error(error)
                   })
+              } else {
+                console.log("nav.share doesn't exist!")
               }
             }}
           >
