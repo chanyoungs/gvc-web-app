@@ -29,15 +29,12 @@ import { IMemberDownload, IReports } from "src/types"
 
 import { AppState } from "../../store/reducers/rootReducer"
 import { NoticeAlert } from "../Level1/Alerts/NoticeAlert"
+import { LoadingBackdrop } from "../Level1/Backdrops/LoadingBackdrop"
 import { ReportsContainer } from "../Level2/Lists/ReportsContainer"
 import { Notices } from "../Level2/SwipeableListViews/Notices"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: "#fff",
-    },
     noticeAlert: {
       paddingTop: theme.spacing(2),
       paddingBottom: theme.spacing(2),
@@ -299,9 +296,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
           }
           className={classes.snackbar}
         />
-        <Backdrop className={classes.backdrop} open={backdropOpen}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
+        <LoadingBackdrop open={backdropOpen} />
       </ContainerMain>
     </Fragment>
   )

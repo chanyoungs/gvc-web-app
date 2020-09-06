@@ -3,6 +3,7 @@ import React, { FC, Fragment, useState } from "react"
 import { useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
+import { LoadingBackdrop } from "src/components/Level1/Backdrops/LoadingBackdrop"
 import { AppState } from "src/store/reducers/rootReducer"
 import { Themes } from "src/types"
 
@@ -35,7 +36,7 @@ export const ThemeEditorPage: FC = () => {
       {isLoaded(themes) && isLoaded(settings) ? (
         <ThemeEditor themes={themes} currentThemeName={settings.theme.name} />
       ) : (
-        "Loading..."
+        <LoadingBackdrop />
       )}
     </Fragment>
   )

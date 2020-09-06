@@ -12,6 +12,7 @@ import { PrivateRoute } from "../auth/PrivateRoute"
 import { AppState } from "../store/reducers/rootReducer"
 import { ServiceWorkerAlert } from "./Level1/Alerts/ServiceWorkerAlert"
 import { AppBarMain } from "./Level1/AppBars/AppBarMain"
+import { LoadingBackdrop } from "./Level1/Backdrops/LoadingBackdrop"
 import { Font } from "./Level1/Dialogs/FontDialog"
 import { AuthPage } from "./Pages/AuthPage"
 import { BiblePage } from "./Pages/BiblePage"
@@ -112,7 +113,7 @@ export default function App() {
           </div>
         </MuiThemeProvider>
       ) : (
-        "Loading..."
+        <LoadingBackdrop />
       )}
     </Fragment>
   )
