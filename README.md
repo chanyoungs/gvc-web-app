@@ -1,7 +1,10 @@
 ## TODO LIST
 
 - [ ] Currently, there are multiple instances of profileeditdialogs. Fix if unnecessary
-- [x] 05/09/20 CY - Implemented PWA + Live Update feature
+- [] PWA
+  - [x] 05/09/20 CY - Implemented Live Update feature
+  - [x] 06/09/20 CY - Implemented Share text feautre
+  - [x] 08/09/20 CY - Implemented Offline support
 - [x] 05/09/20 CY - Updated Icons
 - [x] 03/09/20 CY - Added build time in drawer
 - [x] 03/09/20 CY - Made attendance link with firestore

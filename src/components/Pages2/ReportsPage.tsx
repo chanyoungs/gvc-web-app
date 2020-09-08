@@ -153,8 +153,6 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
               </IconButton>
               <ButtonBase
                 onClick={() => {
-                  setBackdropOpen(true)
-                  console.log("clicked")
                   dispatch(
                     batchUploadReports(() => {
                       dispatch({ type: ALERT_SAVED, payload: true })
