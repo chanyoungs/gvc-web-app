@@ -157,11 +157,21 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
                   console.log("clicked")
                   dispatch(
                     batchUploadReports(() => {
-                      setBackdropOpen(false)
-                      setReportMode("prayer")
+                      dispatch({ type: ALERT_SAVED, payload: true })
                     })
                   )
+                  setReportMode("prayer")
                 }}
+                // onClick={() => {
+                //   setBackdropOpen(true)
+                //   console.log("clicked")
+                //   dispatch(
+                //     batchUploadReports(() => {
+                //       setBackdropOpen(false)
+                //       setReportMode("prayer")
+                //     })
+                //   )
+                // }}
               >
                 <Typography>저장</Typography>
               </ButtonBase>
