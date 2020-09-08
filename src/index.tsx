@@ -13,6 +13,7 @@ import thunk, { ThunkMiddleware } from "redux-thunk"
 
 import { AppState, rootReducer } from "../src/store/reducers/rootReducer"
 import App from "./components/App"
+import { LoadingBackdrop } from "./components/Level1/Backdrops/LoadingBackdrop"
 import * as serviceWorker from "./serviceWorker"
 import { SERVICE_WORKER_INIT, SERVICE_WORKER_UPDATE } from "./store/actions/types"
 import { globalObjects } from "./utils/globalObjects"
@@ -51,7 +52,7 @@ const rrfProps = {
 
 const AuthIsLoaded = ({ children }: { children: JSX.Element }) => {
   const auth = useSelector<AppState>((state) => state.firebase.auth)
-  return isLoaded(auth) ? children : <div>splash screen...</div>
+  return isLoaded(auth) ? children : <LoadingBackdrop />
 }
 
 ReactDOM.render(
