@@ -16,7 +16,7 @@ export const sendNotifications = functions.firestore
         title: notification.title,
         body: notification.content,
         icon: "https://london-gvc.web.app/android-chrome-512x512.png",
-        click_action: `https://${functions.config().firebase.authDomain}`,
+        click_action: "https://london-gvc.web.app",
       },
     }
 
