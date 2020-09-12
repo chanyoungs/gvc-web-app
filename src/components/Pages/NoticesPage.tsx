@@ -7,6 +7,7 @@ import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 import { AppState } from "../../store/reducers/rootReducer"
 import { EditNotice } from "../Level2/EditNotice"
 import { NoticeCreator } from "../Level2/NoticeCreator"
+import { Notifications } from "./Playground/Notifications"
 
 export interface NoticesPageProps {}
 
@@ -25,6 +26,7 @@ export const NoticesPage: FC<NoticesPageProps> = (props) => {
     <Fragment>
       <AppBarMain title="Notices" />
       <ContainerMain>
+        <Notifications />
         <NoticeCreator />
         <EditNotice notices={noticesArr} />
       </ContainerMain>

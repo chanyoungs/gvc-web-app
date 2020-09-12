@@ -200,7 +200,7 @@ export const BibleDialog: FC<BibleDialogProps> = (props) => {
 
   return (
     <Fragment>
-      <Button size="small" onClick={handleClickOpen}>
+      <Button size="small" onClick={handleClickOpen} color="inherit">
         {buttonContent(bibleRefKey)}
       </Button>
 

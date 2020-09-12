@@ -70,11 +70,14 @@ ReactDOM.render(
   document.getElementById("root")
 )
 
-serviceWorker.register({
-  onSuccess: () => store.dispatch({ type: SERVICE_WORKER_INIT, payload: true }),
-  onUpdate: (serviceWorkerRegistration) =>
-    store.dispatch({
-      type: SERVICE_WORKER_UPDATE,
-      payload: serviceWorkerRegistration,
-    }),
-})
+if ("serviceWorker" in navigator) {
+  serviceWorker.register({
+    onSuccess: () =>
+      store.dispatch({ type: SERVICE_WORKER_INIT, payload: true }),
+    onUpdate: (serviceWorkerRegistration) =>
+      store.dispatch({
+        type: SERVICE_WORKER_UPDATE,
+        payload: serviceWorkerRegistration,
+      }),
+  })
+}

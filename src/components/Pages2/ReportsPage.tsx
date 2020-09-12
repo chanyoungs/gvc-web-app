@@ -1,7 +1,5 @@
-import Backdrop from "@material-ui/core/Backdrop"
 import Button from "@material-ui/core/Button"
 import ButtonBase from "@material-ui/core/ButtonBase"
-import CircularProgress from "@material-ui/core/CircularProgress"
 import Fab from "@material-ui/core/Fab"
 import IconButton from "@material-ui/core/IconButton"
 import InputAdornment from "@material-ui/core/InputAdornment"
@@ -30,6 +28,7 @@ import { IMemberDownload, IReports } from "src/types"
 import { AppState } from "../../store/reducers/rootReducer"
 import { NoticeAlert } from "../Level1/Alerts/NoticeAlert"
 import { LoadingBackdrop } from "../Level1/Backdrops/LoadingBackdrop"
+import { LoadingProgress } from "../Level1/Progress/LoadingProgress"
 import { ReportsContainer } from "../Level2/Lists/ReportsContainer"
 import { Notices } from "../Level2/SwipeableListViews/Notices"
 
@@ -226,7 +225,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
             reportMode={reportMode}
           />
         ) : (
-          <LoadingBackdrop />
+          <LoadingProgress />
         )}
         <Zoom
           in={reportMode === "prayer"}

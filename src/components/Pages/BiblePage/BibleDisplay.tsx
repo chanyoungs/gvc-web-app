@@ -11,7 +11,8 @@ import match from "autosuggest-highlight/match"
 import parse from "autosuggest-highlight/parse"
 import React, { FC, Fragment, useState } from "react"
 import { useSelector } from "react-redux"
-import { useFirestoreConnect } from "react-redux-firebase"
+import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
+import { LoadingBackdrop } from "src/components/Level1/Backdrops/LoadingBackdrop"
 import { BibleState } from "src/store/reducers/bibleReducer"
 import { AppState } from "src/store/reducers/rootReducer"
 import { IBibles } from "src/types"
@@ -74,7 +75,7 @@ export const BibleDisplay: FC<BibleDisplayProps> = ({
 
   return (
     <List>
-      {reading &&
+      {isLoaded(reading) ? (
         [...reading.verses]
           .filter((v) =>
             v.text.toLocaleLowerCase().includes(search.toLocaleLowerCase())
@@ -88,25 +89,10 @@ export const BibleDisplay: FC<BibleDisplayProps> = ({
                 {highlight(v.text, search)}
               </Typography>
             </ListItem>
-          ))}
+          ))
+      ) : (
+        <LoadingBackdrop />
+      )}
     </List>
-    // <Fragment>
-    //   {reading &&
-    //     [...reading.verses]
-    //       .filter(v =>
-    //         v.text.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-    //       )
-    //       .map(v => (
-    //         <Grid key={v.indexVerse} container spacing={1}>
-    //           <Grid item xs={1}>
-    //             {v.verse}
-    //           </Grid>
-    //           <Grid item xs>
-    //             {highlight(v.text, search)}
-    //             {/* {v.text} */}
-    //           </Grid>
-    //         </Grid>
-    //       ))}
-    // </Fragment>
   )
 }

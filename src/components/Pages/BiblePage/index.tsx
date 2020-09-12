@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme: Theme) =>
     buttonGroup: {
       height: "100%",
       padding: 0,
+      display: "flex",
+      justifyContent: "space-evenly",
+      alignItems: "center",
     },
     footer: {
       bottom: 0,
@@ -168,39 +171,36 @@ export const BiblePage: FC<BiblePageProps> = (props) => {
         <AppBar position="sticky" className={classes.footer}>
           <Grid container justify="space-between">
             <Grid item>
-              <IconButton onClick={previousChapter}>
+              <IconButton onClick={previousChapter} color="inherit">
                 <NavigateBeforeIcon />
               </IconButton>
             </Grid>
             <Grid item xs>
               <ButtonGroup fullWidth className={classes.buttonGroup}>
-                <Grid container justify="center" alignItems="center">
-                  {([
-                    "translation",
-                    "book",
-                    "chapter",
-                  ] as (keyof IBibleRef)[]).map(
-                    (bibleRefKey) =>
-                      (bibleRefKey !== "chapter" || bibleRef.book !== null) && (
-                        <Grid item>
-                          <BibleDialog
-                            key={bibleRefKey}
-                            bibleRefKey={bibleRefKey}
-                            bibleRef={bibleRef}
-                            setAndUploadBibleRef={setAndUploadBibleRef}
-                            open={open}
-                            setOpen={setOpen}
-                          />
-                        </Grid>
-                      )
-                  )}
-                </Grid>
+                {([
+                  "translation",
+                  "book",
+                  "chapter",
+                ] as (keyof IBibleRef)[]).map(
+                  (bibleRefKey) =>
+                    (bibleRefKey !== "chapter" || bibleRef.book !== null) && (
+                      <BibleDialog
+                        key={bibleRefKey}
+                        bibleRefKey={bibleRefKey}
+                        bibleRef={bibleRef}
+                        setAndUploadBibleRef={setAndUploadBibleRef}
+                        open={open}
+                        setOpen={setOpen}
+                      />
+                    )
+                )}
               </ButtonGroup>
             </Grid>
-            <Grid item></Grid>
-            <IconButton onClick={nextChapter}>
-              <NavigateNextIcon />
-            </IconButton>
+            <Grid item>
+              <IconButton onClick={nextChapter} color="inherit">
+                <NavigateNextIcon />
+              </IconButton>
+            </Grid>
           </Grid>
         </AppBar>
       </Slide>

@@ -29,6 +29,7 @@ import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Not
 import { PrayersList } from "./../../Level2/Lists/PrayersList"
 import { GetNameInitialLetter } from "./GetNameInitialLetter"
 import { MembersFilter } from "./MembersFilter"
+import { Notifications } from "./Notifications"
 import { PrayersFilter } from "./PrayersFilter"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -124,6 +125,7 @@ export const Playground: FC = () => {
         <Typography>Notice creator</Typography>
         <Container className={classes.container}>
           <NoticeCreator />
+          <Notifications />
         </Container>
 
         <Typography>Dates</Typography>
