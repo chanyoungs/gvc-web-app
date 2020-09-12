@@ -9,7 +9,7 @@ export const sendNotifications = functions.firestore
   .document("notices/{noticeId}")
   .onCreate(async (event) => {
     // Setup notification
-    const notification = event.data().val()
+    const notification = event.data()
 
     const payload = {
       notification: {
