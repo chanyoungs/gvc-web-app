@@ -3,19 +3,16 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { FC, Fragment, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
-import { messaging } from "src/firebase"
 import { deleteToken, uploadToken } from "src/store/actions/noticeActions"
 import { AppState } from "src/store/reducers/rootReducer"
 
 const useStyles = makeStyles<Theme>((theme) => createStyles({}))
 
-export interface NotificationsProps {}
+export interface NotificationsProps {
+  messaging: firebase.messaging.Messaging
+}
 
-messaging.onTokenRefresh(() => {
-  console.log("Listener triggered!")
-})
-
-export const Notifications: FC<NotificationsProps> = (props) => {
+export const Notifications: FC<NotificationsProps> = ({ messaging }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const uid = useSelector<AppState, string>((state) => state.firebase.auth.uid)
@@ -68,76 +65,3 @@ export const Notifications: FC<NotificationsProps> = (props) => {
     </Fragment>
   )
 }
-
-// messaging.onTokenRefresh(() => {
-//   console.log("Listener triggered!")
-//   updateToken()
-// })
-
-// const handleTokenRefresh = async () => {
-//   const token = await messaging.getToken()
-//   // return FIREBASE_DATABASE.ref("/tokens").push({
-//   //     token: token,
-//   //     uid: FIREBASE_AUTH.currentUser.uid,
-//   //   })
-//   }
-
-// function checkSubscription() {
-//   FIREBASE_DATABASE.ref("/tokens")
-//     .orderByChild("uid")
-//     .equalTo(FIREBASE_AUTH.currentUser.uid)
-//     .once("value")
-//     .then((snapshot) => {
-//       if (snapshot.val()) {
-//         subscribeButton.setAttribute("hidden", "true")
-//         unsubscribeButton.removeAttribute("hidden")
-//       } else {
-//         unsubscribeButton.setAttribute("hidden", "true")
-//         subscribeButton.removeAttribute("hidden")
-//       }
-//     })
-// }
-
-// const subscribeToNotifications = async () => {
-//   try {
-//     await messaging.requestPermission()
-//     await handleTokenRefresh()
-//     await checkSubscription()
-//   } catch (error) {
-//     console.error("error getting permission :(")
-//   }
-// }
-
-// const unsubscribeFromNotifications = async () => {
-//   try {
-//     const token = await messaging.getToken()
-//     await messaging.deleteToken(token)
-//     // const snapshot = await FIREBASE_DATABASE.ref('/tokens').orderByChild("uid").equalTo(FIREBASE_AUTH.currentUser.uid).once('value'))
-//     //   const key = await Object.keys(snapshot.val())[0];
-//     //  await FIREBASE_DATABASE.ref('/tokens').child(key).remove();
-//     await checkSubscription()
-//   } catch (error) {
-//     console.log("error deleting token :(")
-//   }
-// }
-
-// const sendNotification = (event) => {
-//   event.preventDefault()
-
-//   const notificationMessage = document.getElementById("notification-message")
-//     .value
-//   if (!notificationMessage) return
-
-//   FIREBASE_DATABASE.ref("/notifications")
-//     .push({
-//       user: FIREBASE_AUTH.currentUser.displayName,
-//       message: notificationMessage,
-//       userProfileImg: FIREBASE_AUTH.currentUser.photoURL,
-//     })
-//     .then(() => {
-//       document.getElementById("notification-message").value = ""
-//     })
-//     .catch(() => {
-//       console.log("error sending notification :(")
-//     })
-// }

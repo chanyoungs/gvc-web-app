@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
+import { messaging } from "src/firebase"
 
 import { AppState } from "../../store/reducers/rootReducer"
 import { EditNotice } from "../Level2/EditNotice"
@@ -26,7 +27,7 @@ export const NoticesPage: FC<NoticesPageProps> = (props) => {
     <Fragment>
       <AppBarMain title="Notices" />
       <ContainerMain>
-        <Notifications />
+        {messaging && <Notifications messaging={messaging} />}
         <NoticeCreator />
         <EditNotice notices={noticesArr} />
       </ContainerMain>

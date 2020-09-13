@@ -29,24 +29,12 @@ db.enablePersistence().catch((err) => {
   }
 })
 
-export const messaging = firebase.messaging()
-messaging.usePublicVapidKey(
-  "BK-h_vuvlmqGDlaevF1JJuveMTqIDMEvdPh8s-yb3PuRKn1sCfjHTA_cm0u3lLCu9n4B7MACvOfe--B90BfsCZM"
-)
-// messaging
-//   .getToken()
-//   .then((currentToken) => {
-//     if (currentToken) {
-//       console.log("currentToken", currentToken)
-//     } else {
-//       // Show permission request.
-//       console.log(
-//         "No Instance ID token available. Request permission to generate one."
-//       )
-//     }
-//   })
-//   .catch((err) => {
-//     console.log("An error occurred while retrieving token. ", err)
-//   })
+export const messaging = firebase.messaging.isSupported()
+  ? firebase.messaging()
+  : null
+messaging &&
+  messaging.usePublicVapidKey(
+    "BK-h_vuvlmqGDlaevF1JJuveMTqIDMEvdPh8s-yb3PuRKn1sCfjHTA_cm0u3lLCu9n4B7MACvOfe--B90BfsCZM"
+  )
 
 export default firebase
