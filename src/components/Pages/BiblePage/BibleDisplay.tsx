@@ -21,7 +21,11 @@ import { IBibleRef } from "."
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    highlight: { fontWeight: 700, background: "#000000" },
+    highlight: {
+      fontWeight: 700,
+      background: theme.palette.primary.main,
+      color: theme.palette.common.white,
+    },
     listItem: { display: "flex", alignItems: "flex-start" },
     verse: { alignSelf: "flex-start", flex: 1 },
     text: { flex: 10 },
