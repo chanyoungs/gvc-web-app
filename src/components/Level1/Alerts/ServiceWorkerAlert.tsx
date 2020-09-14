@@ -42,7 +42,14 @@ export const ServiceWorkerAlert: FC = () => {
 
   return (
     <Fragment>
-      <Snackbar anchorOrigin={anchorOrigin} open={serviceWorker.initialised}>
+      <Snackbar
+        anchorOrigin={anchorOrigin}
+        open={serviceWorker.initialised}
+        autoHideDuration={4000}
+        onClose={() => {
+          dispatch({ type: SERVICE_WORKER_INIT, payload: false })
+        }}
+      >
         <Alert
           severity="success"
           onClose={() => {
