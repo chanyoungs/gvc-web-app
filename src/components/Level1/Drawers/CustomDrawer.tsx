@@ -163,11 +163,11 @@ export const CustomDrawer: FC = () => {
 
   const version = preval`module.exports =
   "Build: " +
-  ("0" + new Date(new Date().toUTCString()).getFullYear()).slice(-2) + "/" +
-  ("0" + (new Date(new Date().toUTCString()).getMonth() + 1)).slice(-2) + "/" +
-  ("0" + new Date(new Date().toUTCString()).getDate()).slice(-2) + " " +
-  ("0" + new Date(new Date().toUTCString()).getHours()).slice(-2) + ":" +
-  ("0" + new Date(new Date().toUTCString()).getMinutes()).slice(-2)`
+  ("0" + new Date().getFullYear()).slice(-2) + "/" +
+  ("0" + (new Date().getMonth() + 1)).slice(-2) + "/" +
+  ("0" + new Date().getDate()).slice(-2) + " " +
+  ("0" + new Date().getHours()).slice(-2) + ":" +
+  ("0" + new Date().getMinutes()).slice(-2)`
 
   const d = new Date().toUTCString()
   return (
