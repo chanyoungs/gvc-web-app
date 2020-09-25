@@ -18,6 +18,7 @@ import {
   UPLOAD_PHOTO,
   UPLOAD_PHOTO_ERROR,
 } from "src/store/actions/types"
+import { IAuthForm } from "src/types"
 import {
   applyExifOrientation,
   base64ToArrayBuffer,
@@ -34,19 +35,16 @@ import { IFBError, IMemberUpload, IResetPassword, ISignIn, ISignUp } from "../..
 import { ThunkActionCustom } from "./types"
 
 // Sign Up Member
-export const signUp = ({
-  email,
-  password,
-  name,
-  dob,
-  agreeTAndC,
-  setSubmitting,
-  openAlert: openAlertSignUp,
-}: ISignUp): ThunkActionCustom<void> => (
+export const signUp = (
+  authFormValues: IAuthForm,
+  setSubmitting: (submitting: boolean) => void,
+  openAlertSignUp: () => void
+): ThunkActionCustom<void> => (
   dispatch,
   getState,
   { getFirestore, getFirebase }
 ) => {
+  const { email, password, name, dob, agreeTAndC } = authFormValues
   setSubmitting(true)
   const firestore = getFirestore()
   const firebase = getFirebase()
@@ -78,16 +76,15 @@ export const signUp = ({
 }
 
 // Sign In Member
-export const signIn = ({
-  email,
-  password,
-  rememberMe,
-  setSubmitting,
-}: ISignIn): ThunkActionCustom<void> => (
+export const signIn = (
+  authFormValues: IAuthForm,
+  setSubmitting: (submitting: boolean) => void
+): ThunkActionCustom<void> => (
   dispatch,
   getState,
   { getFirestore, getFirebase }
 ) => {
+  const { email, password, rememberMe } = authFormValues
   console.log("Before")
   console.log(!!getState().firebase.auth.uid)
   setSubmitting(true)
@@ -126,15 +123,16 @@ export const signIn = ({
 }
 
 // Send reset password link
-export const resetPassword = ({
-  email,
-  setSubmitting,
-  openAlert: openAlertResetPassword,
-}: IResetPassword): ThunkActionCustom<void> => (
+export const resetPassword = (
+  authFormValues: IAuthForm,
+  setSubmitting: (submitting: boolean) => void,
+  openAlertResetPassword: () => void
+): ThunkActionCustom<void> => (
   dispatch,
   getState,
   { getFirestore, getFirebase }
 ) => {
+  const { email } = authFormValues
   setSubmitting(true)
   const firebase = getFirebase()
   firebase

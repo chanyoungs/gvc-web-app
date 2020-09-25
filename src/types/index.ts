@@ -72,70 +72,46 @@ export type AuthTypes = {
   password: string
   name: string
   dob: Date | null
-  photoUrl: string
+  gender: "male" | "female"
+  phoneNumber: string
+  kakaoId: string
+  previousChurch: string
+  previousVolunteering: string
+  faithStart: "child" | "elementary" | "middle" | "high" | "youth" | "recent"
+  londonPurpose: string
+  occupation: string
+  howDidYouHear: { internet: boolean; introduced: string; other: string }
+  feedback: string
   rememberMe: boolean
   agreeTAndC: boolean
-  page: "signIn" | "signUp" | "resetPassword"
-  alertResetPassword: boolean
-  alertSignUp: boolean
-  setSubmitting: (isSubmitting: boolean) => void
-  openAlert: () => void
+  photoUrl: string
 }
 
 // Auth Interface
-export type IResetPassword = Pick<
-  AuthTypes,
-  "email" | "setSubmitting" | "openAlert"
->
-export type ISignIn = Pick<
-  AuthTypes,
-  "email" | "password" | "rememberMe" | "setSubmitting"
->
+export type IResetPassword = Pick<AuthTypes, "email">
+export type ISignIn = Pick<AuthTypes, "email" | "password" | "rememberMe">
 export type ISignUp = Pick<
   AuthTypes,
   | "email"
   | "password"
   | "name"
   | "dob"
+  | "gender"
+  | "phoneNumber"
+  | "kakaoId"
+  | "previousChurch"
+  | "previousVolunteering"
+  | "faithStart"
+  | "londonPurpose"
+  | "occupation"
+  | "howDidYouHear"
+  | "feedback"
   | "agreeTAndC"
-  | "setSubmitting"
-  | "openAlert"
 >
 export type IAuthForm = Pick<
   AuthTypes,
-  | "email"
-  | "password"
-  | "name"
-  | "dob"
-  | "rememberMe"
-  | "agreeTAndC"
-  | "page"
-  | "alertResetPassword"
-  | "alertSignUp"
+  "email" | "password" | "name" | "dob" | "rememberMe" | "agreeTAndC"
 >
-
-// export interface IEmail {
-//   email: string
-// }
-// export interface ISetSubmitting {
-//   setSubmitting: (isSubmitting: boolean) => void
-// }
-// export interface IOpenAlert {
-//   openAlert: () => void
-// }
-// export interface ICredentials extends IEmail {
-//   password: string
-// }
-
-// export interface IResetPassword extends IEmail, ISetSubmitting, IOpenAlert {}
-// export interface ISignIn extends ICredentials, ISetSubmitting {
-//   rememberMe: boolean
-// }
-// export interface ISignUp extends ICredentials, ISetSubmitting, IOpenAlert {
-//   name: string
-//   dob: Date | null
-//   agreeTAndC: boolean
-// }
 
 // Firebase Error Interface
 export interface IFBError {

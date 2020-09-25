@@ -19,7 +19,7 @@ import * as yup from "yup"
 import FullLogo from "../../../images/gods_vision_church_logo.svg"
 import { resetPassword, signIn, signUp } from "../../../store/actions/authActions"
 import { AppState } from "../../../store/reducers/rootReducer"
-import { IAuthForm } from "../../../types"
+import { IAuthForm, IResetPassword, ISignIn, ISignUp } from "../../../types"
 import { ChangeSignInUp } from "../../Level1/Buttons/ChangeSignInUp"
 import { ContainerMain } from "../../Level1/Containers/ContainerMain"
 import { FormikDatePicker } from "../../Level1/DatePickers/FormikDatePicker"
@@ -28,6 +28,7 @@ import { ResetPasswordDialog } from "../../Level1/Dialogs/ResetPasswordDialog"
 import { TermsAndConditionsDialog } from "../../Level1/Dialogs/TermsAndConditionsDialog"
 import { FormikCheckBox } from "../../Level1/SelectionControls/FormikCheckbox"
 import { AuthTextField } from "./AuthTextField"
+import { SignUpForm } from "./SignUpForm"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -67,40 +68,51 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-const validationSchema = yup.object<Partial<IAuthForm>>({
+const resetPasswordValidationSchema = yup.object<Partial<IResetPassword>>({
   email: yup.string().email("Invalid email").required("Email is required"),
-  password: yup.string().when("page", {
-    is: (page) => page === "signIn" || page === "signUp",
-    then: yup
-      .string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
-  }),
-  name: yup.string().when("page", {
-    is: "signUp",
-    then: yup.string().required("Name is required"),
-  }),
-  dob: yup
-    .date()
-    .nullable()
-    .when("page", {
-      is: "signUp",
-      then: yup.date().nullable().required("Date of Birth is required"),
-    }),
-  agreeTAndC: yup.boolean().when("page", {
-    is: "signUp",
-    then: yup
-      .boolean()
-      .required()
-      .test({
-        name: "readTAndC",
-        message: "You must agree with the Terms & Conditions",
-        test: (agreeTAndC: boolean) => agreeTAndC,
-      }),
-  }),
 })
 
-export interface Props {}
+const signInValidationSchema = yup.object<Partial<ISignIn>>({
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+})
+
+const signUpValidationSchema = yup.object<Partial<ISignUp>>({
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+  name: yup.string().required("Name is required"),
+  dob: yup.date().nullable().required("Date of Birth is required"),
+  agreeTAndC: yup
+    .boolean()
+    .required()
+    .test({
+      name: "readTAndC",
+      message: "You must agree with the Terms & Conditions",
+      test: (agreeTAndC: boolean) => agreeTAndC,
+    }),
+})
+
+const signUpValidationSchema1: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+  name: yup.string().required("Name is required"),
+  dob: yup.date().nullable().required("Date of Birth is required"),
+  gender: yup.mixed().oneOf(["male", "female"]).required("Gender is required"),
+  phoneNumber: yup.string().required("Phone number is required"),
+}
+
+const signUpValidationSchema2: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
+  ...signUpValidationSchema1,
+}
 
 export const AuthPage: FC = () => {
   const classes = useStyles()
@@ -108,6 +120,11 @@ export const AuthPage: FC = () => {
   const fbFeedback = useSelector<AppState, AppState["auth"]>(
     (state) => state.auth
   )
+  const [page, setPage] = useState<"signIn" | "signUp" | "resetPassword">(
+    "signIn"
+  )
+  const [alertResetPassword, setAlertResetPassword] = useState(false)
+  const [alertSignUp, setAlertSignUp] = useState(false)
 
   const initialValues: IAuthForm = {
     email: "",
@@ -116,56 +133,49 @@ export const AuthPage: FC = () => {
     dob: null,
     rememberMe: false,
     agreeTAndC: false,
-    page: "signIn",
-    alertResetPassword: false,
-    alertSignUp: false,
   }
 
   const onSubmit = (
-    values: IAuthForm,
+    authFormValues: IAuthForm,
     { setSubmitting, setFieldValue }: FormikHelpers<IAuthForm>
   ) => {
-    const { email, password, name, dob, rememberMe, agreeTAndC, page } = values
+    const {
+      email,
+      password,
+      name,
+      dob,
+      rememberMe,
+      agreeTAndC,
+    } = authFormValues
 
-    const openAlertResetPassword = () =>
-      setFieldValue("alertResetPassword", true)
-    const openAlertSignUp = () => setFieldValue("alertSignUp", true)
+    const openAlertResetPassword = () => setAlertResetPassword(true)
+    const openAlertSignUp = () => setAlertSignUp(true)
 
     switch (page) {
       case "signIn":
-        dispatch(
-          signIn({
-            email,
-            password,
-            rememberMe,
-            setSubmitting,
-          })
-        )
+        dispatch(signIn(authFormValues, setSubmitting))
         break
 
       case "signUp":
-        dispatch(
-          signUp({
-            email,
-            password,
-            name,
-            dob,
-            agreeTAndC,
-            setSubmitting,
-            openAlert: openAlertSignUp,
-          })
-        )
+        dispatch(signUp(authFormValues, setSubmitting, openAlertSignUp))
         break
 
       case "resetPassword":
         dispatch(
-          resetPassword({
-            email,
-            setSubmitting,
-            openAlert: openAlertResetPassword,
-          })
+          resetPassword(authFormValues, setSubmitting, openAlertResetPassword)
         )
         break
+    }
+  }
+
+  const validationSchema = () => {
+    switch (page) {
+      case "signIn":
+        return signInValidationSchema
+      case "signUp":
+        return signUpValidationSchema
+      case "resetPassword":
+        return resetPasswordValidationSchema
     }
   }
 
@@ -174,13 +184,33 @@ export const AuthPage: FC = () => {
       <Formik<IAuthForm>
         validateOnChange
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={validationSchema()}
         onSubmit={onSubmit}
       >
         {({ values, isValid, dirty, isSubmitting, setFieldValue }) => (
           <Form className={classes.root}>
             <img src={FullLogo} className={classes.logo} alt="GVC Logo" />
             <div className={classes.grid}>
+              {/* <ContainerMain>
+                <Grid
+                  container
+                  spacing={2}
+                  alignItems="center"
+                  justify="center"
+                >
+                  <Grid item xs={12}>
+                    <AuthTextField
+                      label="Email Address"
+                      placeholder="johnsmith@gmail.com"
+                      name="email"
+                      icon={<Email />}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <SignUpForm />
+                  </Grid>
+                </Grid>
+              </ContainerMain> */}
               <ContainerMain>
                 <Grid
                   container
@@ -197,7 +227,7 @@ export const AuthPage: FC = () => {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    {values.page !== "resetPassword" && (
+                    {page !== "resetPassword" && (
                       <AuthTextField
                         label="Password"
                         placeholder="Password"
@@ -209,7 +239,7 @@ export const AuthPage: FC = () => {
                     )}
                   </Grid>
 
-                  {values.page === "signUp" && (
+                  {page === "signUp" && (
                     <>
                       <Grid item xs={12}>
                         <AuthTextField
@@ -231,17 +261,17 @@ export const AuthPage: FC = () => {
                     </>
                   )}
                   <Grid item xs>
-                    {values.page === "signIn" && (
+                    {page === "signIn" && (
                       <FormikCheckBox name="rememberMe" label="Remember me" />
                     )}
-                    {values.page === "signUp" && (
+                    {page === "signUp" && (
                       <FormikCheckBox name="agreeTAndC" label="I consent to" />
                     )}
                   </Grid>
                   <Grid item>
-                    {values.page === "signIn" && (
+                    {page === "signIn" && (
                       <Link
-                        onClick={() => setFieldValue("page", "resetPassword")}
+                        onClick={() => setPage("resetPassword")}
                         display="block"
                         align="center"
                         variant="caption"
@@ -250,15 +280,15 @@ export const AuthPage: FC = () => {
                         Forgot Password?
                       </Link>
                     )}
-                    {values.page === "signUp" && <TermsAndConditionsDialog />}
+                    {page === "signUp" && <TermsAndConditionsDialog />}
                   </Grid>
                   <Grid item xs={12}>
                     <FormControl
                       required
                       error={
-                        values.page === "signIn"
+                        page === "signIn"
                           ? !!fbFeedback.signInError
-                          : values.page === "signUp"
+                          : page === "signUp"
                           ? !!fbFeedback.signUpError
                           : !!fbFeedback.resetPasswordError
                       }
@@ -275,9 +305,9 @@ export const AuthPage: FC = () => {
                           type="submit"
                         >
                           <Typography>
-                            {values.page === "signIn" && "Sign in"}
-                            {values.page === "signUp" && "Sign up"}
-                            {values.page === "resetPassword" &&
+                            {page === "signIn" && "Sign in"}
+                            {page === "signUp" && "Sign up"}
+                            {page === "resetPassword" &&
                               "Email me reset password link"}
                           </Typography>
                         </Button>
@@ -289,21 +319,19 @@ export const AuthPage: FC = () => {
                         )}
                       </div>
                       <FormHelperText>
-                        {values.page === "signIn" &&
-                          fbFeedback.signInError?.message}
-                        {values.page === "signUp" &&
-                          fbFeedback.signUpError?.message}
-                        {values.page === "resetPassword" &&
+                        {page === "signIn" && fbFeedback.signInError?.message}
+                        {page === "signUp" && fbFeedback.signUpError?.message}
+                        {page === "resetPassword" &&
                           (fbFeedback.resetPasswordError
                             ? fbFeedback.resetPasswordError?.message
                             : fbFeedback.resetPasswordSuccess)}
                       </FormHelperText>
                     </FormControl>
                   </Grid>
-                  {values.page === "resetPassword" && (
+                  {page === "resetPassword" && (
                     <Grid item xs>
                       <Link
-                        onClick={() => setFieldValue("page", "signIn")}
+                        onClick={() => setPage("signIn")}
                         display="block"
                         align="center"
                         variant="caption"
@@ -319,28 +347,26 @@ export const AuthPage: FC = () => {
             <AlertDialog
               title="Password reset link sent!"
               content="Password reset link has been sent to your email. Please check your email to reset your password, and then come back to sign in."
-              open={values.alertResetPassword}
+              open={alertResetPassword}
               handleClose={() => {
-                setFieldValue("alertResetPassword", false)
-                setFieldValue("page", "signIn")
+                setAlertResetPassword(false)
+                setPage("signIn")
               }}
             />
             <AlertDialog
               title="Sign up successful!"
               content="Please now sign in"
-              open={values.alertSignUp}
+              open={alertSignUp}
               handleClose={() => {
-                setFieldValue("alertSignUp", false)
-                setFieldValue("page", "signIn")
+                setAlertSignUp(false)
+                setPage("signIn")
               }}
             />
             <AppBar position="sticky" className={classes.footer}>
               <ChangeSignInUp
-                page={values.page}
+                page={page}
                 onClick={() => {
-                  values.page !== "signUp"
-                    ? setFieldValue("page", "signUp")
-                    : setFieldValue("page", "signIn")
+                  setPage(page !== "signUp" ? "signUp" : "signIn")
                 }}
               />
             </AppBar>
