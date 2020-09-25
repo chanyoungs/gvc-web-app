@@ -80,24 +80,6 @@ const signInValidationSchema = yup.object<Partial<ISignIn>>({
     .required("Password is required"),
 })
 
-const signUpValidationSchema = yup.object<Partial<ISignUp>>({
-  email: yup.string().email("Invalid email").required("Email is required"),
-  password: yup
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-  name: yup.string().required("Name is required"),
-  dob: yup.date().nullable().required("Date of Birth is required"),
-  agreeTAndC: yup
-    .boolean()
-    .required()
-    .test({
-      name: "readTAndC",
-      message: "You must agree with the Terms & Conditions",
-      test: (agreeTAndC: boolean) => agreeTAndC,
-    }),
-})
-
 const signUpValidationSchema1: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup
@@ -106,13 +88,32 @@ const signUpValidationSchema1: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
     .required("Password is required"),
   name: yup.string().required("Name is required"),
   dob: yup.date().nullable().required("Date of Birth is required"),
-  gender: yup.mixed().oneOf(["male", "female"]).required("Gender is required"),
-  phoneNumber: yup.string().required("Phone number is required"),
+  // gender: yup.mixed().oneOf(["male", "female"]).required("Gender is required"),
+  // phoneNumber: yup.string().required("Phone number is required"),
 }
 
 const signUpValidationSchema2: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
   ...signUpValidationSchema1,
 }
+
+const signUpValidationSchema3: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
+  ...signUpValidationSchema2,
+  agreeTAndC: yup
+    .boolean()
+    .required()
+    .test({
+      name: "readTAndC",
+      message: "You must agree with the Terms & Conditions",
+      test: (agreeTAndC: boolean) => agreeTAndC,
+    }),
+}
+
+const signUpValidationSchema = (activeStep: number) =>
+  yup.object<Partial<ISignUp>>(
+    [signUpValidationSchema1, signUpValidationSchema2, signUpValidationSchema3][
+      activeStep
+    ]
+  )
 
 export const AuthPage: FC = () => {
   const classes = useStyles()
@@ -123,6 +124,7 @@ export const AuthPage: FC = () => {
   const [page, setPage] = useState<"signIn" | "signUp" | "resetPassword">(
     "signIn"
   )
+  const [activeStep, setActiveStep] = useState(0)
   const [alertResetPassword, setAlertResetPassword] = useState(false)
   const [alertSignUp, setAlertSignUp] = useState(false)
 
@@ -139,15 +141,6 @@ export const AuthPage: FC = () => {
     authFormValues: IAuthForm,
     { setSubmitting, setFieldValue }: FormikHelpers<IAuthForm>
   ) => {
-    const {
-      email,
-      password,
-      name,
-      dob,
-      rememberMe,
-      agreeTAndC,
-    } = authFormValues
-
     const openAlertResetPassword = () => setAlertResetPassword(true)
     const openAlertSignUp = () => setAlertSignUp(true)
 
@@ -157,7 +150,12 @@ export const AuthPage: FC = () => {
         break
 
       case "signUp":
-        dispatch(signUp(authFormValues, setSubmitting, openAlertSignUp))
+        if (activeStep < 2) {
+          setSubmitting(false)
+          setActiveStep(activeStep + 1)
+        } else {
+          dispatch(signUp(authFormValues, setSubmitting, openAlertSignUp))
+        }
         break
 
       case "resetPassword":
@@ -173,7 +171,7 @@ export const AuthPage: FC = () => {
       case "signIn":
         return signInValidationSchema
       case "signUp":
-        return signUpValidationSchema
+        return signUpValidationSchema(activeStep)
       case "resetPassword":
         return resetPasswordValidationSchema
     }

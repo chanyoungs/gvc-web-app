@@ -80,7 +80,9 @@ export type AuthTypes = {
   faithStart: "child" | "elementary" | "middle" | "high" | "youth" | "recent"
   londonPurpose: string
   occupation: string
-  howDidYouHear: { internet: boolean; introduced: string; other: string }
+  howDidYouHearInternet: boolean
+  howDidYouHearIntroduced: string
+  howDidYouHearOther: string
   feedback: string
   rememberMe: boolean
   agreeTAndC: boolean
@@ -104,7 +106,9 @@ export type ISignUp = Pick<
   | "faithStart"
   | "londonPurpose"
   | "occupation"
-  | "howDidYouHear"
+  | "howDidYouHearInternet"
+  | "howDidYouHearIntroduced"
+  | "howDidYouHearOther"
   | "feedback"
   | "agreeTAndC"
 >
