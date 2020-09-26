@@ -1,18 +1,22 @@
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
+import Icon from "@material-ui/core/Icon"
 import MobileStepper from "@material-ui/core/MobileStepper"
 import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
+import SvgIcon, { SvgIconProps } from "@material-ui/core/SvgIcon"
 import Typography from "@material-ui/core/Typography"
-import CalendarToday from "@material-ui/icons/CalendarToday"
-import Email from "@material-ui/icons/Email"
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft"
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight"
-import Lock from "@material-ui/icons/Lock"
-import Person from "@material-ui/icons/Person"
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday"
+import EmailIcon from "@material-ui/icons/Email"
+import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft"
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight"
+import LockIcon from "@material-ui/icons/Lock"
+import PersonIcon from "@material-ui/icons/Person"
+import PhoneIcon from "@material-ui/icons/Phone"
 import React, { FC, Fragment, useState } from "react"
 import { FormikDatePicker } from "src/components/Level1/DatePickers/FormikDatePicker"
 import { FormikRadio } from "src/components/Level1/Radios/FormikRadio"
-import { IAuthForm, ISignUp } from "src/types"
+import KakaoIcon from "src/images/kakaotalk.svg"
+import { AuthTypes, ISignUp } from "src/types"
 
 import { AuthTextField } from "./AuthTextField"
 
@@ -20,6 +24,8 @@ const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
     root: { flexGrow: 1 },
     stepper: { flexGrow: 1 },
+    icon: { textAlign: "center" },
+    img: { height: "100%" },
   })
 )
 
@@ -58,37 +64,37 @@ export const SignUpForm: FC<SignUpFormProps> = ({
       <Grid container spacing={2} alignItems="center" justify="center">
         <Grid item xs={12}>
           <AuthTextField
-            label="Email Address"
+            label="Email Address*"
             placeholder="johnsmith@gmail.com"
             name="email"
-            icon={<Email />}
+            icon={<EmailIcon />}
           />
         </Grid>
         <Grid item xs={12}>
           <AuthTextField
-            label="Password"
+            label="Password*"
             placeholder="Password"
             name="password"
             type="password"
             autoComplete="current-password"
-            icon={<Lock />}
+            icon={<LockIcon />}
           />
         </Grid>
         <Grid item xs={12}>
           <AuthTextField
-            label="Name"
+            label="Name*"
             placeholder="김철수/John Smith"
             name="name"
-            icon={<Person />}
+            icon={<PersonIcon />}
           />
         </Grid>
         <Grid item xs={12}>
           <FormikDatePicker<ISignUp>
-            label="Date of Birth"
+            label="Date of Birth*"
             placeholder="01/01/2000"
             name="dob"
             variant="outlined"
-            icon={<CalendarToday />}
+            icon={<CalendarTodayIcon />}
           />
         </Grid>
         <Grid item xs={12}>
@@ -98,6 +104,26 @@ export const SignUpForm: FC<SignUpFormProps> = ({
               { value: "male", label: "Male" },
               { value: "female", label: "Female" },
             ]}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <AuthTextField
+            label="Phone Number*"
+            placeholder="+44771234567"
+            name="phoneNumber"
+            icon={<PhoneIcon />}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <AuthTextField
+            label="Kakaotalk ID"
+            placeholder="kakaoid123"
+            name="kakaoId"
+            icon={
+              <Icon className={classes.icon}>
+                <img src={KakaoIcon} alt="K" className={classes.img} />
+              </Icon>
+            }
           />
         </Grid>
       </Grid>
@@ -115,18 +141,18 @@ export const SignUpForm: FC<SignUpFormProps> = ({
           >
             Next
             {theme.direction === "rtl" ? (
-              <KeyboardArrowLeft />
+              <KeyboardArrowLeftIcon />
             ) : (
-              <KeyboardArrowRight />
+              <KeyboardArrowRightIcon />
             )}
           </Button>
         }
         backButton={
           <Button size="small" onClick={onBack} disabled={activeStep === 0}>
             {theme.direction === "rtl" ? (
-              <KeyboardArrowRight />
+              <KeyboardArrowRightIcon />
             ) : (
-              <KeyboardArrowLeft />
+              <KeyboardArrowLeftIcon />
             )}
             Back
           </Button>

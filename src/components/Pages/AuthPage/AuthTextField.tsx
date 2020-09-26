@@ -1,8 +1,8 @@
 import React, { FC } from "react"
-import { IAuthForm } from "src/types"
+import { AuthTypes } from "src/types"
 
 import { FormikTextField, FormikTextFieldProps } from "../../Level1/TextFields/FormikTextField"
 
-export const AuthTextField: FC<FormikTextFieldProps<IAuthForm>> = (props) => (
-  <FormikTextField<IAuthForm> {...props} variant="outlined" />
+export const AuthTextField: FC<FormikTextFieldProps<AuthTypes>> = (props) => (
+  <FormikTextField<AuthTypes> {...props} variant="outlined" />
 )

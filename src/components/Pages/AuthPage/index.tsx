@@ -19,7 +19,7 @@ import * as yup from "yup"
 import FullLogo from "../../../images/gods_vision_church_logo.svg"
 import { resetPassword, signIn, signUp } from "../../../store/actions/authActions"
 import { AppState } from "../../../store/reducers/rootReducer"
-import { IAuthForm, IResetPassword, ISignIn, ISignUp } from "../../../types"
+import { AuthTypes, IResetPassword, ISignIn, ISignUp } from "../../../types"
 import { ChangeSignInUp } from "../../Level1/Buttons/ChangeSignInUp"
 import { ContainerMain } from "../../Level1/Containers/ContainerMain"
 import { FormikDatePicker } from "../../Level1/DatePickers/FormikDatePicker"
@@ -89,7 +89,7 @@ const signUpValidationSchema1: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
   name: yup.string().required("Name is required"),
   dob: yup.date().nullable().required("Date of Birth is required"),
   gender: yup.mixed().oneOf(["male", "female"]).required("Gender is required"),
-  // phoneNumber: yup.string().required("Phone number is required"),
+  phoneNumber: yup.string().required("Phone number is required"),
 }
 
 const signUpValidationSchema2: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
@@ -128,18 +128,31 @@ export const AuthPage: FC = () => {
   const [alertResetPassword, setAlertResetPassword] = useState(false)
   const [alertSignUp, setAlertSignUp] = useState(false)
 
-  const initialValues: IAuthForm = {
+  const initialValues: AuthTypes = {
     email: "",
     password: "",
     name: "",
     dob: null,
+    gender: undefined,
+    phoneNumber: "",
+    kakaoId: "",
+    previousChurch: "",
+    previousVolunteering: "",
+    faithStart: undefined,
+    londonPurpose: "",
+    occupation: "",
+    howDidYouHearInternet: false,
+    howDidYouHearIntroduced: "",
+    howDidYouHearOther: "",
+    feedback: "",
     rememberMe: false,
     agreeTAndC: false,
+    photoUrl: "",
   }
 
   const onSubmit = (
-    authFormValues: IAuthForm,
-    { setSubmitting, setFieldValue }: FormikHelpers<IAuthForm>
+    authFormValues: AuthTypes,
+    { setSubmitting, setFieldValue }: FormikHelpers<AuthTypes>
   ) => {
     const openAlertResetPassword = () => setAlertResetPassword(true)
     const openAlertSignUp = () => setAlertSignUp(true)
@@ -179,14 +192,16 @@ export const AuthPage: FC = () => {
 
   return (
     <Fragment>
-      <Formik<IAuthForm>
+      <Formik<AuthTypes>
         validateOnChange
         initialValues={initialValues}
         validationSchema={validationSchema()}
         onSubmit={onSubmit}
       >
-        {({ values, isValid, dirty, isSubmitting, submitForm }) => (
+        {({ values, errors, isValid, dirty, isSubmitting, submitForm }) => (
           <Form className={classes.root}>
+            <pre>{JSON.stringify(values, null, 2)}</pre>
+            <pre>{JSON.stringify(errors, null, 2)}</pre>
             <img src={FullLogo} className={classes.logo} alt="GVC Logo" />
             <div className={classes.grid}>
               <ContainerMain>
@@ -237,7 +252,7 @@ export const AuthPage: FC = () => {
                         />
                       </Grid>
                       <Grid item xs={12}>
-                        <FormikDatePicker<IAuthForm>
+                        <FormikDatePicker<ISignUp>
                           label="Date of Birth"
                           placeholder="01/01/2000"
                           name="dob"
@@ -249,13 +264,13 @@ export const AuthPage: FC = () => {
                   )}
                   <Grid item xs>
                     {page === "signIn" && (
-                      <FormikCheckBox<IAuthForm>
+                      <FormikCheckBox<ISignIn>
                         name="rememberMe"
                         label="Remember me"
                       />
                     )}
                     {page === "signUp" && (
-                      <FormikCheckBox<IAuthForm>
+                      <FormikCheckBox<ISignUp>
                         name="agreeTAndC"
                         label="I consent to"
                       />

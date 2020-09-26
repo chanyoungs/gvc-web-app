@@ -72,12 +72,12 @@ export type AuthTypes = {
   password: string
   name: string
   dob: Date | null
-  gender: "male" | "female"
+  gender?: "male" | "female"
   phoneNumber: string
   kakaoId: string
   previousChurch: string
   previousVolunteering: string
-  faithStart: "child" | "elementary" | "middle" | "high" | "youth" | "recent"
+  faithStart?: "child" | "elementary" | "middle" | "high" | "youth" | "recent"
   londonPurpose: string
   occupation: string
   howDidYouHearInternet: boolean
@@ -111,10 +111,6 @@ export type ISignUp = Pick<
   | "howDidYouHearOther"
   | "feedback"
   | "agreeTAndC"
->
-export type IAuthForm = Pick<
-  AuthTypes,
-  "email" | "password" | "name" | "dob" | "rememberMe" | "agreeTAndC"
 >
 
 // Firebase Error Interface

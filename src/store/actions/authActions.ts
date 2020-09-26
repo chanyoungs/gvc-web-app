@@ -18,7 +18,7 @@ import {
   UPLOAD_PHOTO,
   UPLOAD_PHOTO_ERROR,
 } from "src/store/actions/types"
-import { IAuthForm } from "src/types"
+import { AuthTypes } from "src/types"
 import {
   applyExifOrientation,
   base64ToArrayBuffer,
@@ -36,7 +36,7 @@ import { ThunkActionCustom } from "./types"
 
 // Sign Up Member
 export const signUp = (
-  authFormValues: IAuthForm,
+  authFormValues: AuthTypes,
   setSubmitting: (submitting: boolean) => void,
   openAlertSignUp: () => void
 ): ThunkActionCustom<void> => (
@@ -77,7 +77,7 @@ export const signUp = (
 
 // Sign In Member
 export const signIn = (
-  authFormValues: IAuthForm,
+  authFormValues: AuthTypes,
   setSubmitting: (submitting: boolean) => void
 ): ThunkActionCustom<void> => (
   dispatch,
@@ -124,7 +124,7 @@ export const signIn = (
 
 // Send reset password link
 export const resetPassword = (
-  authFormValues: IAuthForm,
+  authFormValues: AuthTypes,
   setSubmitting: (submitting: boolean) => void,
   openAlertResetPassword: () => void
 ): ThunkActionCustom<void> => (
