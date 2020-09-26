@@ -3,6 +3,12 @@ import React, { FC } from "react"
 import { IBulletin } from "."
 import { FormikTextField, FormikTextFieldProps } from "../../Level1/TextFields/FormikTextField"
 
-export const AuthTextField: FC<FormikTextFieldProps<IBulletin>> = (props) => (
-  <FormikTextField<IBulletin> {...props} variant="outlined" />
+export const AuthTextField: FC<FormikTextFieldProps<IBulletin>> = ({
+  textFieldProps,
+  ...rest
+}) => (
+  <FormikTextField<IBulletin>
+    textFieldProps={{ ...textFieldProps, variant: "outlined", fullWidth: true }}
+    {...rest}
+  />
 )

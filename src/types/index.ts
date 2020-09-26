@@ -78,12 +78,18 @@ export type AuthTypes = {
   previousChurch: string
   previousVolunteering: string
   faithStart?: "child" | "elementary" | "middle" | "high" | "youth" | "recent"
-  londonPurpose: string
+  londonPurpose?:
+    | "work"
+    | "workingHoliday"
+    | "university"
+    | "language"
+    | "businessTrip"
+    | "travel"
   occupation: string
   howDidYouHearInternet: boolean
   howDidYouHearIntroduced: string
   howDidYouHearOther: string
-  feedback: string
+  serviceFeedback: string
   rememberMe: boolean
   agreeTAndC: boolean
   photoUrl: string
@@ -109,7 +115,7 @@ export type ISignUp = Pick<
   | "howDidYouHearInternet"
   | "howDidYouHearIntroduced"
   | "howDidYouHearOther"
-  | "feedback"
+  | "serviceFeedback"
   | "agreeTAndC"
 >
 

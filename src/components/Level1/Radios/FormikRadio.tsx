@@ -1,11 +1,10 @@
-import { FormControl, FormControlLabel, FormHelperText } from "@material-ui/core"
-import Checkbox from "@material-ui/core/Checkbox"
+import FormControl from "@material-ui/core/FormControl"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import FormHelperText from "@material-ui/core/FormHelperText"
 import FormLabel from "@material-ui/core/FormLabel"
-import Grid from "@material-ui/core/Grid"
 import Radio from "@material-ui/core/Radio"
 import RadioGroup from "@material-ui/core/RadioGroup"
-import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { FieldAttributes, useField } from "formik"
 import React, { FC } from "react"
 
@@ -16,16 +15,16 @@ const useStyles = makeStyles<Theme>((theme) =>
   })
 )
 
-export function FormikRadio<T>({
+export function FormikRadio<T, V>({
   label,
   placeholder,
   radios,
   ...props
-}: FieldAttributes<{
+}: FieldAttributes<{}> & {
   label?: string
   name: keyof T
-  radios: { value: string; label: string }[]
-}>) {
+  radios: { value: V; label: string }[]
+}) {
   const classes = useStyles()
   const [field, meta] = useField({ ...props, type: "radio" })
   const errorText = meta.error && meta.touched ? meta.error : ""
@@ -40,7 +39,7 @@ export function FormikRadio<T>({
       <RadioGroup row {...field}>
         {radios.map((radio) => (
           <FormControlLabel
-            key={radio.value}
+            key={radio.label}
             {...radio}
             control={<Radio />}
             className={classes.radio}

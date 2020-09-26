@@ -92,8 +92,34 @@ const signUpValidationSchema1: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
   phoneNumber: yup.string().required("Phone number is required"),
 }
 
+const faithStartOptions: ISignUp["faithStart"][] = [
+  "child",
+  "elementary",
+  "middle",
+  "high",
+  "youth",
+  "recent",
+]
+const londonPurposeOptions: ISignUp["londonPurpose"][] = [
+  "work",
+  "workingHoliday",
+  "university",
+  "language",
+  "businessTrip",
+  "travel",
+]
+
 const signUpValidationSchema2: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
   ...signUpValidationSchema1,
+  faithStart: yup
+    .mixed()
+    .oneOf(faithStartOptions)
+    .required("Please select one"),
+  londonPurpose: yup
+    .mixed()
+    .oneOf(londonPurposeOptions)
+    .required("Please select one"),
+  occupation: yup.string().required("Please give details of your occupation"),
 }
 
 const signUpValidationSchema3: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
@@ -124,7 +150,7 @@ export const AuthPage: FC = () => {
   const [page, setPage] = useState<"signIn" | "signUp" | "resetPassword">(
     "signIn"
   )
-  const [activeStep, setActiveStep] = useState(0)
+  const [activeStep, setActiveStep] = useState(2)
   const [alertResetPassword, setAlertResetPassword] = useState(false)
   const [alertSignUp, setAlertSignUp] = useState(false)
 
@@ -139,12 +165,12 @@ export const AuthPage: FC = () => {
     previousChurch: "",
     previousVolunteering: "",
     faithStart: undefined,
-    londonPurpose: "",
+    londonPurpose: undefined,
     occupation: "",
     howDidYouHearInternet: false,
     howDidYouHearIntroduced: "",
     howDidYouHearOther: "",
-    feedback: "",
+    serviceFeedback: "",
     rememberMe: false,
     agreeTAndC: false,
     photoUrl: "",
@@ -222,8 +248,10 @@ export const AuthPage: FC = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <AuthTextField
-                      label="Email Address"
-                      placeholder="johnsmith@gmail.com"
+                      textFieldProps={{
+                        label: "Email Address",
+                        placeholder: "johnsmith@gmail.com",
+                      }}
                       name="email"
                       icon={<Email />}
                     />
@@ -231,11 +259,13 @@ export const AuthPage: FC = () => {
                   <Grid item xs={12}>
                     {page !== "resetPassword" && (
                       <AuthTextField
-                        label="Password"
-                        placeholder="Password"
+                        textFieldProps={{
+                          label: "Password",
+                          placeholder: "Password",
+                          autoComplete: "current-password",
+                        }}
                         name="password"
                         type="password"
-                        autoComplete="current-password"
                         icon={<Lock />}
                       />
                     )}
@@ -245,8 +275,10 @@ export const AuthPage: FC = () => {
                     <>
                       <Grid item xs={12}>
                         <AuthTextField
-                          label="Name"
-                          placeholder="김철수/John Smith"
+                          textFieldProps={{
+                            label: "Name",
+                            placeholder: "김철수/John Smith",
+                          }}
                           name="name"
                           icon={<Person />}
                         />
@@ -265,14 +297,20 @@ export const AuthPage: FC = () => {
                   <Grid item xs>
                     {page === "signIn" && (
                       <FormikCheckBox<ISignIn>
+                        label={
+                          <Typography variant="caption">Remember me</Typography>
+                        }
                         name="rememberMe"
-                        label="Remember me"
                       />
                     )}
                     {page === "signUp" && (
                       <FormikCheckBox<ISignUp>
+                        label={
+                          <Typography variant="caption">
+                            I consent to
+                          </Typography>
+                        }
                         name="agreeTAndC"
-                        label="I consent to"
                       />
                     )}
                   </Grid>

@@ -3,29 +3,25 @@ import TextField, { TextFieldProps } from "@material-ui/core/TextField"
 import { FieldAttributes, useField } from "formik"
 import React from "react"
 
-export type FormikTextFieldProps<Form> = FieldAttributes<{}> &
-  TextFieldProps & { icon?: JSX.Element; name: keyof Form }
+export type FormikTextFieldProps<Form> = FieldAttributes<{}> & {
+  textFieldProps: TextFieldProps
+  icon?: JSX.Element
+  name: keyof Form
+}
 
 function FormikTextField<Form>({
-  label,
-  type,
-  placeholder,
-  variant,
+  textFieldProps,
   icon,
-  ...props
+  ...fieldProps
 }: FormikTextFieldProps<Form>) {
-  const [field, meta] = useField<{}>(props)
+  const [field, meta] = useField(fieldProps)
   const errorText = meta.error && meta.touched ? meta.error : ""
   return (
     <TextField
+      {...textFieldProps}
       {...field}
-      label={label}
-      placeholder={placeholder}
-      type={type}
       helperText={errorText}
       error={!!errorText}
-      variant={variant as any} // TODO: Typescript limitation
-      fullWidth
       InputProps={
         icon
           ? {
