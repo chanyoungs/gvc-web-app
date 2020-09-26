@@ -88,7 +88,7 @@ const signUpValidationSchema1: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
     .required("Password is required"),
   name: yup.string().required("Name is required"),
   dob: yup.date().nullable().required("Date of Birth is required"),
-  // gender: yup.mixed().oneOf(["male", "female"]).required("Gender is required"),
+  gender: yup.mixed().oneOf(["male", "female"]).required("Gender is required"),
   // phoneNumber: yup.string().required("Phone number is required"),
 }
 
@@ -185,30 +185,10 @@ export const AuthPage: FC = () => {
         validationSchema={validationSchema()}
         onSubmit={onSubmit}
       >
-        {({ values, isValid, dirty, isSubmitting, setFieldValue }) => (
+        {({ values, isValid, dirty, isSubmitting, submitForm }) => (
           <Form className={classes.root}>
             <img src={FullLogo} className={classes.logo} alt="GVC Logo" />
             <div className={classes.grid}>
-              {/* <ContainerMain>
-                <Grid
-                  container
-                  spacing={2}
-                  alignItems="center"
-                  justify="center"
-                >
-                  <Grid item xs={12}>
-                    <AuthTextField
-                      label="Email Address"
-                      placeholder="johnsmith@gmail.com"
-                      name="email"
-                      icon={<Email />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <SignUpForm />
-                  </Grid>
-                </Grid>
-              </ContainerMain> */}
               <ContainerMain>
                 <Grid
                   container
@@ -216,6 +196,15 @@ export const AuthPage: FC = () => {
                   alignItems="center"
                   justify="center"
                 >
+                  <Grid item xs={12}>
+                    <SignUpForm
+                      activeStep={activeStep}
+                      onNext={submitForm}
+                      onBack={() => {
+                        if (activeStep > 0) setActiveStep(activeStep - 1)
+                      }}
+                    />
+                  </Grid>
                   <Grid item xs={12}>
                     <AuthTextField
                       label="Email Address"
@@ -248,7 +237,7 @@ export const AuthPage: FC = () => {
                         />
                       </Grid>
                       <Grid item xs={12}>
-                        <FormikDatePicker
+                        <FormikDatePicker<IAuthForm>
                           label="Date of Birth"
                           placeholder="01/01/2000"
                           name="dob"
@@ -260,10 +249,16 @@ export const AuthPage: FC = () => {
                   )}
                   <Grid item xs>
                     {page === "signIn" && (
-                      <FormikCheckBox name="rememberMe" label="Remember me" />
+                      <FormikCheckBox<IAuthForm>
+                        name="rememberMe"
+                        label="Remember me"
+                      />
                     )}
                     {page === "signUp" && (
-                      <FormikCheckBox name="agreeTAndC" label="I consent to" />
+                      <FormikCheckBox<IAuthForm>
+                        name="agreeTAndC"
+                        label="I consent to"
+                      />
                     )}
                   </Grid>
                   <Grid item>

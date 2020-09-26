@@ -3,18 +3,20 @@ import TextField from "@material-ui/core/TextField"
 import { DatePicker } from "@material-ui/pickers"
 import { FieldAttributes, useField, useFormikContext } from "formik"
 import React, { FC } from "react"
-import { IAuthForm } from "src/types"
 
-export const FormikDatePicker: FC<
-  FieldAttributes<{}> & {
-    label: string
-    name: keyof IAuthForm
-    variant?: "standard" | "filled" | "outlined"
-  } & {
-    icon?: JSX.Element
-  }
-> = ({ label, placeholder, variant, icon, ...props }) => {
-  const [field, meta] = useField<{}>(props)
+export function FormikDatePicker<T>({
+  label,
+  placeholder,
+  variant,
+  icon,
+  ...props
+}: FieldAttributes<{
+  label: string
+  name: keyof T
+  variant?: "standard" | "filled" | "outlined"
+  icon?: JSX.Element
+}>) {
+  const [field, meta] = useField(props)
   const { setFieldValue } = useFormikContext()
   const errorText = meta.error && meta.touched ? meta.error : ""
 
