@@ -3,7 +3,7 @@ import React, { FC } from "react"
 import { IBulletin } from "."
 import { FormikTextField, FormikTextFieldProps } from "../../Level1/TextFields/FormikTextField"
 
-export const AuthTextField: FC<FormikTextFieldProps<IBulletin>> = ({
+export const BulletinTextField: FC<FormikTextFieldProps<IBulletin>> = ({
   textFieldProps,
   ...rest
 }) => (
