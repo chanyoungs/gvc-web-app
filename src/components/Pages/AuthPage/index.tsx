@@ -28,9 +28,10 @@ import { ResetPasswordDialog } from "../../Level1/Dialogs/ResetPasswordDialog"
 import { TermsAndConditionsDialog } from "../../Level1/Dialogs/TermsAndConditionsDialog"
 import { FormikCheckBox } from "../../Level1/SelectionControls/FormikCheckbox"
 import { AuthTextField } from "./AuthTextField"
+import { SignInAndResetPasswordForm } from "./SignInAndResetPasswordForm"
 import { SignUpForm } from "./SignUpForm"
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<Theme, { signUpMode: boolean }>((theme) =>
   createStyles({
     root: {
       minHeight: "100vh",
@@ -46,9 +47,15 @@ const useStyles = makeStyles((theme: Theme) =>
     signInUpButton: {
       textTransform: "none",
     },
-    logo: {
-      flex: 1,
-    },
+    logo: (props) =>
+      props.signUpMode
+        ? {
+            flex: 1,
+            height: theme.spacing(4),
+          }
+        : {
+            flex: 1,
+          },
     footer: {
       bottom: 0,
     },
@@ -141,18 +148,19 @@ const signUpValidationSchema = (activeStep: number) =>
     ]
   )
 
+export type AuthMode = "signIn" | "signUp" | "resetPassword"
+
 export const AuthPage: FC = () => {
-  const classes = useStyles()
   const dispatch = useDispatch()
   const fbFeedback = useSelector<AppState, AppState["auth"]>(
     (state) => state.auth
   )
-  const [page, setPage] = useState<"signIn" | "signUp" | "resetPassword">(
-    "signIn"
-  )
-  const [activeStep, setActiveStep] = useState(2)
+  const [authMode, setAuthMode] = useState<AuthMode>("signIn")
+  const [activeStep, setActiveStep] = useState(0)
   const [alertResetPassword, setAlertResetPassword] = useState(false)
   const [alertSignUp, setAlertSignUp] = useState(false)
+
+  const classes = useStyles({ signUpMode: authMode === "signUp" })
 
   const initialValues: AuthTypes = {
     email: "",
@@ -183,7 +191,7 @@ export const AuthPage: FC = () => {
     const openAlertResetPassword = () => setAlertResetPassword(true)
     const openAlertSignUp = () => setAlertSignUp(true)
 
-    switch (page) {
+    switch (authMode) {
       case "signIn":
         dispatch(signIn(authFormValues, setSubmitting))
         break
@@ -206,7 +214,7 @@ export const AuthPage: FC = () => {
   }
 
   const validationSchema = () => {
-    switch (page) {
+    switch (authMode) {
       case "signIn":
         return signInValidationSchema
       case "signUp":
@@ -226,9 +234,7 @@ export const AuthPage: FC = () => {
       >
         {({ values, errors, isValid, dirty, isSubmitting, submitForm }) => (
           <Form className={classes.root}>
-            <pre>{JSON.stringify(values, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
-            <img src={FullLogo} className={classes.logo} alt="GVC Logo" />
+            <img src={FullLogo} alt="GVC" className={classes.logo} />
             <div className={classes.grid}>
               <ContainerMain>
                 <Grid
@@ -237,7 +243,7 @@ export const AuthPage: FC = () => {
                   alignItems="center"
                   justify="center"
                 >
-                  <Grid item xs={12}>
+                  {authMode === "signUp" ? (
                     <SignUpForm
                       activeStep={activeStep}
                       onNext={submitForm}
@@ -245,139 +251,79 @@ export const AuthPage: FC = () => {
                         if (activeStep > 0) setActiveStep(activeStep - 1)
                       }}
                     />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <AuthTextField
-                      textFieldProps={{
-                        label: "Email Address",
-                        placeholder: "johnsmith@gmail.com",
-                      }}
-                      name="email"
-                      icon={<Email />}
+                  ) : (
+                    <SignInAndResetPasswordForm
+                      authMode={authMode}
+                      onForgotPassword={() => setAuthMode("resetPassword")}
                     />
-                  </Grid>
-                  <Grid item xs={12}>
-                    {page !== "resetPassword" && (
-                      <AuthTextField
-                        textFieldProps={{
-                          label: "Password",
-                          placeholder: "Password",
-                          autoComplete: "current-password",
-                        }}
-                        name="password"
-                        type="password"
-                        icon={<Lock />}
-                      />
-                    )}
-                  </Grid>
-
-                  {page === "signUp" && (
-                    <>
-                      <Grid item xs={12}>
-                        <AuthTextField
-                          textFieldProps={{
-                            label: "Name",
-                            placeholder: "김철수/John Smith",
-                          }}
-                          name="name"
-                          icon={<Person />}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <FormikDatePicker<ISignUp>
-                          label="Date of Birth"
-                          placeholder="01/01/2000"
-                          name="dob"
-                          variant="outlined"
-                          icon={<CalendarToday />}
-                        />
-                      </Grid>
-                    </>
                   )}
-                  <Grid item xs>
-                    {page === "signIn" && (
-                      <FormikCheckBox<ISignIn>
-                        label={
-                          <Typography variant="caption">Remember me</Typography>
+                  {(authMode !== "signUp" || activeStep === 2) && (
+                    <Grid item xs={12}>
+                      <FormControl
+                        required
+                        error={
+                          authMode === "signIn"
+                            ? !!fbFeedback.signInError
+                            : authMode === "signUp"
+                            ? !!fbFeedback.signUpError
+                            : !!fbFeedback.resetPasswordError
                         }
-                        name="rememberMe"
-                      />
-                    )}
-                    {page === "signUp" && (
-                      <FormikCheckBox<ISignUp>
-                        label={
-                          <Typography variant="caption">
-                            I consent to
-                          </Typography>
-                        }
-                        name="agreeTAndC"
-                      />
-                    )}
-                  </Grid>
-                  <Grid item>
-                    {page === "signIn" && (
-                      <Link
-                        onClick={() => setPage("resetPassword")}
-                        display="block"
-                        align="center"
-                        variant="caption"
-                        color="inherit"
+                        component="fieldset"
+                        fullWidth
                       >
-                        Forgot Password?
-                      </Link>
-                    )}
-                    {page === "signUp" && <TermsAndConditionsDialog />}
-                  </Grid>
+                        <div className={classes.buttonWrapper}>
+                          <Button
+                            className={classes.signInUpButton}
+                            disableElevation
+                            color="primary"
+                            variant="contained"
+                            fullWidth
+                            disabled={isSubmitting}
+                            type="submit"
+                          >
+                            <Typography>
+                              {authMode === "signIn" && "Sign in"}
+                              {authMode === "signUp" && "Sign up"}
+                              {authMode === "resetPassword" &&
+                                "Email me reset password link"}
+                            </Typography>
+                          </Button>
+                          {isSubmitting && (
+                            <CircularProgress
+                              size={48}
+                              className={classes.progress}
+                            />
+                          )}
+                        </div>
+                        <FormHelperText>
+                          {authMode === "signIn" &&
+                            fbFeedback.signInError?.message}
+                          {authMode === "signUp" &&
+                            fbFeedback.signUpError?.message}
+                          {authMode === "resetPassword" &&
+                            (fbFeedback.resetPasswordError
+                              ? fbFeedback.resetPasswordError?.message
+                              : fbFeedback.resetPasswordSuccess)}
+                        </FormHelperText>
+                      </FormControl>
+                    </Grid>
+                  )}
+
                   <Grid item xs={12}>
-                    <FormControl
-                      required
-                      error={
-                        page === "signIn"
-                          ? !!fbFeedback.signInError
-                          : page === "signUp"
-                          ? !!fbFeedback.signUpError
-                          : !!fbFeedback.resetPasswordError
-                      }
-                      component="fieldset"
+                    <Button
                       fullWidth
+                      variant="outlined"
+                      onClick={() => {
+                        setAuthMode(authMode !== "signUp" ? "signUp" : "signIn")
+                      }}
                     >
-                      <div className={classes.buttonWrapper}>
-                        <Button
-                          className={classes.signInUpButton}
-                          color="primary"
-                          variant="contained"
-                          fullWidth
-                          disabled={isSubmitting}
-                          type="submit"
-                        >
-                          <Typography>
-                            {page === "signIn" && "Sign in"}
-                            {page === "signUp" && "Sign up"}
-                            {page === "resetPassword" &&
-                              "Email me reset password link"}
-                          </Typography>
-                        </Button>
-                        {isSubmitting && (
-                          <CircularProgress
-                            size={48}
-                            className={classes.progress}
-                          />
-                        )}
-                      </div>
-                      <FormHelperText>
-                        {page === "signIn" && fbFeedback.signInError?.message}
-                        {page === "signUp" && fbFeedback.signUpError?.message}
-                        {page === "resetPassword" &&
-                          (fbFeedback.resetPasswordError
-                            ? fbFeedback.resetPasswordError?.message
-                            : fbFeedback.resetPasswordSuccess)}
-                      </FormHelperText>
-                    </FormControl>
+                      {authMode !== "signUp" ? "Sign Up" : "Sign In"}
+                    </Button>
                   </Grid>
-                  {page === "resetPassword" && (
+                  {authMode === "resetPassword" && (
                     <Grid item xs>
                       <Link
-                        onClick={() => setPage("signIn")}
+                        onClick={() => setAuthMode("signIn")}
                         display="block"
                         align="center"
                         variant="caption"
@@ -396,7 +342,7 @@ export const AuthPage: FC = () => {
               open={alertResetPassword}
               handleClose={() => {
                 setAlertResetPassword(false)
-                setPage("signIn")
+                setAuthMode("signIn")
               }}
             />
             <AlertDialog
@@ -405,17 +351,9 @@ export const AuthPage: FC = () => {
               open={alertSignUp}
               handleClose={() => {
                 setAlertSignUp(false)
-                setPage("signIn")
+                setAuthMode("signIn")
               }}
             />
-            <AppBar position="sticky" className={classes.footer}>
-              <ChangeSignInUp
-                page={page}
-                onClick={() => {
-                  setPage(page !== "signUp" ? "signUp" : "signIn")
-                }}
-              />
-            </AppBar>
           </Form>
         )}
       </Formik>

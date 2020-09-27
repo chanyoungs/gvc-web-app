@@ -14,6 +14,7 @@ import PersonIcon from "@material-ui/icons/Person"
 import PhoneIcon from "@material-ui/icons/Phone"
 import React, { FC, Fragment } from "react"
 import { FormikDatePicker } from "src/components/Level1/DatePickers/FormikDatePicker"
+import { TermsAndConditionsDialog } from "src/components/Level1/Dialogs/TermsAndConditionsDialog"
 import { FormikRadio } from "src/components/Level1/Radios/FormikRadio"
 import { FormikSelect } from "src/components/Level1/Select/FormikSelect"
 import { FormikCheckBox } from "src/components/Level1/SelectionControls/FormikCheckbox"
@@ -26,10 +27,9 @@ import { AuthTextField } from "./AuthTextField"
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
-    root: { flexGrow: 1 },
-    stepper: { flexGrow: 1 },
     icon: { textAlign: "center" },
     img: { height: "100%" },
+    stepper: { width: "100%" },
   })
 )
 
@@ -72,6 +72,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
                 textFieldProps={{
                   label: "Email Address*",
                   placeholder: "johnsmith@gmail.com",
+                  type: "email",
                 }}
                 name="email"
                 icon={<EmailIcon />}
@@ -83,9 +84,9 @@ export const SignUpForm: FC<SignUpFormProps> = ({
                   label: "Password*",
                   placeholder: "Password",
                   autoComplete: "current-password",
+                  type: "password",
                 }}
                 name="password"
-                type="password"
                 icon={<LockIcon />}
               />
             </Grid>
@@ -218,9 +219,6 @@ export const SignUpForm: FC<SignUpFormProps> = ({
         return (
           <Fragment>
             <Grid item xs={12}>
-              <Typography>How did you hear about us?</Typography>
-            </Grid>
-            <Grid item xs={12}>
               <FormikCheckBox<ISignUp>
                 label="Internet: Naver, Google, Daum..."
                 groupLabel="How did you hear about us?"
@@ -249,6 +247,15 @@ export const SignUpForm: FC<SignUpFormProps> = ({
                 name="serviceFeedback"
               />
             </Grid>
+            <Grid item xs>
+              <FormikCheckBox<ISignUp>
+                label={<Typography variant="caption">I consent to</Typography>}
+                name="agreeTAndC"
+              />
+            </Grid>
+            <Grid item>
+              <TermsAndConditionsDialog />
+            </Grid>
           </Fragment>
         )
       default:
@@ -257,42 +264,44 @@ export const SignUpForm: FC<SignUpFormProps> = ({
   }
 
   return (
-    <div className={classes.root}>
-      <Typography>{title()}</Typography>
-      <Grid container spacing={2} alignItems="center" justify="center">
-        {field()}
+    <Fragment>
+      <Grid item xs={12}>
+        <Typography>{title()}</Typography>
       </Grid>
-      <MobileStepper
-        variant="progress"
-        steps={4}
-        position="static"
-        activeStep={activeStep + 1}
-        className={classes.stepper}
-        nextButton={
-          <Button
-            size="small"
-            onClick={onNext}
-            disabled={activeStep === activeSteps}
-          >
-            Next
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowLeftIcon />
-            ) : (
-              <KeyboardArrowRightIcon />
-            )}
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={onBack} disabled={activeStep === 0}>
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowRightIcon />
-            ) : (
-              <KeyboardArrowLeftIcon />
-            )}
-            Back
-          </Button>
-        }
-      />
-    </div>
+      {field()}
+      <Grid item xs={12}>
+        <MobileStepper
+          variant="progress"
+          steps={4}
+          position="static"
+          activeStep={activeStep + 1}
+          // className={classes.stepper}
+          nextButton={
+            <Button
+              size="small"
+              onClick={onNext}
+              disabled={activeStep === activeSteps}
+            >
+              Next
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeftIcon />
+              ) : (
+                <KeyboardArrowRightIcon />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={onBack} disabled={activeStep === 0}>
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRightIcon />
+              ) : (
+                <KeyboardArrowLeftIcon />
+              )}
+              Back
+            </Button>
+          }
+        />
+      </Grid>
+    </Fragment>
   )
 }
