@@ -1,10 +1,13 @@
 ## TODO LIST
 
 - [ ] Currently, there are multiple instances of profileeditdialogs. Fix if unnecessary
-- [] PWA
-  - [x] 05/09/20 CY - Implemented Live Update feature
-  - [x] 06/09/20 CY - Implemented Share text feautre
+- [] Update signUp action with respect to the new fields
+- [x] 27/09/20 CY - Implemented new AuthPage
+- [x] PWA features
+  - [x] 13/09/20 CY - Implemented Push notification for Android
   - [x] 08/09/20 CY - Implemented Offline support
+  - [x] 06/09/20 CY - Implemented Share text feautre
+  - [x] 05/09/20 CY - Implemented Live Update feature
 - [x] 05/09/20 CY - Updated Icons
 - [x] 03/09/20 CY - Added build time in drawer
 - [x] 03/09/20 CY - Made attendance link with firestore

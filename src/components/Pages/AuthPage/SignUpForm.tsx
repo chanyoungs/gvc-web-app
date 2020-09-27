@@ -1,3 +1,4 @@
+import Box from "@material-ui/core/Box"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import Icon from "@material-ui/core/Icon"
@@ -29,7 +30,6 @@ const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
     icon: { textAlign: "center" },
     img: { height: "100%" },
-    stepper: { width: "100%" },
   })
 )
 
@@ -52,11 +52,11 @@ export const SignUpForm: FC<SignUpFormProps> = ({
   const title = () => {
     switch (activeStep) {
       case 0:
-        return "1. Basic info"
+        return "1. Basic Info"
       case 1:
-        return "2. Additional info"
+        return "2. Additional Info"
       case 2:
-        return "3. For reference"
+        return "3. For Reference"
       default:
         return "Error"
     }
@@ -266,7 +266,11 @@ export const SignUpForm: FC<SignUpFormProps> = ({
   return (
     <Fragment>
       <Grid item xs={12}>
-        <Typography>{title()}</Typography>
+        <Typography variant="h6">
+          <Box fontWeight="fontWeightBold" m={1}>
+            {title()}
+          </Box>
+        </Typography>
       </Grid>
       {field()}
       <Grid item xs={12}>
@@ -275,7 +279,6 @@ export const SignUpForm: FC<SignUpFormProps> = ({
           steps={4}
           position="static"
           activeStep={activeStep + 1}
-          // className={classes.stepper}
           nextButton={
             <Button
               size="small"
