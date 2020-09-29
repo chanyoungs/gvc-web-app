@@ -3,7 +3,13 @@ import Avatar from "@material-ui/core/Avatar"
 import IconButton from "@material-ui/core/IconButton"
 import InputBase from "@material-ui/core/InputBase"
 import Slide from "@material-ui/core/Slide"
-import { createStyles, fade, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
+import {
+  createStyles,
+  fade,
+  makeStyles,
+  Theme,
+  useTheme,
+} from "@material-ui/core/styles"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
@@ -11,6 +17,7 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger"
 import EditIcon from "@material-ui/icons/Edit"
 import MenuIcon from "@material-ui/icons/Menu"
 import SearchIcon from "@material-ui/icons/Search"
+import ShareIcon from "@material-ui/icons/Share"
 import clsx from "clsx"
 import React, { Fragment, ReactNode, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -107,12 +114,16 @@ export interface AppBarMainProps {
   title: React.ReactNode
   color?: AppBarProps["color"]
   toolbar?: ReactNode
+  onShare?: () => void
+  searchBar?: boolean
 }
 
 export const AppBarMain: React.FC<AppBarMainProps> = ({
   title,
   color,
   toolbar,
+  onShare,
+  searchBar,
 }) => {
   const dispatch = useDispatch()
   const theme = useTheme()
@@ -164,27 +175,34 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
               <Typography className={classes.title} noWrap>
                 {title}
               </Typography>
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
+              {searchBar && (
+                <div className={classes.search}>
+                  <div className={classes.searchIcon}>
+                    <SearchIcon />
+                  </div>
+                  <InputBase
+                    placeholder="Search…"
+                    value={search}
+                    onChange={setSearch}
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput,
+                    }}
+                    inputProps={{ "aria-label": "search" }}
+                  />
                 </div>
-                <InputBase
-                  placeholder="Search…"
-                  value={search}
-                  onChange={setSearch}
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </div>
+              )}
               <IconButton>
                 <Avatar
                   src={profile.thumbnailUrl}
                   className={classes.profile}
                 />
               </IconButton>
+              {onShare && (
+                <IconButton onClick={onShare} color="inherit">
+                  <ShareIcon color="inherit" />
+                </IconButton>
+              )}
             </Toolbar>
           )}
         </AppBar>

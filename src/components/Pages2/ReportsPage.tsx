@@ -9,13 +9,11 @@ import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/sty
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import Zoom from "@material-ui/core/Zoom"
-import ClearIcon from "@material-ui/icons/Clear"
 import DoneAllIcon from "@material-ui/icons/DoneAll"
 import EventIcon from "@material-ui/icons/Event"
 import InfoIcon from "@material-ui/icons/Info"
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore"
 import NavigateNextIcon from "@material-ui/icons/NavigateNext"
-import ShareIcon from "@material-ui/icons/Share"
 import { DatePicker } from "@material-ui/pickers"
 import moment, { Moment } from "moment"
 import React, { FC, Fragment, useState } from "react"
@@ -23,7 +21,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
-import { batchUploadReports, updateBatchReports } from "src/store/actions/reportActions"
 import { ALERT_SAVED } from "src/store/actions/types"
 import { IAlertState } from "src/store/reducers/alertReducer"
 import { IMemberDownload, IReports } from "src/types"
@@ -146,6 +143,34 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
 
   const isThisWeek = () => moment(date).add(1, "week") > moment().day(0)
 
+  const nav: any = navigator
+  const onShare = () => {
+    console.log("Attempting to share")
+    if (nav.share) {
+      console.log("nav.share exists!")
+      nav
+        .share({
+          title: `Prayer list ${date.format("YYYY/MM/DD")}`,
+          text: members
+            .map((member) => {
+              const report =
+                reports[`${date.format("YYYY.MM.DD")}-${member.id}`]
+              return `${member.name}:\n${report.prayer}\n`
+            })
+            .join("\n"),
+          url: "https://london-gvc.web.app",
+        })
+        .then(() => {
+          console.log("Successful share")
+        })
+        .catch((error: Error) => {
+          console.error(error)
+        })
+    } else {
+      console.log("nav.share doesn't exist!")
+    }
+  }
+
   return (
     <Fragment>
       <AppBarMain
@@ -163,6 +188,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
             </Toolbar>
           ) : undefined
         }
+        onShare={nav.Share ? onShare : undefined}
         title="Reports"
       />
       <ContainerMain>
@@ -234,48 +260,6 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
         ) : (
           <LoadingProgress />
         )}
-        <Zoom
-          in={reportMode === "prayer"}
-          timeout={transitionDuration}
-          // style={{
-          //   transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
-          // }}
-          unmountOnExit
-        >
-          <Fab
-            color="primary"
-            className={classes.share}
-            onClick={() => {
-              console.log("Attempting to share")
-              const nav: any = navigator
-              if (nav.share) {
-                console.log("nav.share exists!")
-                nav
-                  .share({
-                    title: `Prayer list ${date.format("YYYY/MM/DD")}`,
-                    text: members
-                      .map((member) => {
-                        const report =
-                          reports[`${date.format("YYYY.MM.DD")}-${member.id}`]
-                        return `${member.name}:\n${report.prayer}\n`
-                      })
-                      .join("\n"),
-                    url: "https://london-gvc.web.app",
-                  })
-                  .then(() => {
-                    console.log("Successful share")
-                  })
-                  .catch((error: Error) => {
-                    console.error(error)
-                  })
-              } else {
-                console.log("nav.share doesn't exist!")
-              }
-            }}
-          >
-            <ShareIcon />
-          </Fab>
-        </Zoom>
         <Zoom
           in={reportMode === "prayer"}
           timeout={transitionDuration}
