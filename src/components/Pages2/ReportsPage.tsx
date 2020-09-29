@@ -1,5 +1,6 @@
 import Button from "@material-ui/core/Button"
 import ButtonBase from "@material-ui/core/ButtonBase"
+import Divider from "@material-ui/core/Divider"
 import Fab from "@material-ui/core/Fab"
 import IconButton from "@material-ui/core/IconButton"
 import InputAdornment from "@material-ui/core/InputAdornment"
@@ -12,6 +13,8 @@ import ClearIcon from "@material-ui/icons/Clear"
 import DoneAllIcon from "@material-ui/icons/DoneAll"
 import EventIcon from "@material-ui/icons/Event"
 import InfoIcon from "@material-ui/icons/Info"
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore"
+import NavigateNextIcon from "@material-ui/icons/NavigateNext"
 import ShareIcon from "@material-ui/icons/Share"
 import { DatePicker } from "@material-ui/pickers"
 import moment, { Moment } from "moment"
@@ -43,6 +46,13 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "flex-end",
     },
     datePicker: theme.typography.h4,
+    datePickerContainer: {
+      display: "flex",
+      justifyContent: "center",
+    },
+    divider: {
+      background: theme.palette.primary.light,
+    },
     fab: {
       margin: 0,
       top: "auto",
@@ -134,6 +144,8 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
     dispatch({ type: ALERT_SAVED, payload: false })
   }
 
+  const isThisWeek = () => moment(date).add(1, "week") > moment().day(0)
+
   return (
     <Fragment>
       <AppBarMain
@@ -171,28 +183,47 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
             />
           )}
         </div>
-        <DatePicker
-          fullWidth
-          variant="inline"
-          shouldDisableDate={(date) => date?.getDay() !== 0}
-          value={date.toDate()}
-          disableFuture
-          format="dd MMM yyyy"
-          autoOk
-          onChange={(date: Date | null) => {
-            if (date) {
-              setDate(moment(date))
-            }
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <EventIcon />
-              </InputAdornment>
-            ),
-            classes: { input: classes.datePicker },
-          }}
-        />
+        <div className={classes.datePickerContainer}>
+          <IconButton
+            onClick={() => {
+              setDate(moment(date).subtract(1, "week"))
+            }}
+          >
+            <NavigateBeforeIcon fontSize="large" />
+          </IconButton>
+          <DatePicker
+            variant="inline"
+            shouldDisableDate={(date) => date?.getDay() !== 0}
+            value={date.toDate()}
+            disableFuture
+            format="dd MMM yyyy"
+            autoOk
+            onChange={(date: Date | null) => {
+              if (date) {
+                setDate(moment(date))
+              }
+            }}
+            inputProps={{ style: { textAlign: "center" } }}
+            InputProps={{
+              disableUnderline: true,
+              // startAdornment: (
+              //   <InputAdornment position="start">
+              //     <EventIcon />
+              //   </InputAdornment>
+              // ),
+              classes: { input: classes.datePicker },
+            }}
+          />
+          <IconButton
+            onClick={() => {
+              if (!isThisWeek()) setDate(moment(date).add(1, "week"))
+            }}
+            disabled={isThisWeek()}
+          >
+            <NavigateNextIcon fontSize="large" />
+          </IconButton>
+        </div>
+        <Divider className={classes.divider} />
         {isLoaded(reports) && isLoaded(members) ? (
           <ReportsContainer
             reports={reports}
