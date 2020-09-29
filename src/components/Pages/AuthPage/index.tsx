@@ -55,6 +55,7 @@ const useStyles = makeStyles<Theme, { signUpMode: boolean }>((theme) =>
           }
         : {
             flex: 1,
+            width: "60%",
           },
     footer: {
       bottom: 0,
@@ -233,109 +234,106 @@ export const AuthPage: FC = () => {
         onSubmit={onSubmit}
       >
         {({ values, errors, isValid, dirty, isSubmitting, submitForm }) => (
-          <Form className={classes.root}>
-            <img src={FullLogo} alt="GVC" className={classes.logo} />
-            <div className={classes.grid}>
-              <ContainerMain>
-                <Grid
-                  container
-                  spacing={2}
-                  alignItems="center"
-                  justify="center"
-                >
-                  {authMode === "signUp" ? (
-                    <SignUpForm
-                      activeStep={activeStep}
-                      onNext={submitForm}
-                      onBack={() => {
-                        if (activeStep > 0) setActiveStep(activeStep - 1)
-                      }}
-                    />
-                  ) : (
-                    <SignInAndResetPasswordForm
-                      authMode={authMode}
-                      onForgotPassword={() => setAuthMode("resetPassword")}
-                    />
-                  )}
-                  {(authMode !== "signUp" || activeStep === 2) && (
-                    <Grid item xs={12}>
-                      <FormControl
-                        required
-                        error={
-                          authMode === "signIn"
-                            ? !!fbFeedback.signInError
-                            : authMode === "signUp"
-                            ? !!fbFeedback.signUpError
-                            : !!fbFeedback.resetPasswordError
-                        }
-                        component="fieldset"
-                        fullWidth
-                      >
-                        <div className={classes.buttonWrapper}>
-                          <Button
-                            className={classes.signInUpButton}
-                            disableElevation
-                            color="primary"
-                            variant="contained"
-                            fullWidth
-                            disabled={isSubmitting}
-                            type="submit"
-                          >
-                            <Typography>
-                              {authMode === "signIn" && "Sign in"}
-                              {authMode === "signUp" && "Sign up"}
-                              {authMode === "resetPassword" &&
-                                "Email me reset password link"}
-                            </Typography>
-                          </Button>
-                          {isSubmitting && (
-                            <CircularProgress
-                              size={48}
-                              className={classes.progress}
-                            />
-                          )}
-                        </div>
-                        <FormHelperText>
-                          {authMode === "signIn" &&
-                            fbFeedback.signInError?.message}
-                          {authMode === "signUp" &&
-                            fbFeedback.signUpError?.message}
-                          {authMode === "resetPassword" &&
-                            (fbFeedback.resetPasswordError
-                              ? fbFeedback.resetPasswordError?.message
-                              : fbFeedback.resetPasswordSuccess)}
-                        </FormHelperText>
-                      </FormControl>
-                    </Grid>
-                  )}
+          <Form>
+            <ContainerMain>
+              <div className={classes.root}>
+                <img src={FullLogo} alt="GVC" className={classes.logo} />
+                <div className={classes.grid}>
+                  <Grid
+                    container
+                    spacing={2}
+                    alignItems="center"
+                    justify="center"
+                  >
+                    {authMode === "signUp" ? (
+                      <SignUpForm
+                        activeStep={activeStep}
+                        onNext={submitForm}
+                        onBack={() => {
+                          if (activeStep > 0) setActiveStep(activeStep - 1)
+                        }}
+                      />
+                    ) : (
+                      <SignInAndResetPasswordForm
+                        authMode={authMode}
+                        onForgotPassword={() => setAuthMode("resetPassword")}
+                      />
+                    )}
+                    {(authMode !== "signUp" || activeStep === 2) && (
+                      <Grid item xs={12}>
+                        <FormControl
+                          required
+                          error={
+                            authMode === "signIn"
+                              ? !!fbFeedback.signInError
+                              : authMode === "signUp"
+                              ? !!fbFeedback.signUpError
+                              : !!fbFeedback.resetPasswordError
+                          }
+                          component="fieldset"
+                          fullWidth
+                        >
+                          <div className={classes.buttonWrapper}>
+                            <Button
+                              className={classes.signInUpButton}
+                              disableElevation
+                              color="primary"
+                              variant="contained"
+                              fullWidth
+                              disabled={isSubmitting}
+                              type="submit"
+                            >
+                              <Typography>
+                                {authMode === "signIn" && "Sign in"}
+                                {authMode === "signUp" && "Sign up"}
+                                {authMode === "resetPassword" &&
+                                  "Email me reset password link"}
+                              </Typography>
+                            </Button>
+                            {isSubmitting && (
+                              <CircularProgress
+                                size={48}
+                                className={classes.progress}
+                              />
+                            )}
+                          </div>
+                          <FormHelperText>
+                            {authMode === "signIn" &&
+                              fbFeedback.signInError?.message}
+                            {authMode === "signUp" &&
+                              fbFeedback.signUpError?.message}
+                            {authMode === "resetPassword" &&
+                              (fbFeedback.resetPasswordError
+                                ? fbFeedback.resetPasswordError?.message
+                                : fbFeedback.resetPasswordSuccess)}
+                          </FormHelperText>
+                        </FormControl>
+                      </Grid>
+                    )}
 
-                  <Grid item xs={12}>
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      onClick={() => {
-                        setAuthMode(authMode !== "signUp" ? "signUp" : "signIn")
-                      }}
-                    >
-                      {authMode !== "signUp" ? "Sign Up" : "Sign In"}
-                    </Button>
-                  </Grid>
-                  {authMode === "resetPassword" && (
                     <Grid item xs>
                       <Link
-                        onClick={() => setAuthMode("signIn")}
+                        onClick={() =>
+                          setAuthMode(
+                            authMode === "signIn" ? "signUp" : "signIn"
+                          )
+                        }
                         display="block"
                         align="center"
-                        variant="caption"
+                        variant="body2"
                         color="inherit"
                       >
-                        Return to sign in page?
+                        {authMode === "signIn"
+                          ? "Not a member? Sign up"
+                          : authMode === "signUp"
+                          ? "Already a member? Sign in"
+                          : "Return to sign in page?"}
                       </Link>
                     </Grid>
-                  )}
-                </Grid>
-              </ContainerMain>
-            </div>
+                  </Grid>
+                </div>
+              </div>
+            </ContainerMain>
             <AlertDialog
               title="Password reset link sent!"
               content="Password reset link has been sent to your email. Please check your email to reset your password, and then come back to sign in."
