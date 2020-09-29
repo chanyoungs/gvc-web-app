@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     toolbar: {
       display: "flex",
-      justifyContent: "space-between",
+      justifyContent: "flex-end",
     },
     datePicker: theme.typography.h4,
     fab: {
@@ -141,41 +141,17 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
         toolbar={
           reportMode === "attendance" ? (
             <Toolbar color="inherit" className={classes.toolbar}>
-              <IconButton
-                color="inherit"
-                onClick={() => {
-                  setReportMode("prayer")
-                  dispatch(updateBatchReports(reports))
-                }}
-              >
-                <ClearIcon />
-              </IconButton>
               <ButtonBase
                 onClick={() => {
-                  dispatch(
-                    batchUploadReports(() => {
-                      dispatch({ type: ALERT_SAVED, payload: true })
-                    })
-                  )
                   setReportMode("prayer")
                 }}
-                // onClick={() => {
-                //   setBackdropOpen(true)
-                //   console.log("clicked")
-                //   dispatch(
-                //     batchUploadReports(() => {
-                //       setBackdropOpen(false)
-                //       setReportMode("prayer")
-                //     })
-                //   )
-                // }}
               >
-                <Typography>저장</Typography>
+                <Typography>확인</Typography>
               </ButtonBase>
             </Toolbar>
           ) : undefined
         }
-        title="기도제목"
+        title="Reports"
       />
       <ContainerMain>
         <div className={classes.noticeAlert}>

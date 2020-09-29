@@ -11,13 +11,7 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup"
 import React, { FC, useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { ReportMode } from "src/components/Pages2/ReportsPage"
-import {
-  getReportDocId,
-  updateAttendance,
-  updatePrayer,
-  updateReport,
-  uploadReport,
-} from "src/store/actions/reportActions"
+import { getReportDocId, updateAttendance, updatePrayer, updateReport, uploadReport } from "src/store/actions/reportActions"
 import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberDownload, IReport } from "src/types"
 
@@ -56,10 +50,16 @@ export const ReportListItem: FC<ReportListItem> = ({
   const attendance = reportLocal ? reportLocal.attendance : report.attendance
 
   const dispatch = useDispatch()
-  const setPrayer = (prayer: string) =>
-    dispatch(updateReport({ ...report, prayer }))
-  const setAttendance = (attendance: IReport["attendance"]) =>
-    dispatch(updateReport({ ...report, attendance }))
+  const setPrayer = (prayer: string) => {
+    if (reportLocal) dispatch(updateReport({ ...reportLocal, prayer }))
+  }
+  const setAttendance = (attendance: IReport["attendance"]) => {
+    if (reportLocal) {
+      const newReport = { ...reportLocal, attendance }
+      dispatch(updateReport(newReport))
+      dispatch(uploadReport(newReport, false))
+    }
+  }
 
   useEffect(() => {
     dispatch(updateReport(report))
@@ -69,10 +69,14 @@ export const ReportListItem: FC<ReportListItem> = ({
     setPrayer(report.prayer)
   }, [report.prayer])
 
-  const { cell, service, info } = report.attendance
   useEffect(() => {
-    setAttendance(report.attendance)
-  }, [cell, service, info])
+    if (reportLocal)
+      dispatch(updateReport({ ...reportLocal, attendance: report.attendance }))
+  }, [
+    report.attendance.cell,
+    report.attendance.service,
+    report.attendance.info,
+  ])
 
   useEffect(() => {
     const timer = setTimeout(savePrayerChanges, 1000)

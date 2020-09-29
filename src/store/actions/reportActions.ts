@@ -37,24 +37,25 @@ export const updateAttendance = (
   payload: { reportId, attendance },
 })
 
-export const uploadReport = (report: IReport): ThunkActionCustom<void> => (
+export const uploadReport = (
+  report: IReport,
+  alert: boolean = true
+): ThunkActionCustom<void> => async (
   dispatch,
   getState,
   { getFirestore, getFirebase }
 ) => {
   const firestore = getFirestore()
-
-  firestore
-    .collection("reports")
-    .doc(getReportDocId(report))
-    .set(report)
-    .then(() => {
-      dispatch({ type: ALERT_SAVED, payload: true })
-    })
-    .catch((error: IFBError) => {
-      dispatch({ type: ALERT_SAVED_ERROR, payload: error })
-      console.error("Upload Report Error", error)
-    })
+  try {
+    await firestore
+      .collection("reports")
+      .doc(getReportDocId(report))
+      .set(report)
+    if (alert) dispatch({ type: ALERT_SAVED, payload: true })
+  } catch (error) {
+    dispatch({ type: ALERT_SAVED_ERROR, payload: error })
+    console.error("Upload Report Error", error)
+  }
 }
 
 export const batchUploadReports = (
