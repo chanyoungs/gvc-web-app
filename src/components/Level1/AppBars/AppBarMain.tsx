@@ -3,13 +3,7 @@ import Avatar from "@material-ui/core/Avatar"
 import IconButton from "@material-ui/core/IconButton"
 import InputBase from "@material-ui/core/InputBase"
 import Slide from "@material-ui/core/Slide"
-import {
-  createStyles,
-  fade,
-  makeStyles,
-  Theme,
-  useTheme,
-} from "@material-ui/core/styles"
+import { createStyles, fade, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
