@@ -188,7 +188,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
             </Toolbar>
           ) : undefined
         }
-        onShare={nav.Share ? onShare : undefined}
+        onShare={nav.share ? onShare : undefined}
         title="Reports"
       />
       <ContainerMain>
