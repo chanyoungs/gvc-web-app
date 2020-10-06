@@ -16,7 +16,7 @@ export interface ISNoticesPage {}
 
 export const NoticesPage: FC<NoticesPageProps> = (props) => {
   useFirestoreConnect([
-    { collection: "notices", orderBy: ["createdAt", "asc"] },
+    { collection: "notices", orderBy: ["createdAt", "desc"] },
   ])
 
   const noticesArr = useSelector<AppState, any>(
