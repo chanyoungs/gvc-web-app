@@ -37,8 +37,7 @@ export const ProfileMenu: FC<{
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose}>프로필 보기</MenuItem>
-        <MenuItem onClick={handleClose}>출석 취소</MenuItem>
-        <MenuItem onClick={handleClose}>파송</MenuItem>
+        <MenuItem onClick={handleClose}>상태 변경</MenuItem>
       </Menu>
     </div>
   )
