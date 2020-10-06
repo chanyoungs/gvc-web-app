@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
-import { ALERT_SAVED } from "src/store/actions/types"
+import { ALERT_CLOSE, ALERT_SAVED } from "src/store/actions/types"
 import { IAlertState } from "src/store/reducers/alertReducer"
 import { IMemberDownload, IReports } from "src/types"
 
@@ -125,9 +125,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   )
   const localReports = useSelector<AppState, IReports>((state) => state.reports)
 
-  const alertSaved = useSelector<AppState, IAlertState["saved"]>(
-    (state) => state.alert.saved
-  )
+  const alert = useSelector<AppState, IAlertState>((state) => state.alert)
 
   const [backdropOpen, setBackdropOpen] = useState(false)
 
@@ -138,28 +136,32 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
     if (reason === "clickaway") {
       return
     }
-    dispatch({ type: ALERT_SAVED, payload: false })
+    dispatch({ type: ALERT_CLOSE })
   }
 
   const isThisWeek = () => moment(date).add(1, "week") > moment().day(0)
 
   const nav: any = navigator
-  const onShare = () => {
+  const onShare = async () => {
+    const reportContent = {
+      title: `Prayer list ${date.format("YYYY/MM/DD")}`,
+      text: members
+        ? members
+            .map((member) => {
+              const reportId = `${date.format("YYYY.MM.DD")}-${member.id}`
+              const report = reportId in reports && reports[reportId]
+              const prayer = report && "prayer" in report ? report.prayer : ""
+              return `${member.name}:\n${prayer}\n`
+            })
+            .join("\n")
+        : "",
+      url: "https://london-gvc.web.app",
+    }
     console.log("Attempting to share")
     if (nav.share) {
       console.log("nav.share exists!")
       nav
-        .share({
-          title: `Prayer list ${date.format("YYYY/MM/DD")}`,
-          text: members
-            .map((member) => {
-              const report =
-                reports[`${date.format("YYYY.MM.DD")}-${member.id}`]
-              return `${member.name}:\n${report.prayer}\n`
-            })
-            .join("\n"),
-          url: "https://london-gvc.web.app",
-        })
+        .share(reportContent)
         .then(() => {
           console.log("Successful share")
         })
@@ -168,6 +170,17 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
         })
     } else {
       console.log("nav.share doesn't exist!")
+      try {
+        await navigator.clipboard.writeText(
+          `${reportContent.title}\n${reportContent.text}\n${reportContent.url}`
+        )
+        dispatch({
+          type: ALERT_SAVED,
+          payload: "Reports copied to clipboard!",
+        })
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 
@@ -188,7 +201,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
             </Toolbar>
           ) : undefined
         }
-        onShare={nav.share ? onShare : undefined}
+        onShare={onShare}
         title="Reports"
       />
       <ContainerMain>
@@ -279,9 +292,9 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
           </Fab>
         </Zoom>
         <Snackbar
-          open={alertSaved}
+          open={alert.open}
           autoHideDuration={1000}
-          message="Changes saved."
+          message={alert.message}
           onClose={handleSnackbarClose}
           action={
             <Button

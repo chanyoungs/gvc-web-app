@@ -1,11 +1,13 @@
-import { ALERT_SAVED, AlertActionTypes } from "src/store/actions/types"
+import { ALERT_CLOSE, ALERT_SAVED, AlertActionTypes } from "src/store/actions/types"
 
 export interface IAlertState {
-  saved: boolean
+  open: boolean
+  message: string
 }
 
 const initState: IAlertState = {
-  saved: false,
+  open: false,
+  message: "",
 }
 
 export const alertReducer = (
@@ -14,7 +16,9 @@ export const alertReducer = (
 ): IAlertState => {
   switch (action.type) {
     case ALERT_SAVED:
-      return { ...state, saved: action.payload }
+      return { ...state, open: true, message: action.payload }
+    case ALERT_CLOSE:
+      return { ...state, open: false }
     default:
       return state
   }

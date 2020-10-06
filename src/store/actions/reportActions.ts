@@ -51,7 +51,11 @@ export const uploadReport = (
       .collection("reports")
       .doc(getReportDocId(report))
       .set(report)
-    if (alert) dispatch({ type: ALERT_SAVED, payload: true })
+    if (alert)
+      dispatch({
+        type: ALERT_SAVED,
+        payload: "Changes saved.",
+      })
   } catch (error) {
     dispatch({ type: ALERT_SAVED_ERROR, payload: error })
     console.error("Upload Report Error", error)
@@ -77,7 +81,10 @@ export const batchUploadReports = (
 
   try {
     await Promise.all(Promises)
-    dispatch({ type: ALERT_SAVED, payload: true })
+    dispatch({
+      type: ALERT_SAVED,
+      payload: "Changes saved.",
+    })
     callback()
   } catch (error) {
     dispatch({ type: ALERT_SAVED_ERROR, payload: error })

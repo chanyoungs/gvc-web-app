@@ -96,7 +96,7 @@ export type ReportActionTypes =
 export const ALERT_SAVED = "ALERT_SAVED"
 export interface AlertSaved {
   type: typeof ALERT_SAVED
-  payload: boolean
+  payload: string
 }
 
 export const ALERT_SAVED_ERROR = "ALERT_SAVED_ERROR"
@@ -105,7 +105,12 @@ export interface AlertSavedError {
   payload: IFBError
 }
 
-export type AlertActionTypes = AlertSaved | AlertSavedError
+export const ALERT_CLOSE = "ALERT_CLOSE"
+export interface AlertClose {
+  type: typeof ALERT_CLOSE
+}
+
+export type AlertActionTypes = AlertSaved | AlertSavedError | AlertClose
 
 // Theme actions
 export const UPLOAD_THEME = "UPLOAD_THEME"
