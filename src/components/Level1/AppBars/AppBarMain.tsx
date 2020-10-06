@@ -8,6 +8,7 @@ import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import useScrollTrigger from "@material-ui/core/useScrollTrigger"
+import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import EditIcon from "@material-ui/icons/Edit"
 import MenuIcon from "@material-ui/icons/Menu"
 import SearchIcon from "@material-ui/icons/Search"
@@ -186,17 +187,14 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
                   />
                 </div>
               )}
-              <IconButton>
-                <Avatar
-                  src={profile.thumbnailUrl}
-                  className={classes.profile}
-                />
-              </IconButton>
               {onShare && (
                 <IconButton onClick={onShare} color="inherit">
                   <ShareIcon color="inherit" />
                 </IconButton>
               )}
+              <IconButton color="inherit">
+                <AccountCircleIcon color="inherit" />
+              </IconButton>
             </Toolbar>
           )}
         </AppBar>
