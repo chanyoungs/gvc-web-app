@@ -173,7 +173,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
             </Grid>
             <Grid item xs={12}>
               <FormikSelect<ISignUp, ISignUp["faithStart"]>
-                label="When did your faith start?"
+                label="When did you come to have faith?"
                 name="faithStart"
                 variant="outlined"
                 menuItems={[
@@ -204,7 +204,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
             <Grid item xs={12}>
               <AuthTextField
                 textFieldProps={{
-                  label: "Occupation Details",
+                  label: "Occupation Details*",
                   placeholder: "e.g. Company/School, Job/Course",
                   multiline: true,
                   rows: 2,

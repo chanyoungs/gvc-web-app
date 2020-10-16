@@ -44,23 +44,24 @@ export const signUp = (
   getState,
   { getFirestore, getFirebase }
 ) => {
-  const { email, password, name, dob, agreeTAndC } = authFormValues
+  const { password, rememberMe, ...profile } = authFormValues
+
+  // This is to to typecheck against ISignUp
+  const check: ISignUp = {password,...profile}
+  
   setSubmitting(true)
   const firestore = getFirestore()
   const firebase = getFirebase()
 
   firebase
     .createUser(
-      { email, password },
+      { email: profile.email, password },
       {
-        email,
-        username: email,
-        name,
-        dob,
+        ...profile,
+        username: profile.email,
         cell: "1",
         photoUrl: "",
         positions: [],
-        agreeTAndC,
       }
     )
     .then(() => {
