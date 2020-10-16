@@ -57,7 +57,7 @@ export const signUp = (
         username: email,
         name,
         dob,
-        cell: "",
+        cell: "1",
         photoUrl: "",
         positions: [],
         agreeTAndC,
