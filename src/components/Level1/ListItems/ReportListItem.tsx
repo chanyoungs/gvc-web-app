@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     listItem: {
       paddingLeft: 0,
-      paddingRight: 0,
+      // paddingRight: 0,
     },
   })
 )
@@ -114,7 +114,7 @@ export const ReportListItem: FC<ReportListItem> = ({
         secondary={
           reportMode === "prayer" ? (
             <TextField
-              InputProps={{ className: classes.textFieldInputProps }}
+              // InputProps={{ className: classes.textFieldInputProps }}
               fullWidth
               placeholder="기도제목을 입력해주세요"
               multiline
@@ -168,54 +168,6 @@ export const ReportListItem: FC<ReportListItem> = ({
                 전체
               </ToggleButton>
             </ToggleButtonGroup>
-            // <ButtonGroup fullWidth>
-            //   <Button
-            //     color={attendance.service ? "primary" : undefined}
-            //     variant={attendance.service ? "contained" : undefined}
-            //     // variant="contained"
-            //     onClick={() => {
-            //       setAttendance((prevAttendance) => ({
-            //         ...prevAttendance,
-            //         service: !prevAttendance.service,
-            //       }))
-            //     }}
-            //   >
-            //     예배
-            //   </Button>
-            //   <Button
-            //     color={attendance.cell ? "primary" : undefined}
-            //     // variant="contained"
-            //     variant={attendance.cell ? "contained" : undefined}
-            //     onClick={() => {
-            //       setAttendance((prevAttendance) => ({
-            //         ...prevAttendance,
-            //         cell: !prevAttendance.cell,
-            //       }))
-            //     }}
-            //   >
-            //     셀모임
-            //   </Button>
-            //   <Button
-            //     color={
-            //       attendance.service && attendance.cell ? "primary" : undefined
-            //     }
-            //     // variant="contained"
-            //     variant={
-            //       attendance.service && attendance.cell
-            //         ? "contained"
-            //         : undefined
-            //     }
-            //     onClick={() => {
-            //       setAttendance((prevAttendance) =>
-            //         prevAttendance.service && prevAttendance.cell
-            //           ? { ...prevAttendance, service: false, cell: false }
-            //           : { ...prevAttendance, service: true, cell: true }
-            //       )
-            //     }}
-            //   >
-            //     전체
-            //   </Button>
-            // </ButtonGroup>
           )
         }
       />
