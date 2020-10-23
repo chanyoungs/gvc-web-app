@@ -8,6 +8,7 @@ import Snackbar from "@material-ui/core/Snackbar"
 import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
+import useMediaQuery from "@material-ui/core/useMediaQuery"
 import Zoom from "@material-ui/core/Zoom"
 import DoneAllIcon from "@material-ui/icons/DoneAll"
 import EventIcon from "@material-ui/icons/Event"
@@ -92,6 +93,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   }
 
   const dispatch = useDispatch()
+  const desktopMode = useMediaQuery(theme.breakpoints.up("sm"))
 
   useFirestoreConnect([
     { collection: "notices", orderBy: ["createdAt", "asc"] },
@@ -128,6 +130,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   const alert = useSelector<AppState, IAlertState>((state) => state.alert)
 
   const [backdropOpen, setBackdropOpen] = useState(false)
+  const [isTyping, setIsTyping] = useState(false)
 
   const handleSnackbarClose = (
     event: React.SyntheticEvent | React.MouseEvent,
@@ -269,12 +272,13 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
             members={members}
             date={date}
             reportMode={reportMode}
+            setIsTyping={setIsTyping}
           />
         ) : (
           <LoadingProgress />
         )}
         <Zoom
-          in={reportMode === "prayer"}
+          in={reportMode === "prayer" && (!isTyping || desktopMode)}
           timeout={transitionDuration}
           // style={{
           //   transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,

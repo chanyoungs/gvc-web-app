@@ -47,6 +47,7 @@ export interface ReportsContainerProps {
   reports: IReports
   date: Moment
   reportMode: ReportMode
+  setIsTyping: (isTyping: boolean) => void
 }
 
 export const ReportsContainer: FC<ReportsContainerProps> = ({
@@ -54,6 +55,7 @@ export const ReportsContainer: FC<ReportsContainerProps> = ({
   reports,
   date,
   reportMode,
+  setIsTyping,
 }) => {
   const classes = useStyles()
   const search = useSelector<AppState, string>((state) => state.appBar.search)
@@ -87,6 +89,7 @@ export const ReportsContainer: FC<ReportsContainerProps> = ({
         member={member}
         key={member.id}
         reportMode={reportMode}
+        setIsTyping={setIsTyping}
       />
     )
   }

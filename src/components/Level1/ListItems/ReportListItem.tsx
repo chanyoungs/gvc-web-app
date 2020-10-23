@@ -33,12 +33,14 @@ export interface ReportListItem {
   member: IMemberDownload
   report: IReport
   reportMode: ReportMode
+  setIsTyping: (isTyping: boolean) => void
 }
 
 export const ReportListItem: FC<ReportListItem> = ({
   member,
   report,
   reportMode,
+  setIsTyping,
 }) => {
   const classes = useStyles()
 
@@ -95,6 +97,7 @@ export const ReportListItem: FC<ReportListItem> = ({
   }
 
   const onBlur = () => {
+    setIsTyping(false)
     savePrayerChanges()
   }
 
@@ -119,6 +122,9 @@ export const ReportListItem: FC<ReportListItem> = ({
               rowsMax={2}
               value={prayer}
               onChange={onPrayerChange}
+              onFocus={() => {
+                setIsTyping(true)
+              }}
               onBlur={onBlur}
               helperText={prayer !== report.prayer && "Unsaved changes"}
             />
