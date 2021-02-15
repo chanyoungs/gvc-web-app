@@ -2,6 +2,7 @@
 
 - [ ] Currently, there are multiple instances of profileeditdialogs. Fix if unnecessary
 - [] Update signUp action with respect to the new fields
+- [x] 15/02/21 CY - Implemented tabs in reports page
 - [x] 27/09/20 CY - Implemented new AuthPage
 - [x] PWA features
   - [x] 13/09/20 CY - Implemented Push notification for Android
