@@ -6,6 +6,8 @@ import IconButton from "@material-ui/core/IconButton"
 import InputAdornment from "@material-ui/core/InputAdornment"
 import Snackbar from "@material-ui/core/Snackbar"
 import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
+import Tab from "@material-ui/core/Tab"
+import Tabs from "@material-ui/core/Tabs"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
@@ -83,6 +85,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   const classes = useStyles()
   const [date, setDate] = useState<Moment>(moment().day(0))
   const [reportMode, setReportMode] = useState<ReportMode>("prayer")
+
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)
 
   const theme = useTheme()
@@ -207,6 +210,15 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
         onShare={onShare}
         title="Reports"
       />
+      <Tabs
+        value={reportMode}
+        onChange={(event: React.ChangeEvent<{}>, value: ReportMode) =>
+          setReportMode(value)
+        }
+      >
+        <Tab label="Prayers" value="prayer" />
+        <Tab label="Attendance" value="attendance" />
+      </Tabs>
       <ContainerMain>
         <div className={classes.noticeAlert}>
           {reportMode === "prayer" ? (
