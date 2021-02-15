@@ -149,13 +149,15 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
 
   const nav: any = navigator
   const onShare = async () => {
+    console.log({ members, reports })
+
     const reportContent = {
       title: `Prayer list ${date.format("YYYY/MM/DD")}`,
       text: members
         ? members
             .map((member) => {
               const reportId = `${date.format("YYYY.MM.DD")}-${member.id}`
-              const report = reportId in reports && reports[reportId]
+              const report = reports && reportId in reports && reports[reportId]
               const prayer = report && "prayer" in report ? report.prayer : ""
               return `${member.name}:\n${prayer}\n`
             })
@@ -192,25 +194,9 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
 
   return (
     <Fragment>
-      <AppBarMain
-        color={reportMode === "attendance" ? "secondary" : undefined}
-        toolbar={
-          reportMode === "attendance" ? (
-            <Toolbar color="inherit" className={classes.toolbar}>
-              <ButtonBase
-                onClick={() => {
-                  setReportMode("prayer")
-                }}
-              >
-                <Typography>확인</Typography>
-              </ButtonBase>
-            </Toolbar>
-          ) : undefined
-        }
-        onShare={onShare}
-        title="Reports"
-      />
+      <AppBarMain onShare={onShare} title="Reports" />
       <Tabs
+        variant="fullWidth"
         value={reportMode}
         onChange={(event: React.ChangeEvent<{}>, value: ReportMode) =>
           setReportMode(value)
@@ -289,24 +275,6 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
         ) : (
           <LoadingProgress />
         )}
-        <Zoom
-          in={reportMode === "prayer" && (!isTyping || desktopMode)}
-          timeout={transitionDuration}
-          // style={{
-          //   transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
-          // }}
-          unmountOnExit
-        >
-          <Fab
-            color="secondary"
-            className={classes.fab}
-            onClick={() => {
-              setReportMode("attendance")
-            }}
-          >
-            <DoneAllIcon />
-          </Fab>
-        </Zoom>
         <Snackbar
           open={alert.open}
           autoHideDuration={1000}
