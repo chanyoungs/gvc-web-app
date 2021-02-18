@@ -8,11 +8,12 @@ import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
+import useMediaQuery from "@material-ui/core/useMediaQuery"
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
-import ArrowBackIcon from "@material-ui/icons/ArrowBack"
+import CloseIcon from "@material-ui/icons/Close"
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
 import ImageIcon from "@material-ui/icons/Image"
@@ -91,6 +92,9 @@ export interface ProfileEditDialogProps {
 }
 
 export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
+  const theme = useTheme()
+  const desktopMode = useMediaQuery(theme.breakpoints.up("sm"))
+
   const [open, setOpen] = React.useState<boolean>(false)
   const [edit, setEdit] = React.useState<boolean>(false)
   const [localImage, setLocalImage] = React.useState<{
@@ -175,6 +179,7 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
         {props.children}
       </ButtonBase>
       <Dialog
+        fullScreen={!desktopMode}
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
@@ -187,11 +192,11 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
           <Grid container justify="center" alignItems="center" spacing={1}>
             <Grid item>
               <IconButton
-                onClick={handleClose}
-                className={classes.return}
-                aria-label="return"
+                onClick={handleClickEdit}
+                className={classes.edit}
+                aria-label="settings"
               >
-                <ArrowBackIcon />
+                {edit ? <VisibilityIcon /> : <EditIcon />}
               </IconButton>
             </Grid>
             <Grid item xs>
@@ -201,11 +206,11 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
             </Grid>
             <Grid item>
               <IconButton
-                onClick={handleClickEdit}
-                className={classes.edit}
-                aria-label="settings"
+                onClick={handleClose}
+                className={classes.return}
+                aria-label="return"
               >
-                {edit ? <VisibilityIcon /> : <EditIcon />}
+                <CloseIcon />
               </IconButton>
             </Grid>
           </Grid>

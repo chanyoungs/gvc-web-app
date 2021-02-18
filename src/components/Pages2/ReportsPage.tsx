@@ -274,6 +274,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
           >
             {reportModes.map((reportMode) => (
               <ReportsContainer
+                key={reportMode}
                 reports={reports}
                 members={members}
                 date={date}
