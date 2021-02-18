@@ -22,6 +22,7 @@ import moment, { Moment } from "moment"
 import React, { FC, Fragment, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
+import SwipeableViews from "react-swipeable-views"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 import { ALERT_CLOSE, ALERT_SAVED } from "src/store/actions/types"
@@ -84,7 +85,8 @@ export type ReportMode = "prayer" | "attendance"
 export const ReportsPage: FC<ReportsPageProps> = (props) => {
   const classes = useStyles()
   const [date, setDate] = useState<Moment>(moment().day(0))
-  const [reportMode, setReportMode] = useState<ReportMode>("prayer")
+  const [reportModeIndex, setReportModeIndex] = useState(0)
+  const reportModes: ReportMode[] = ["prayer", "attendance"]
 
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)
 
@@ -195,19 +197,9 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   return (
     <Fragment>
       <AppBarMain onShare={onShare} title="Reports" />
-      <Tabs
-        variant="fullWidth"
-        value={reportMode}
-        onChange={(event: React.ChangeEvent<{}>, value: ReportMode) =>
-          setReportMode(value)
-        }
-      >
-        <Tab label="Prayers" value="prayer" />
-        <Tab label="Attendance" value="attendance" />
-      </Tabs>
       <ContainerMain>
         <div className={classes.noticeAlert}>
-          {reportMode === "prayer" ? (
+          {reportModes[reportModeIndex] === "prayer" ? (
             <NoticeAlert
               title={"공지"}
               content={"이번 주 오프라인으로 교회에서 예배드립니다."}
@@ -264,14 +256,32 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
           </IconButton>
         </div>
         <Divider className={classes.divider} />
+        <Tabs
+          variant="fullWidth"
+          value={reportModeIndex}
+          onChange={(event: React.ChangeEvent<{}>, value: number) =>
+            setReportModeIndex(value)
+          }
+        >
+          <Tab label="Prayers" />
+          <Tab label="Attendance" />
+        </Tabs>
         {isLoaded(reports) && isLoaded(members) ? (
-          <ReportsContainer
-            reports={reports}
-            members={members}
-            date={date}
-            reportMode={reportMode}
-            setIsTyping={setIsTyping}
-          />
+          <SwipeableViews
+            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+            index={reportModeIndex}
+            onChangeIndex={setReportModeIndex}
+          >
+            {reportModes.map((reportMode) => (
+              <ReportsContainer
+                reports={reports}
+                members={members}
+                date={date}
+                reportMode={reportMode}
+                setIsTyping={setIsTyping}
+              />
+            ))}
+          </SwipeableViews>
         ) : (
           <LoadingProgress />
         )}
