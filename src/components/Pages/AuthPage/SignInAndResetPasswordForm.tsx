@@ -6,10 +6,11 @@ import EmailIcon from "@material-ui/icons/Email"
 import LockIcon from "@material-ui/icons/Lock"
 import React, { FC, Fragment } from "react"
 import { FormikCheckBox } from "src/components/Level1/SelectionControls/FormikCheckbox"
+import { FormikTextField } from "src/components/Level1/TextFields/FormikTextField"
 import { ISignIn } from "src/types"
 
 import { AuthMode } from "."
-import { AuthTextField } from "./AuthTextField"
+import { AuthTextFieldContext } from "./AuthTextFieldContext"
 
 const useStyles = makeStyles<Theme>((theme) => createStyles({}))
 
@@ -25,9 +26,9 @@ export const SignInAndResetPasswordForm: FC<SignInAndResetPasswordFormProps> = (
   const classes = useStyles()
 
   return (
-    <Fragment>
+    <AuthTextFieldContext>
       <Grid item xs={12}>
-        <AuthTextField
+        <FormikTextField
           textFieldProps={{
             label: "Email Address",
             placeholder: "johnsmith@gmail.com",
@@ -39,7 +40,7 @@ export const SignInAndResetPasswordForm: FC<SignInAndResetPasswordFormProps> = (
       </Grid>
       {authMode === "signIn" && (
         <Grid item xs={12}>
-          <AuthTextField
+          <FormikTextField
             textFieldProps={{
               label: "Password",
               placeholder: "Password",
@@ -72,6 +73,6 @@ export const SignInAndResetPasswordForm: FC<SignInAndResetPasswordFormProps> = (
           </Grid>
         </Fragment>
       )}
-    </Fragment>
+    </AuthTextFieldContext>
   )
 }

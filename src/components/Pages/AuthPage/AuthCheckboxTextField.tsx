@@ -2,9 +2,8 @@ import Checkbox from "@material-ui/core/Checkbox"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { FC, useState } from "react"
+import { FormikTextField } from "src/components/Level1/TextFields/FormikTextField"
 import { ISignUp } from "src/types"
-
-import { AuthTextField } from "./AuthTextField"
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({ checkbox: { paddingBottom: 0 } })
@@ -36,7 +35,7 @@ export const AuthCheckboxTextField: FC<AuthCheckboxTextFieldProps> = ({
         />
       }
       label={
-        <AuthTextField
+        <FormikTextField
           textFieldProps={{
             label,
             placeholder,

@@ -19,12 +19,15 @@ import { TermsAndConditionsDialog } from "src/components/Level1/Dialogs/TermsAnd
 import { FormikRadio } from "src/components/Level1/Radios/FormikRadio"
 import { FormikSelect } from "src/components/Level1/Select/FormikSelect"
 import { FormikCheckBox } from "src/components/Level1/SelectionControls/FormikCheckbox"
+import { FormikTextField } from "src/components/Level1/TextFields/FormikTextField"
+import { FormikTextFieldContext } from "src/components/Level1/TextFields/FormikTextFieldContext"
 import ChurchIcon from "src/images/church.svg"
 import KakaoIcon from "src/images/kakaotalk.svg"
-import { ISignUp } from "src/types"
+import { AuthTypes, ISignUp } from "src/types"
+import { JsxElement } from "typescript"
 
 import { AuthCheckboxTextField } from "./AuthCheckboxTextField"
-import { AuthTextField } from "./AuthTextField"
+import { AuthTextFieldContext } from "./AuthTextFieldContext"
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -40,6 +43,191 @@ export interface SignUpFormProps {
 }
 
 const activeSteps = 2
+
+// export const SignUpFields: {
+//   [key in keyof Partial<AuthTypes>]: JSX.Element
+// }[] = [
+//   {
+//     email: (
+//       <FormikTextField
+//         textFieldProps={{
+//           label: "Email Address*",
+//           placeholder: "johnsmith@gmail.com",
+//           type: "email",
+//         }}
+//         name="email"
+//         icon={<EmailIcon />}
+//       />
+//     ),
+//     password: (
+//       <FormikTextField
+//         textFieldProps={{
+//           label: "Password*",
+//           placeholder: "Password",
+//           autoComplete: "current-password",
+//           type: "password",
+//         }}
+//         name="password"
+//         icon={<LockIcon />}
+//       />
+//     ),
+//     name: (
+//       <FormikTextField
+//         textFieldProps={{
+//           label: "Name*",
+//           placeholder: "김철수/John Smith",
+//         }}
+//         name="name"
+//         icon={<PersonIcon />}
+//       />
+//     ),
+//     dob: (
+//       <FormikDatePicker<ISignUp>
+//         label="Date of Birth*"
+//         placeholder="01/01/2000"
+//         name="dob"
+//         variant="outlined"
+//         icon={<CalendarTodayIcon />}
+//       />
+//     ),
+//     gender: (
+//       <FormikRadio<ISignUp, ISignUp["gender"]>
+//         name="gender"
+//         radios={[
+//           { value: "male", label: "Male" },
+//           { value: "female", label: "Female" },
+//         ]}
+//       />
+//     ),
+//     phoneNumber: (
+//       <FormikTextField
+//         textFieldProps={{
+//           label: "Phone Number*",
+//           placeholder: "+44771234567",
+//         }}
+//         name="phoneNumber"
+//         icon={<PhoneIcon />}
+//       />
+//     ),
+//     kakaoId: (
+//       <FormikTextField
+//         textFieldProps={{
+//           label: "Kakaotalk ID",
+//           placeholder: "kakaoid123",
+//         }}
+//         name="kakaoId"
+//         icon={
+//           <Icon className={classes.icon}>
+//             <img src={KakaoIcon} alt="K" className={classes.img} />
+//           </Icon>
+//         }
+//       />
+//     ),
+//   },
+//   {
+//     previousChurch: (
+//       <FormikTextField
+//         textFieldProps={{
+//           label: "Previous Church",
+//           placeholder: "Previous Church",
+//         }}
+//         name="previousChurch"
+//         icon={
+//           <Icon className={classes.icon}>
+//             <img src={ChurchIcon} alt="C" className={classes.img} />
+//           </Icon>
+//         }
+//       />
+//     ),
+//     previousVolunteering: (
+//       <FormikTextField
+//         textFieldProps={{
+//           label: "Previous Volunteering",
+//           placeholder: "e.g. Media team",
+//         }}
+//         name="previousVolunteering"
+//         icon={<EmojiPeopleIcon />}
+//       />
+//     ),
+//     faithStart: (
+//       <FormikSelect<ISignUp, ISignUp["faithStart"]>
+//         label="When did you come to have faith?"
+//         name="faithStart"
+//         variant="outlined"
+//         menuItems={[
+//           { value: "child", label: "Child" },
+//           { value: "elementary", label: "Elementary School" },
+//           { value: "middle", label: "Middle School" },
+//           { value: "high", label: "High School" },
+//           { value: "youth", label: "Youth" },
+//           { value: "recent", label: "Recently" },
+//         ]}
+//       />
+//     ),
+//     londonPurpose: (
+//       <FormikSelect<ISignUp, ISignUp["londonPurpose"]>
+//         label="Purpose of your stay in London"
+//         name="londonPurpose"
+//         variant="outlined"
+//         menuItems={[
+//           { value: "work", label: "Work" },
+//           { value: "workingHoliday", label: "Working Holiday" },
+//           { value: "university", label: "University/College/School" },
+//           { value: "language", label: "English Language Study" },
+//           { value: "businessTrip", label: "Business Trip" },
+//           { value: "travel", label: "Travel" },
+//         ]}
+//       />
+//     ),
+//     occupation: (
+//       <FormikTextField
+//         textFieldProps={{
+//           label: "Occupation Details*",
+//           placeholder: "e.g. Company/School, Job/Course",
+//           multiline: true,
+//           rows: 2,
+//           rowsMax: 4,
+//         }}
+//         name="occupation"
+//       />
+//     ),
+//   },
+//   {
+//     howDidYouHearInternet: (
+//       <FormikCheckBox<ISignUp>
+//         label="Internet: Naver, Google, Daum..."
+//         groupLabel="How did you hear about us?"
+//         name="howDidYouHearInternet"
+//       />
+//     ),
+//     howDidYouHearIntroduced: (
+//       <AuthCheckboxTextField
+//         label="Introduced by..."
+//         placeholder="Who introduced you?"
+//         name="howDidYouHearIntroduced"
+//       />
+//     ),
+//     howDidYouHearOther: (
+//       <AuthCheckboxTextField
+//         label="Other"
+//         placeholder="How did you hear us?"
+//         name="howDidYouHearOther"
+//       />
+//     ),
+//     serviceFeedback: (
+//       <FormikTextField
+//         textFieldProps={{
+//           label: "Service Feedback",
+//           placeholder: "How was the church service?",
+//           multiline: true,
+//           rows: 4,
+//           rowsMax: 6,
+//         }}
+//         name="serviceFeedback"
+//       />
+//     ),
+//   },
+// ]
 
 export const SignUpForm: FC<SignUpFormProps> = ({
   activeStep,
@@ -68,7 +256,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
         return (
           <Fragment>
             <Grid item xs={12}>
-              <AuthTextField
+              <FormikTextField
                 textFieldProps={{
                   label: "Email Address*",
                   placeholder: "johnsmith@gmail.com",
@@ -79,7 +267,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
               />
             </Grid>
             <Grid item xs={12}>
-              <AuthTextField
+              <FormikTextField
                 textFieldProps={{
                   label: "Password*",
                   placeholder: "Password",
@@ -91,7 +279,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
               />
             </Grid>
             <Grid item xs={12}>
-              <AuthTextField
+              <FormikTextField
                 textFieldProps={{
                   label: "Name*",
                   placeholder: "김철수/John Smith",
@@ -119,7 +307,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
               />
             </Grid>
             <Grid item xs={12}>
-              <AuthTextField
+              <FormikTextField
                 textFieldProps={{
                   label: "Phone Number*",
                   placeholder: "+44771234567",
@@ -129,7 +317,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
               />
             </Grid>
             <Grid item xs={12}>
-              <AuthTextField
+              <FormikTextField
                 textFieldProps={{
                   label: "Kakaotalk ID",
                   placeholder: "kakaoid123",
@@ -148,7 +336,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
         return (
           <Fragment>
             <Grid item xs={12}>
-              <AuthTextField
+              <FormikTextField
                 textFieldProps={{
                   label: "Previous Church",
                   placeholder: "Previous Church",
@@ -162,7 +350,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
               />
             </Grid>
             <Grid item xs={12}>
-              <AuthTextField
+              <FormikTextField
                 textFieldProps={{
                   label: "Previous Volunteering",
                   placeholder: "e.g. Media team",
@@ -202,7 +390,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
               />
             </Grid>
             <Grid item xs={12}>
-              <AuthTextField
+              <FormikTextField
                 textFieldProps={{
                   label: "Occupation Details*",
                   placeholder: "e.g. Company/School, Job/Course",
@@ -236,7 +424,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
               />
             </Grid>
             <Grid item xs={12}>
-              <AuthTextField
+              <FormikTextField
                 textFieldProps={{
                   label: "Service Feedback",
                   placeholder: "How was the church service?",
@@ -272,7 +460,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
           </Box>
         </Typography>
       </Grid>
-      {field()}
+      <AuthTextFieldContext>{field()}</AuthTextFieldContext>
       <Grid item xs={12}>
         <MobileStepper
           variant="progress"

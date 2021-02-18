@@ -27,7 +27,6 @@ import { AlertDialog } from "../../Level1/Dialogs/AlertDialog"
 import { ResetPasswordDialog } from "../../Level1/Dialogs/ResetPasswordDialog"
 import { TermsAndConditionsDialog } from "../../Level1/Dialogs/TermsAndConditionsDialog"
 import { FormikCheckBox } from "../../Level1/SelectionControls/FormikCheckbox"
-import { AuthTextField } from "./AuthTextField"
 import { SignInAndResetPasswordForm } from "./SignInAndResetPasswordForm"
 import { SignUpForm } from "./SignUpForm"
 

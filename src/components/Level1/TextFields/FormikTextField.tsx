@@ -3,6 +3,8 @@ import TextField, { TextFieldProps } from "@material-ui/core/TextField"
 import { FieldAttributes, useField } from "formik"
 import React from "react"
 
+import { FormikTextFieldContext } from "./FormikTextFieldContext"
+
 export type FormikTextFieldProps<Form> = FieldAttributes<{}> & {
   textFieldProps: TextFieldProps
   icon?: JSX.Element
@@ -17,21 +19,28 @@ function FormikTextField<Form>({
   const [field, meta] = useField(fieldProps)
   const errorText = meta.error && meta.touched ? meta.error : ""
   return (
-    <TextField
-      {...textFieldProps}
-      {...field}
-      helperText={errorText}
-      error={!!errorText}
-      InputProps={
-        icon
-          ? {
-              endAdornment: (
-                <InputAdornment position="end">{icon}</InputAdornment>
-              ),
-            }
-          : {}
-      }
-    />
+    <FormikTextFieldContext.Consumer>
+      {(textFieldContext) => (
+        <TextField
+          {...field}
+          {...({
+            ...textFieldContext,
+            ...textFieldProps,
+          } as TextFieldProps)}
+          helperText={errorText}
+          error={!!errorText}
+          InputProps={
+            icon
+              ? {
+                  endAdornment: (
+                    <InputAdornment position="end">{icon}</InputAdornment>
+                  ),
+                }
+              : {}
+          }
+        />
+      )}
+    </FormikTextFieldContext.Consumer>
   )
 }
 
