@@ -53,6 +53,7 @@ const useStyles = makeStyles<Theme, { signUpMode: boolean }>((theme) =>
         ? {
             flex: 1,
             height: theme.spacing(4),
+            margin: theme.spacing(5),
           }
         : {
             flex: 1,
@@ -193,8 +194,8 @@ export const AuthPage: FC = () => {
     kakaoId: "",
     previousChurch: "",
     previousVolunteering: "",
-    faithStart: undefined,
-    londonPurpose: undefined,
+    faithStart: "",
+    londonPurpose: "",
     occupation: "",
     howDidYouHearInternet: false,
     howDidYouHearIntroduced: "",

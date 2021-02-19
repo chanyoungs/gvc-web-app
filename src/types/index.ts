@@ -77,9 +77,8 @@ export type AuthTypes = {
   kakaoId: string
   previousChurch: string
   previousVolunteering: string
-  faithStart?: "child" | "elementary" | "middle" | "high" | "youth" | "recent"
-  londonPurpose?:
-    | "work"
+  faithStart: "" | "child" | "elementary" | "middle" | "high" | "youth" | "recent"
+  londonPurpose: "" | "work"
     | "workingHoliday"
     | "university"
     | "language"
