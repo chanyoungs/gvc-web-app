@@ -15,6 +15,7 @@ import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormi
 import React, { FC, Fragment, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { FormikTextFieldContext } from "src/components/Level1/TextFields/FormikTextFieldContext"
+import { auth } from "src/firebase"
 import * as yup from "yup"
 
 import FullLogo from "../../../images/gods_vision_church_logo.svg"
@@ -89,14 +90,33 @@ const signInValidationSchema = yup.object<Partial<ISignIn>>({
 })
 
 const signUpValidationSchema1: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
-  email: yup.string().email("Invalid email").required("Email is required"),
+  email: yup
+    .string()
+    .email("Invalid email")
+    .required("Email is required")
+    .test(
+      "checkEmailAvailability",
+      "This email already exists",
+      async (value) => {
+        try {
+          const result = await auth().fetchSignInMethodsForEmail(value)
+          return result.length === 0
+        } catch (error) {
+          console.error(error)
+          return error
+        }
+      }
+    ),
   password: yup
     .string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
   name: yup.string().required("Name is required"),
   dob: yup.date().nullable().required("Date of Birth is required"),
-  gender: yup.mixed().oneOf(["male", "female"]).required("Gender is required"),
+  gender: yup
+    .mixed()
+    .oneOf(["male", "female"], "Gender is required")
+    .required("Gender is required"),
   phoneNumber: yup.string().required("Phone number is required"),
 }
 
