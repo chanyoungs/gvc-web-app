@@ -10,7 +10,6 @@ import { FormikTextField } from "src/components/Level1/TextFields/FormikTextFiel
 import { ISignIn } from "src/types"
 
 import { AuthMode } from "."
-import { AuthTextFieldContext } from "./AuthTextFieldContext"
 
 const useStyles = makeStyles<Theme>((theme) => createStyles({}))
 
@@ -26,7 +25,7 @@ export const SignInAndResetPasswordForm: FC<SignInAndResetPasswordFormProps> = (
   const classes = useStyles()
 
   return (
-    <AuthTextFieldContext>
+    <Fragment>
       <Grid item xs={12}>
         <FormikTextField
           textFieldProps={{
@@ -73,6 +72,6 @@ export const SignInAndResetPasswordForm: FC<SignInAndResetPasswordFormProps> = (
           </Grid>
         </Fragment>
       )}
-    </AuthTextFieldContext>
+    </Fragment>
   )
 }

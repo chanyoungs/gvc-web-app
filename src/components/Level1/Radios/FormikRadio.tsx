@@ -15,18 +15,27 @@ const useStyles = makeStyles<Theme>((theme) =>
   })
 )
 
+export type FormikRadioProps<T, V> = FieldAttributes<{}> & {
+  label?: string
+  name: keyof T
+  radios: { value: V; label: string }[]
+}
+
 export function FormikRadio<T, V>({
   label,
   placeholder,
   radios,
   ...props
-}: FieldAttributes<{}> & {
-  label?: string
-  name: keyof T
-  radios: { value: V; label: string }[]
-}) {
+}: FormikRadioProps<T, V>) {
   const classes = useStyles()
-  const [field, meta] = useField({ ...props, type: "radio" })
+  // TODO: Dirty fix
+  const [{ value }] = useField(props)
+  const [field, meta] = useField({
+    ...props,
+    type: "radio",
+    value: value as string,
+  })
+
   const errorText = meta.error && meta.touched ? meta.error : ""
   return (
     <FormControl

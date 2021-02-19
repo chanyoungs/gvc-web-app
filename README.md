@@ -1,7 +1,9 @@
 ## TODO LIST
 
-- [ ] Currently, there are multiple instances of profileeditdialogs. Fix if unnecessary
+- [ ] Currently, there are multiple instances of profile editdialogs. Fix if unnecessary
 - [] Update signUp action with respect to the new fields
+- [x] 19/02/21 CY - ~~Issue: In Signup page, when gender is chosen and you leave the page and come back, it is unchecked~~ &larr; Dirty fix by getting value from another useField and applying it to the original useField
+- [] Issue: In Signup page, email availability is not checked immediately
 - [x] 15/02/21 CY - Implemented tabs in reports page
 - [x] 27/09/20 CY - Implemented new AuthPage
 - [x] PWA features

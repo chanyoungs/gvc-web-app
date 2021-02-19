@@ -72,7 +72,7 @@ export type AuthTypes = {
   password: string
   name: string
   dob: Date | null
-  gender?: "male" | "female"
+  gender: "male" | "female" | null
   phoneNumber: string
   kakaoId: string
   previousChurch: string

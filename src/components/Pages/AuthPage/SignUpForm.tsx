@@ -20,14 +20,11 @@ import { FormikRadio } from "src/components/Level1/Radios/FormikRadio"
 import { FormikSelect } from "src/components/Level1/Select/FormikSelect"
 import { FormikCheckBox } from "src/components/Level1/SelectionControls/FormikCheckbox"
 import { FormikTextField } from "src/components/Level1/TextFields/FormikTextField"
-import { FormikTextFieldContext } from "src/components/Level1/TextFields/FormikTextFieldContext"
 import ChurchIcon from "src/images/church.svg"
 import KakaoIcon from "src/images/kakaotalk.svg"
-import { AuthTypes, ISignUp } from "src/types"
-import { JsxElement } from "typescript"
+import { ISignUp } from "src/types"
 
 import { AuthCheckboxTextField } from "./AuthCheckboxTextField"
-import { AuthTextFieldContext } from "./AuthTextFieldContext"
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -460,7 +457,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
           </Box>
         </Typography>
       </Grid>
-      <AuthTextFieldContext>{field()}</AuthTextFieldContext>
+      {field()}
       <Grid item xs={12}>
         <MobileStepper
           variant="progress"

@@ -14,6 +14,7 @@ import Person from "@material-ui/icons/Person"
 import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
 import React, { FC, Fragment, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { FormikTextFieldContext } from "src/components/Level1/TextFields/FormikTextFieldContext"
 import * as yup from "yup"
 
 import FullLogo from "../../../images/gods_vision_church_logo.svg"
@@ -167,7 +168,7 @@ export const AuthPage: FC = () => {
     password: "",
     name: "",
     dob: null,
-    gender: undefined,
+    gender: null,
     phoneNumber: "",
     kakaoId: "",
     previousChurch: "",
@@ -244,20 +245,24 @@ export const AuthPage: FC = () => {
                     alignItems="center"
                     justify="center"
                   >
-                    {authMode === "signUp" ? (
-                      <SignUpForm
-                        activeStep={activeStep}
-                        onNext={submitForm}
-                        onBack={() => {
-                          if (activeStep > 0) setActiveStep(activeStep - 1)
-                        }}
-                      />
-                    ) : (
-                      <SignInAndResetPasswordForm
-                        authMode={authMode}
-                        onForgotPassword={() => setAuthMode("resetPassword")}
-                      />
-                    )}
+                    <FormikTextFieldContext.Provider
+                      value={{ variant: "outlined", fullWidth: true }}
+                    >
+                      {authMode === "signUp" ? (
+                        <SignUpForm
+                          activeStep={activeStep}
+                          onNext={submitForm}
+                          onBack={() => {
+                            if (activeStep > 0) setActiveStep(activeStep - 1)
+                          }}
+                        />
+                      ) : (
+                        <SignInAndResetPasswordForm
+                          authMode={authMode}
+                          onForgotPassword={() => setAuthMode("resetPassword")}
+                        />
+                      )}
+                    </FormikTextFieldContext.Provider>
                     {(authMode !== "signUp" || activeStep === 2) && (
                       <Grid item xs={12}>
                         <FormControl
