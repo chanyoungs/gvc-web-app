@@ -31,6 +31,7 @@ import { TermsAndConditionsDialog } from "../../Level1/Dialogs/TermsAndCondition
 import { FormikCheckBox } from "../../Level1/SelectionControls/FormikCheckbox"
 import { SignInAndResetPasswordForm } from "./SignInAndResetPasswordForm"
 import { SignUpForm } from "./SignUpForm"
+import { emailSignIn, emailSignUp, getPartialAuthValidationSchema } from "./validationSchema"
 
 const useStyles = makeStyles<Theme, { signUpMode: boolean }>((theme) =>
   createStyles({
@@ -79,88 +80,45 @@ const useStyles = makeStyles<Theme, { signUpMode: boolean }>((theme) =>
 )
 
 const resetPasswordValidationSchema = yup.object<Partial<IResetPassword>>({
-  email: yup.string().email("Invalid email").required("Email is required"),
+  email: emailSignIn,
 })
 
+// const signInValidationSchema = yup.object<Partial<ISignIn>>({
+//   email: yup.string().email("Invalid email").required("Email is required"),
+//   password: yup
+//     .string()
+//     .min(6, "Password must be at least 6 characters")
+//     .required("Password is required"),
+// })
+
 const signInValidationSchema = yup.object<Partial<ISignIn>>({
-  email: yup.string().email("Invalid email").required("Email is required"),
-  password: yup
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
+  email: emailSignIn,
+  ...getPartialAuthValidationSchema(["password"]),
 })
 
 const signUpValidationSchema1: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
-  email: yup
-    .string()
-    .email("Invalid email")
-    .required("Email is required")
-    .test(
-      "checkEmailAvailability",
-      "This email already exists",
-      async (value) => {
-        try {
-          const result = await auth().fetchSignInMethodsForEmail(value)
-          return result.length === 0
-        } catch (error) {
-          console.error(error)
-          return error
-        }
-      }
-    ),
-  password: yup
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-  name: yup.string().required("Name is required"),
-  dob: yup.date().nullable().required("Date of Birth is required"),
-  gender: yup
-    .mixed()
-    .oneOf(["male", "female"], "Gender is required")
-    .required("Gender is required"),
-  phoneNumber: yup.string().required("Phone number is required"),
+  email: emailSignUp,
+  ...getPartialAuthValidationSchema([
+    "password",
+    "name",
+    "dob",
+    "gender",
+    "phoneNumber",
+  ]),
 }
-
-const faithStartOptions: ISignUp["faithStart"][] = [
-  "child",
-  "elementary",
-  "middle",
-  "high",
-  "youth",
-  "recent",
-]
-const londonPurposeOptions: ISignUp["londonPurpose"][] = [
-  "work",
-  "workingHoliday",
-  "university",
-  "language",
-  "businessTrip",
-  "travel",
-]
 
 const signUpValidationSchema2: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
   ...signUpValidationSchema1,
-  faithStart: yup
-    .mixed()
-    .oneOf(faithStartOptions)
-    .required("Please select one"),
-  londonPurpose: yup
-    .mixed()
-    .oneOf(londonPurposeOptions)
-    .required("Please select one"),
-  occupation: yup.string().required("Please give details of your occupation"),
+  ...getPartialAuthValidationSchema([
+    "faithStart",
+    "londonPurpose",
+    "occupation",
+  ]),
 }
 
 const signUpValidationSchema3: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
   ...signUpValidationSchema2,
-  agreeTAndC: yup
-    .boolean()
-    .required()
-    .test({
-      name: "readTAndC",
-      message: "You must agree with the Terms & Conditions",
-      test: (agreeTAndC: boolean) => agreeTAndC,
-    }),
+  ...getPartialAuthValidationSchema(["agreeTAndC"]),
 }
 
 const signUpValidationSchema = (activeStep: number) =>

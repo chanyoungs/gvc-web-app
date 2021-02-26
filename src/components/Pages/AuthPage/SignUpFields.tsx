@@ -26,6 +26,27 @@ export const SignUpSteps = [
   "3. For Reference",
 ]
 
+const faithStartMenuItems: { value: ISignUp["faithStart"]; label: string }[] = [
+  { value: "child", label: "Child" },
+  { value: "elementary", label: "Elementary School" },
+  { value: "middle", label: "Middle School" },
+  { value: "high", label: "High School" },
+  { value: "youth", label: "Youth" },
+  { value: "recent", label: "Recently" },
+]
+
+const londonPurposeMenuItems: {
+  value: ISignUp["londonPurpose"]
+  label: string
+}[] = [
+  { value: "work", label: "Work" },
+  { value: "workingHoliday", label: "Working Holiday" },
+  { value: "university", label: "University/College/School" },
+  { value: "language", label: "English Language Study" },
+  { value: "businessTrip", label: "Business Trip" },
+  { value: "travel", label: "Travel" },
+]
+
 export const SignUpFields: {
   [key in keyof Partial<AuthTypes>]: JSX.Element
 }[] = [
@@ -128,14 +149,7 @@ export const SignUpFields: {
         label="When did you come to have faith?"
         name="faithStart"
         variant="outlined"
-        menuItems={[
-          { value: "child", label: "Child" },
-          { value: "elementary", label: "Elementary School" },
-          { value: "middle", label: "Middle School" },
-          { value: "high", label: "High School" },
-          { value: "youth", label: "Youth" },
-          { value: "recent", label: "Recently" },
-        ]}
+        menuItems={faithStartMenuItems}
       />
     ),
     londonPurpose: (
@@ -143,14 +157,7 @@ export const SignUpFields: {
         label="Purpose of your stay in London"
         name="londonPurpose"
         variant="outlined"
-        menuItems={[
-          { value: "work", label: "Work" },
-          { value: "workingHoliday", label: "Working Holiday" },
-          { value: "university", label: "University/College/School" },
-          { value: "language", label: "English Language Study" },
-          { value: "businessTrip", label: "Business Trip" },
-          { value: "travel", label: "Travel" },
-        ]}
+        menuItems={londonPurposeMenuItems}
       />
     ),
     occupation: (
