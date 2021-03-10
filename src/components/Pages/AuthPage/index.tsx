@@ -128,6 +128,28 @@ const signUpValidationSchema = (activeStep: number) =>
     ]
   )
 
+export const initialValues: AuthTypes = {
+  email: "",
+  password: "",
+  name: "",
+  dob: null,
+  gender: null,
+  phoneNumber: "",
+  kakaoId: "",
+  previousChurch: "",
+  previousVolunteering: "",
+  faithStart: "",
+  londonPurpose: "",
+  occupation: "",
+  howDidYouHearInternet: false,
+  howDidYouHearIntroduced: "",
+  howDidYouHearOther: "",
+  serviceFeedback: "",
+  rememberMe: false,
+  agreeTAndC: false,
+  photoUrl: "",
+}
+
 export type AuthMode = "signIn" | "signUp" | "resetPassword"
 
 export const AuthPage: FC = () => {
@@ -141,28 +163,6 @@ export const AuthPage: FC = () => {
   const [alertSignUp, setAlertSignUp] = useState(false)
 
   const classes = useStyles({ signUpMode: authMode === "signUp" })
-
-  const initialValues: AuthTypes = {
-    email: "",
-    password: "",
-    name: "",
-    dob: null,
-    gender: null,
-    phoneNumber: "",
-    kakaoId: "",
-    previousChurch: "",
-    previousVolunteering: "",
-    faithStart: "",
-    londonPurpose: "",
-    occupation: "",
-    howDidYouHearInternet: false,
-    howDidYouHearIntroduced: "",
-    howDidYouHearOther: "",
-    serviceFeedback: "",
-    rememberMe: false,
-    agreeTAndC: false,
-    photoUrl: "",
-  }
 
   const onSubmit = (
     authFormValues: AuthTypes,

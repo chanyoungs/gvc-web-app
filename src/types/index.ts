@@ -6,28 +6,6 @@ export type Themes = {
   [key: string]: { output: string; input: string }
 }
 
-// ---Members---
-
-export type Language = "english" | "korean"
-
-interface IMember {
-  id: string
-  name: string
-  cell: string
-  positions: string[]
-  photoUrl: string
-  thumbnailUrl: string
-  settings?: { language: Language }
-}
-
-export interface IMemberDownload extends IMember {
-  dob: firebase.firestore.Timestamp // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
-}
-
-export interface IMemberUpload extends IMember {
-  dob: Date | null // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
-}
-
 // ---Notices---
 export interface INotice {
   title: string
@@ -77,8 +55,17 @@ export type AuthTypes = {
   kakaoId: string
   previousChurch: string
   previousVolunteering: string
-  faithStart: "" | "child" | "elementary" | "middle" | "high" | "youth" | "recent"
-  londonPurpose: "" | "work"
+  faithStart:
+    | ""
+    | "child"
+    | "elementary"
+    | "middle"
+    | "high"
+    | "youth"
+    | "recent"
+  londonPurpose:
+    | ""
+    | "work"
     | "workingHoliday"
     | "university"
     | "language"
@@ -117,6 +104,22 @@ export type ISignUp = Pick<
   | "serviceFeedback"
   | "agreeTAndC"
 >
+
+// ---Members---
+
+export type Language = "english" | "korean"
+
+export interface IMemberUpload extends AuthTypes {
+  id: string
+  cell: string
+  positions: string[]
+  thumbnailUrl: string
+  settings?: { language: Language }
+}
+
+export interface IMemberDownload extends Omit<IMemberUpload, "dob"> {
+  dob: firebase.firestore.Timestamp // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
+}
 
 // Firebase Error Interface
 export interface IFBError {

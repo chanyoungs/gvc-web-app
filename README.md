@@ -1,8 +1,11 @@
 ## TODO LIST
 
-- [ ] Currently, there are multiple instances of profile editdialogs. Fix if unnecessary
-- [] Update signUp action with respect to the new fields
-- [x] 19/02/21 CY - ~~Issue: In Signup page, when gender is chosen and you leave the page and come back, it is unchecked~~ &larr; Dirty fix by getting value from another useField and applying it to the original useField
+- [] Issue: In ProfileEditDialog, either: Formik component outside Dialog component makes \<Button type="submit"> not work(temporary fix is to use onClick={submitForm}), OR if Formik component is inside the Dialog component, then the dialog's sticky title and action breaks
+- [x] 10/03/21 CY - ~~Issue: Error messages do not show when submitting form~~ &larr; Fixed by having initial values have defined initial values. When they're undefined, no error message shows.
+- [] Currently, there are multiple instances of profile editdialogs. Fix if unnecessary
+- [x] CY - Update signUp action with respect to the new fields
+- [] 19/02/21 CY - ~~Issue: In Signup page, when gender is chosen and you leave the page and come back, it is unchecked~~ &larr; Dirty fix by getting value from another useField and applying it to the original useField
+  - [] Issue still persisting, need to check again
 - [x] 19/02/21 CY - In Signup page, email availability is now checked immediately
 - [x] 15/02/21 CY - Implemented tabs in reports page
 - [x] 27/09/20 CY - Implemented new AuthPage
