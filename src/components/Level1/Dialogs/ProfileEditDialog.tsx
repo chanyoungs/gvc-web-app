@@ -9,7 +9,12 @@ import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
-import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
+import {
+  createStyles,
+  makeStyles,
+  Theme,
+  useTheme,
+} from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
@@ -22,11 +27,22 @@ import UndoIcon from "@material-ui/icons/Undo"
 import VisibilityIcon from "@material-ui/icons/Visibility"
 import { DatePicker } from "@material-ui/pickers"
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date"
-import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
+import {
+  Field,
+  FieldAttributes,
+  Form,
+  Formik,
+  FormikHelpers,
+  useField,
+  useFormikContext,
+} from "formik"
 import React, { FC, Fragment, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { initialValues } from "src/components/Pages/AuthPage"
-import { SignUpFields, SignUpSteps } from "src/components/Pages/AuthPage/SignUpFields"
+import {
+  SignUpFields,
+  SignUpSteps,
+} from "src/components/Pages/AuthPage/SignUpFields"
 import { getPartialAuthValidationSchema } from "src/components/Pages/AuthPage/validationSchema"
 import { FormikContext } from "src/store/contexts/FormikContext"
 import * as yup from "yup"
@@ -43,6 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       justifyContent: "space-around",
       alignItems: "center",
+      color: theme.palette.common.white,
     },
     accountCircleIcon: {
       marginBottom: theme.spacing(2),
@@ -338,6 +355,7 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
                                     startIcon={<ImageIcon />}
                                     size="large"
                                     component="div"
+                                    color="inherit"
                                   >
                                     CHOOSE PHOTO
                                   </Button>
@@ -347,6 +365,7 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
                                     startIcon={<DeleteIcon />}
                                     onClick={() => setDeleteImage(true)}
                                     size="large"
+                                    color="inherit"
                                   >
                                     DELETE PHOTO
                                   </Button>
@@ -413,7 +432,7 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
                           return (
                             !["password", "agreeTAndC"].includes(key) && (
                               <Grid item xs={edit ? 12 : 11} key={key}>
-                                {(key === "email" && edit) ? (
+                                {key === "email" && edit ? (
                                   <FormikContext.Provider
                                     value={{
                                       textField: {
