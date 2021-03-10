@@ -11,15 +11,27 @@ import CalendarToday from "@material-ui/icons/CalendarToday"
 import Email from "@material-ui/icons/Email"
 import Lock from "@material-ui/icons/Lock"
 import Person from "@material-ui/icons/Person"
-import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
+import {
+  Field,
+  FieldAttributes,
+  Form,
+  Formik,
+  FormikHelpers,
+  useField,
+  useFormikContext,
+} from "formik"
 import React, { FC, Fragment, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { FormikTextFieldContext } from "src/components/Level1/TextFields/FormikTextFieldContext"
 import { auth } from "src/firebase"
+import { FormikContext } from "src/store/contexts/FormikContext"
 import * as yup from "yup"
 
 import FullLogo from "../../../images/gods_vision_church_logo.svg"
-import { resetPassword, signIn, signUp } from "../../../store/actions/authActions"
+import {
+  resetPassword,
+  signIn,
+  signUp,
+} from "../../../store/actions/authActions"
 import { AppState } from "../../../store/reducers/rootReducer"
 import { AuthTypes, IResetPassword, ISignIn, ISignUp } from "../../../types"
 import { ChangeSignInUp } from "../../Level1/Buttons/ChangeSignInUp"
@@ -31,7 +43,11 @@ import { TermsAndConditionsDialog } from "../../Level1/Dialogs/TermsAndCondition
 import { FormikCheckBox } from "../../Level1/SelectionControls/FormikCheckbox"
 import { SignInAndResetPasswordForm } from "./SignInAndResetPasswordForm"
 import { SignUpForm } from "./SignUpForm"
-import { emailSignIn, emailSignUp, getPartialAuthValidationSchema } from "./validationSchema"
+import {
+  emailSignIn,
+  emailSignUp,
+  getPartialAuthValidationSchema,
+} from "./validationSchema"
 
 const useStyles = makeStyles<Theme, { signUpMode: boolean }>((theme) =>
   createStyles({
@@ -224,8 +240,17 @@ export const AuthPage: FC = () => {
                     alignItems="center"
                     justify="center"
                   >
-                    <FormikTextFieldContext.Provider
-                      value={{ variant: "outlined", fullWidth: true }}
+                    <FormikContext.Provider
+                      value={{
+                        textField: { variant: "outlined", fullWidth: true },
+                        datePicker: {
+                          inputVariant: "outlined",
+                          fullWidth: true,
+                        },
+                        select: {
+                          variant: "outlined",
+                        },
+                      }}
                     >
                       {authMode === "signUp" ? (
                         <SignUpForm
@@ -241,7 +266,7 @@ export const AuthPage: FC = () => {
                           onForgotPassword={() => setAuthMode("resetPassword")}
                         />
                       )}
-                    </FormikTextFieldContext.Provider>
+                    </FormikContext.Provider>
                     {(authMode !== "signUp" || activeStep === 2) && (
                       <Grid item xs={12}>
                         <FormControl

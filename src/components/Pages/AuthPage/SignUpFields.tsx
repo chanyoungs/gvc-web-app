@@ -89,7 +89,6 @@ export const SignUpFields: {
         label="Date of Birth*"
         placeholder="01/01/2000"
         name="dob"
-        variant="outlined"
         icon={<CalendarTodayIcon />}
       />
     ),
@@ -148,7 +147,6 @@ export const SignUpFields: {
       <FormikSelect<ISignUp, ISignUp["faithStart"]>
         label="When did you come to have faith?"
         name="faithStart"
-        variant="outlined"
         menuItems={faithStartMenuItems}
       />
     ),
@@ -156,7 +154,6 @@ export const SignUpFields: {
       <FormikSelect<ISignUp, ISignUp["londonPurpose"]>
         label="Purpose of your stay in London"
         name="londonPurpose"
-        variant="outlined"
         menuItems={londonPurposeMenuItems}
       />
     ),

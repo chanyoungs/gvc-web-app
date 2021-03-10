@@ -3,17 +3,16 @@ import TextField from "@material-ui/core/TextField"
 import { DatePicker } from "@material-ui/pickers"
 import { FieldAttributes, useField, useFormikContext } from "formik"
 import React, { FC } from "react"
+import { FormikContext } from "src/store/contexts/FormikContext"
 
 export function FormikDatePicker<T>({
   label,
   placeholder,
-  variant,
   icon,
   ...props
 }: FieldAttributes<{
   label: string
   name: keyof T
-  variant?: "standard" | "filled" | "outlined"
   icon?: JSX.Element
 }>) {
   const [field, meta] = useField(props)
@@ -21,30 +20,35 @@ export function FormikDatePicker<T>({
   const errorText = meta.error && meta.touched ? meta.error : ""
 
   return (
-    <DatePicker
-      {...field}
-      label={label}
-      placeholder={placeholder}
-      helperText={errorText}
-      error={!!errorText}
-      disableFuture
-      openTo="year"
-      format="dd/MM/yyyy"
-      views={["year", "month", "date"]}
-      fullWidth
-      inputVariant={variant}
-      onChange={(val) => {
-        setFieldValue(field.name, val)
-      }}
-      InputProps={
-        icon
-          ? {
-              endAdornment: (
+    <FormikContext.Consumer>
+      {(formikContext) => {
+        const datePickerContext = formikContext.datePicker
+          ? formikContext.datePicker
+          : {}
+        return (
+          <DatePicker
+            {...field}
+            {...datePickerContext}
+            label={label}
+            placeholder={placeholder}
+            helperText={errorText}
+            error={!!errorText}
+            disableFuture
+            openTo="year"
+            format="dd/MM/yyyy"
+            views={["year", "month", "date"]}
+            onChange={(val) => {
+              setFieldValue(field.name, val)
+            }}
+            InputProps={{
+              ...datePickerContext.InputProps,
+              endAdornment: icon && (
                 <InputAdornment position="end">{icon}</InputAdornment>
               ),
-            }
-          : {}
-      }
-    />
+            }}
+          />
+        )
+      }}
+    </FormikContext.Consumer>
   )
 }

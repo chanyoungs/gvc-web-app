@@ -9,12 +9,7 @@ import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
-import {
-  createStyles,
-  makeStyles,
-  Theme,
-  useTheme,
-} from "@material-ui/core/styles"
+import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
@@ -27,28 +22,17 @@ import UndoIcon from "@material-ui/icons/Undo"
 import VisibilityIcon from "@material-ui/icons/Visibility"
 import { DatePicker } from "@material-ui/pickers"
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date"
-import {
-  Field,
-  FieldAttributes,
-  Form,
-  Formik,
-  FormikHelpers,
-  useField,
-  useFormikContext,
-} from "formik"
+import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
 import React, { FC, Fragment, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { initialValues } from "src/components/Pages/AuthPage"
-import {
-  SignUpFields,
-  SignUpSteps,
-} from "src/components/Pages/AuthPage/SignUpFields"
+import { SignUpFields, SignUpSteps } from "src/components/Pages/AuthPage/SignUpFields"
 import { getPartialAuthValidationSchema } from "src/components/Pages/AuthPage/validationSchema"
+import { FormikContext } from "src/store/contexts/FormikContext"
 import * as yup from "yup"
 
 import { editProfile } from "../../../store/actions/authActions"
 import { AuthTypes, IMemberDownload, IMemberUpload } from "../../../types"
-import { FormikTextFieldContext } from "../TextFields/FormikTextFieldContext"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -171,8 +155,12 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
     setOpen(true)
   }
 
-  const handleClose = (resetForm: () => void) => () => {
+  const handleClose = () => {
     setOpen(false)
+  }
+
+  const handleCloseAndReset = (resetForm: () => void) => () => {
+    handleClose()
     resetForm()
   }
 
@@ -191,18 +179,21 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
   //   )
   // }
 
-  const onSubmit = (member: IMemberUpload) => {
+  const onSubmit = (
+    member: IMemberUpload,
+    { resetForm }: FormikHelpers<IMemberUpload>
+  ) => {
     console.log("submit")
-    // dispatch(
-    //   editProfile({
-    //     member,
-    //     image: localImage,
-    //     deleteImage,
-    //     setProgress,
-    //     setUpdating,
-    //     handleClose,
-    //   })
-    // )
+    dispatch(
+      editProfile({
+        member,
+        image: localImage,
+        deleteImage,
+        setProgress,
+        setUpdating,
+        handleClose,
+      })
+    )
   }
 
   const handleClickEdit = () => {
@@ -256,7 +247,7 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
             <Dialog
               fullScreen={!desktopMode}
               open={open}
-              onClose={handleClose(resetForm)}
+              onClose={handleCloseAndReset(resetForm)}
               aria-labelledby="form-dialog-title"
             >
               <DialogTitle
@@ -286,7 +277,7 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
                   </Grid>
                   <Grid item>
                     <IconButton
-                      onClick={handleClose(resetForm)}
+                      onClick={handleCloseAndReset(resetForm)}
                       className={classes.return}
                       aria-label="return"
                     >
@@ -367,34 +358,88 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
                       </div>
                     )}
                   </Grid>
-                  <FormikTextFieldContext.Provider
-                    value={{ variant: "outlined", fullWidth: true }}
+                  <FormikContext.Provider
+                    value={{
+                      textField: {
+                        fullWidth: true,
+                        ...(edit
+                          ? {
+                              variant: "outlined",
+                            }
+                          : {
+                              InputProps: {
+                                readOnly: true,
+                                disableUnderline: true,
+                              },
+                            }),
+                      },
+                      datePicker: {
+                        fullWidth: true,
+                        ...(edit
+                          ? {
+                              inputVariant: "outlined",
+                            }
+                          : {
+                              readOnly: true,
+                              InputProps: {
+                                disableUnderline: true,
+                              },
+                            }),
+                      },
+                      select: edit
+                        ? {
+                            variant: "outlined" as "outlined",
+                          }
+                        : {
+                            readOnly: true,
+                            disableUnderline: true,
+                          },
+                    }}
                   >
                     {SignUpSteps.map((stepTitle, stepIndex) => (
                       <Fragment key={stepTitle}>
-                        <Typography variant="h6">
-                          <Box fontWeight="fontWeightBold" m={1}>
-                            {stepTitle}
-                          </Box>
-                        </Typography>
-                        {Object.keys(SignUpFields[stepIndex]).map((key) => (
-                          <Grid item xs={12} key={key}>
-                            {
-                              SignUpFields[stepIndex][
-                                key as keyof Partial<AuthTypes>
-                              ]
-                            }
-                          </Grid>
-                        ))}
+                        <Grid item xs={12}>
+                          <Typography variant="h6" align="left">
+                            <Box fontWeight="fontWeightBold" m={1}>
+                              {stepTitle}
+                            </Box>
+                          </Typography>
+                        </Grid>
+                        {Object.keys(SignUpFields[stepIndex]).map((key) => {
+                          const signUpField =
+                            SignUpFields[stepIndex][
+                              key as keyof Partial<AuthTypes>
+                            ]
+                          return (
+                            !["password", "agreeTAndC"].includes(key) && (
+                              <Grid item xs={edit ? 12 : 11} key={key}>
+                                {(key === "email" && edit) ? (
+                                  <FormikContext.Provider
+                                    value={{
+                                      textField: {
+                                        fullWidth: true,
+                                        variant: "outlined",
+                                        disabled: true,
+                                      },
+                                    }}
+                                  >
+                                    {signUpField}
+                                  </FormikContext.Provider>
+                                ) : (
+                                  signUpField
+                                )}
+                              </Grid>
+                            )
+                          )
+                        })}
                       </Fragment>
                     ))}
-                  </FormikTextFieldContext.Provider>
+                  </FormikContext.Provider>
                 </Grid>
               </DialogContent>
               <DialogActions>
                 {edit && (
                   <Button
-                    // type="submit"
                     onClick={submitForm}
                     className={classes.text}
                     disabled={updating}

@@ -1,11 +1,11 @@
 ## TODO LIST
 
-- [] Issue: In ProfileEditDialog, either: Formik component outside Dialog component makes \<Button type="submit"> not work(temporary fix is to use onClick={submitForm}), OR if Formik component is inside the Dialog component, then the dialog's sticky title and action breaks
+- [ ] Make Profile Edit Dialog safe on Front & Backend following the authority level
+- [x] 10/03/21 CY - ~~Issue: In ProfileEditDialog, either: Formik component outside Dialog component makes \<Button type="submit"> not work(temporary fix is to use onClick={submitForm}), OR if Formik component is inside the Dialog component, then the dialog's sticky title and action breaks~~ &larr; Fixed by using first method
 - [x] 10/03/21 CY - ~~Issue: Error messages do not show when submitting form~~ &larr; Fixed by having initial values have defined initial values. When they're undefined, no error message shows.
 - [] Currently, there are multiple instances of profile editdialogs. Fix if unnecessary
 - [x] CY - Update signUp action with respect to the new fields
-- [] 19/02/21 CY - ~~Issue: In Signup page, when gender is chosen and you leave the page and come back, it is unchecked~~ &larr; Dirty fix by getting value from another useField and applying it to the original useField
-  - [] Issue still persisting, need to check again
+- [x] 19/02/21 CY - ~~Issue: In Signup page, when gender is chosen and you leave the page and come back, it is unchecked~~ &larr; Dirty fix by getting value from another useField and applying it to the original useField
 - [x] 19/02/21 CY - In Signup page, email availability is now checked immediately
 - [x] 15/02/21 CY - Implemented tabs in reports page
 - [x] 27/09/20 CY - Implemented new AuthPage
@@ -22,8 +22,8 @@
 - [x] 29/08/20 CY - FAB now zooms in and out
 - [x] 14/08/20 CY - Implemented Attendance mode in report page
 - [x] 04/08/20 CY - Fixed positioning of FAB
-- [ ] Styling
-  - [ ] Padding and spacing
+- [x] Styling
+  - [x] Padding and spacing
   - [x] 02/09/20 CY - Removed unnecessary paddings on reports listitem
   - [x] 15/08/20 CY - ~~Issue: There seems to be some sizing problem with Textfield in list in reports page. Transitioning from prayer<->attendance causes some unwanted movement throughout the whole page~~ &larr; Solved by adding a "paddingBottom: 0" to TextField InputProps. UPDATE: Actually, it turns out the problem is using textfield and buttongroup at the same time. When using ToggleButtonGroup, the problem disappears
   - [x] 04/08/20 CY - AuthPage new style
@@ -51,7 +51,7 @@
 - [x] 24/06/20 CY - Refactored List components into Presentational & Container
 - [x] 12/06/20 JH - Added delete, edit on Notice
 - [x] Made prayers query a redux reducer
-  - [ ] Issue: Not so clean implementation. Probably should find another way
+  - [x] Issue: Not so clean implementation. Probably should find another way
 - [x] Created Dates page and have it be the landing prayers page
 - [x] Make week view list all past weeks this year in prayers page
 - [x] Make the current page highlight on the side drawer
@@ -75,8 +75,8 @@
 - [x] 11/03/20 - Implement Photo upload
 - [x] 11/03/20 - Implement displaying profile photo
 - [x] Implement Prayers page
-- [ ] Implement formik with edit profile card
-- [ ] Implement "Go back to previous page" after sign in for public pages too
+- [x] Implement formik with edit profile card
+- [x] Implement "Go back to previous page" after sign in for public pages too
 - [x] Included "Playground" item to the sidebar
 - [x] Implemented conditional "My Account/Sign In" item in the sidebar
 - [x] Finish styling the edit profile card
