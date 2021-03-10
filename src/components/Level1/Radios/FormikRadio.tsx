@@ -7,6 +7,7 @@ import RadioGroup from "@material-ui/core/RadioGroup"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { FieldAttributes, useField } from "formik"
 import React, { FC } from "react"
+import { FormikContext } from "src/store/contexts/FormikContext"
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -38,6 +39,12 @@ export function FormikRadio<T, V>({
 
   const errorText = meta.error && meta.touched ? meta.error : ""
   return (
+    <FormikContext.Consumer>
+      {(formikContext) => {
+        const radioContext = formikContext.radio
+          ? formikContext.radio
+          : {}
+        return (
     <FormControl
       required
       error={!!errorText}
@@ -45,17 +52,21 @@ export function FormikRadio<T, V>({
       className={classes.root}
     >
       {label && <FormLabel component="legend">{label}</FormLabel>}
-      <RadioGroup row {...field}>
+      <RadioGroup row {...field} {...radioContext}>
         {radios.map((radio) => (
           <FormControlLabel
             key={radio.label}
             {...radio}
-            control={<Radio />}
+            control={
+              <Radio
+              />
+            }
             className={classes.radio}
           />
         ))}
       </RadioGroup>
       <FormHelperText>{errorText}</FormHelperText>
-    </FormControl>
+    </FormControl>)}}
+    </FormikContext.Consumer>
   )
 }

@@ -413,6 +413,8 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
                             readOnly: true,
                             disableUnderline: true,
                           },
+                      radio: edit ? undefined : { onChange: undefined },
+                      checkbox: edit ? undefined : { onChange: undefined },
                     }}
                   >
                     {SignUpSteps.map((stepTitle, stepIndex) => (

@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography"
 import EmailIcon from "@material-ui/icons/Email"
 import LockIcon from "@material-ui/icons/Lock"
 import React, { FC, Fragment } from "react"
-import { FormikCheckBox } from "src/components/Level1/SelectionControls/FormikCheckbox"
+import { FormikCheckbox } from "src/components/Level1/SelectionControls/FormikCheckbox"
 import { FormikTextField } from "src/components/Level1/TextFields/FormikTextField"
 import { ISignIn } from "src/types"
 
@@ -54,7 +54,7 @@ export const SignInAndResetPasswordForm: FC<SignInAndResetPasswordFormProps> = (
       {authMode === "signIn" && (
         <Fragment>
           <Grid item xs>
-            <FormikCheckBox<ISignIn>
+            <FormikCheckbox<ISignIn>
               label={<Typography variant="caption">Remember me</Typography>}
               name="rememberMe"
             />

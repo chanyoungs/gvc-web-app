@@ -12,7 +12,7 @@ import { TermsAndConditionsDialog } from "src/components/Level1/Dialogs/TermsAnd
 import { CustomIcon } from "src/components/Level1/Icons/CustomIcon"
 import { FormikRadio } from "src/components/Level1/Radios/FormikRadio"
 import { FormikSelect } from "src/components/Level1/Select/FormikSelect"
-import { FormikCheckBox } from "src/components/Level1/SelectionControls/FormikCheckbox"
+import { FormikCheckbox } from "src/components/Level1/SelectionControls/FormikCheckbox"
 import { FormikTextField } from "src/components/Level1/TextFields/FormikTextField"
 import ChurchIcon from "src/images/church.svg"
 import KakaoIcon from "src/images/kakaotalk.svg"
@@ -172,7 +172,7 @@ export const SignUpFields: {
   },
   {
     howDidYouHearInternet: (
-      <FormikCheckBox<ISignUp>
+      <FormikCheckbox<ISignUp>
         label="Internet: Naver, Google, Daum..."
         groupLabel="How did you hear about us?"
         name="howDidYouHearInternet"
@@ -207,7 +207,7 @@ export const SignUpFields: {
     agreeTAndC: (
       <Fragment>
         <Grid item xs>
-          <FormikCheckBox<ISignUp>
+          <FormikCheckbox<ISignUp>
             label={<Typography variant="caption">I consent to</Typography>}
             name="agreeTAndC"
           />
