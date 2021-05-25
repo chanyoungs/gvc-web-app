@@ -14,6 +14,7 @@ import { ServiceWorkerAlert } from "./Level1/Alerts/ServiceWorkerAlert"
 import { AppBarMain } from "./Level1/AppBars/AppBarMain"
 import { LoadingBackdrop } from "./Level1/Backdrops/LoadingBackdrop"
 import { Font } from "./Level1/Dialogs/FontDialog"
+import { AdminPage } from "./Pages/AdminPage"
 import { AuthPage } from "./Pages/AuthPage"
 import { BiblePage } from "./Pages/BiblePage"
 import { CalendarPage } from "./Pages/CalendarPage"
@@ -46,6 +47,7 @@ export default function App() {
   const isAuthenticated = useSelector<AppState, boolean>(
     (state) => !state.firebase.auth.isEmpty
   )
+  const uid = useSelector<AppState, string>((state) => state.firebase.auth.uid)
 
   const location = useLocation<{ from: string }>()
   const fromOrHome: string = location.state?.from || "/"
@@ -53,6 +55,7 @@ export default function App() {
   useFirestoreConnect([{ collection: "themes" }])
   useFirestoreConnect([{ collection: "fonts" }])
   useFirestoreConnect([{ collection: "settings" }])
+  useFirestoreConnect([{ collection: "access" }])
 
   const themes = useSelector<AppState, Themes>(
     (state) => state.firestore.data.themes
@@ -65,6 +68,12 @@ export default function App() {
   const settings = useSelector<AppState, any>(
     (state) => state.firestore.data.settings
   )
+
+  const isAdmin = useSelector<AppState, boolean>((state) =>
+    state.firestore.data.access?.admins.admins.includes(uid)
+  )
+
+  console.log({ isAdmin, uid })
 
   if (isLoaded(fonts) && fonts.length > 0) {
     WebFont.load({
@@ -98,6 +107,12 @@ export default function App() {
                   component={AuthPage}
                 />
                 <PrivateRoute path="/private" component={MembersPage} />
+                <PrivateRoute
+                  path="/admin"
+                  redirectConditionMet={!isAdmin}
+                  redirectPath="/"
+                  component={AdminPage}
+                />
                 <PrivateRoute path="/members" component={MembersPage} />
                 <PrivateRoute path="/myaccount" component={MyAccountPage} />
                 <PrivateRoute path="/prayers" component={PrayersPage} />

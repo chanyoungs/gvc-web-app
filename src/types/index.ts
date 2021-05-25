@@ -130,6 +130,7 @@ export interface IFBError {
 // ---Pages---
 export type Paths =
   | "/"
+  | "/admin"
   | "/auth"
   | "/bible"
   | "/bulletin"

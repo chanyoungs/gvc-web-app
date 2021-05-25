@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import AnnouncementIcon from "@material-ui/icons/Announcement"
+import AssignmentIndIcon from "@material-ui/icons/AssignmentInd"
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday"
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
 import ChevronRightIcon from "@material-ui/icons/ChevronRight"
@@ -55,7 +56,7 @@ const useStyles = makeStyles<Theme, { drawerWidth: number }>((theme: Theme) =>
       alignItems: "center",
       padding: theme.spacing(0, 1),
       // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
+      // ...theme.mixins.toolbar,
       justifyContent: "flex-end",
     },
     drawerPaper: {
@@ -112,6 +113,12 @@ export const CustomDrawer: FC = () => {
       icon: <Avatar src={profile.thumbnailUrl} />,
       page: isAuthenticated ? "/myaccount" : "/auth",
       divider: "below",
+    },
+    {
+      name: "Admin",
+      icon: <AssignmentIndIcon />,
+      page: "/admin",
+      disabled: !isAuthenticated,
     },
     {
       name: "Members",
