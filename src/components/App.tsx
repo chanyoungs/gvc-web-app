@@ -17,19 +17,16 @@ import { Font } from "./Level1/Dialogs/FontDialog"
 import { AdminPage } from "./Pages/AdminPage"
 import { AuthPage } from "./Pages/AuthPage"
 import { BiblePage } from "./Pages/BiblePage"
+import { BulletinPage } from "./Pages/BulletinPage"
 import { CalendarPage } from "./Pages/CalendarPage"
 import { DatesPage } from "./Pages/DatesPage"
 import { MembersPage } from "./Pages/MembersPage"
 import { MyAccountPage } from "./Pages/MyAccountPage"
 import { NoticesPage } from "./Pages/NoticesPage"
 import { Playground } from "./Pages/Playground"
-import { PrayersPage } from "./Pages/PrayersPage"
-import SignInUpPage from "./Pages/SignInUpPage"
-import { BulletinPage } from "./Pages2/BulletinPage"
-import { ReportsPage } from "./Pages2/ReportsPage"
-import { ThemeEditorPage } from "./Pages2/ThemeEditorPage"
+import { ReportsPage } from "./Pages/ReportsPage"
+import { ThemeEditorPage } from "./Pages/ThemeEditorPage"
 
-// import LeaderDatePage from "./Pages/LeaderDatePage"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -115,7 +112,6 @@ export default function App() {
                 />
                 <PrivateRoute path="/members" component={MembersPage} />
                 <PrivateRoute path="/myaccount" component={MyAccountPage} />
-                <PrivateRoute path="/prayers" component={PrayersPage} />
                 <PrivateRoute path="/dates" component={DatesPage} />
                 <PrivateRoute path="/notices" component={NoticesPage} />
                 <PrivateRoute path="/calendar" component={CalendarPage} />

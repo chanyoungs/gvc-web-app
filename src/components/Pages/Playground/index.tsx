@@ -19,17 +19,14 @@ import { ReportListItem } from "src/components/Level1/ListItems/ReportListItem"
 import { AppState } from "../../../store/reducers/rootReducer"
 import { INoticeWithMeta } from "../../../types"
 import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
-import { PrayerPaper } from "../../Level1/Papers/PrayerPaper"
 import { Notices as NoticesGridList } from "../../Level2/GridLists/Notices"
 import { DatesList, DatesListProps } from "../../Level2/Lists/DatesList"
 import { MembersEditList } from "../../Level2/Lists/MembersEditList"
 import { MembersList, MembersListProps } from "../../Level2/Lists/MembersList"
 import { NoticeCreator } from "../../Level2/NoticeCreator"
 import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Notices"
-import { PrayersList } from "./../../Level2/Lists/PrayersList"
 import { GetNameInitialLetter } from "./GetNameInitialLetter"
 import { MembersFilter } from "./MembersFilter"
-import { PrayersFilter } from "./PrayersFilter"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -77,15 +74,11 @@ export const Playground: FC = () => {
   // Get members from Firestore
   useFirestoreConnect("members")
 
-  // Get prayers from Firestore
-  useFirestoreConnect("prayers")
-
   const stateFS = useSelector<AppState, any>((state) => state.firestore)
 
   const noticesArr = stateFS.ordered.notices
   const membersDic = stateFS.data.members
   const membersArr = stateFS.ordered.members
-  const prayersArr = stateFS.ordered.prayers
 
   const search = useSelector<AppState, string>((state) => state.appBar.search)
 
@@ -168,22 +161,6 @@ export const Playground: FC = () => {
         <Typography>Korean to Korean initial</Typography>
         <Container className={classes.container}>
           <GetNameInitialLetter />
-        </Container>
-
-        <Typography>Prayers</Typography>
-        <Container className={classes.container}>
-          {/* <PrayerPaper /> */}
-          {/* <PrayersList membersDic={membersDic} prayers={prayersArr} /> */}
-          <PrayersFilter
-            membersDic={membersDic}
-            prayers={prayersArr}
-            filter={search}
-          />
-        </Container>
-
-        <Typography>Prayers Listitems</Typography>
-        <Container className={classes.container}>
-          {/* <PrayerListItem /> */}
         </Container>
       </ContainerMain>
     </Fragment>

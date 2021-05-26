@@ -3,7 +3,7 @@ import { Moment } from "moment"
 import React, { FC } from "react"
 import { useSelector } from "react-redux"
 import { ReportListItem } from "src/components/Level1/ListItems/ReportListItem"
-import { ReportMode } from "src/components/Pages2/ReportsPage"
+import { ReportMode } from "src/components/Pages/ReportsPage"
 import { AppState } from "src/store/reducers/rootReducer"
 
 import { IMemberDownload, IReport, IReports } from "../../../types"
