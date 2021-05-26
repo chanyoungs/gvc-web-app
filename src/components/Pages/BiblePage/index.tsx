@@ -155,7 +155,7 @@ export const BiblePage: FC<BiblePageProps> = (props) => {
 
   return (
     <Fragment>
-      <AppBarMain title="Bible" />
+      <AppBarMain title="Bible" searchBar />
       <ContainerMain>
         <div className={classes.root}>
           {bibleRef.book !== null && bibleRef.chapter !== null && (
@@ -177,11 +177,9 @@ export const BiblePage: FC<BiblePageProps> = (props) => {
             </Grid>
             <Grid item xs>
               <ButtonGroup fullWidth className={classes.buttonGroup}>
-                {([
-                  "translation",
-                  "book",
-                  "chapter",
-                ] as (keyof IBibleRef)[]).map(
+                {(
+                  ["translation", "book", "chapter"] as (keyof IBibleRef)[]
+                ).map(
                   (bibleRefKey) =>
                     (bibleRefKey !== "chapter" || bibleRef.book !== null) && (
                       <BibleDialog

@@ -149,9 +149,7 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
           })}
           position="sticky"
         >
-          {toolbar ? (
-            toolbar
-          ) : (
+          {toolbar || (
             <Toolbar>
               <IconButton
                 aria-label="Open drawer"
