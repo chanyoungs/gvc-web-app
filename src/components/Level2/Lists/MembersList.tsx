@@ -1,15 +1,10 @@
-import ListItem from "@material-ui/core/ListItem"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import PersonAddIcon from "@material-ui/icons/PersonAdd"
-import React, { FC, Fragment } from "react"
+import React, { FC } from "react"
 import { useSelector } from "react-redux"
+import { MemberListItem } from "src/components/Level1/ListItems/MemberListItem"
 import { AppState } from "src/store/reducers/rootReducer"
 
 import { IMemberDownload } from "../../../types"
-import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
-import { AddCellMemberPaper } from "../../Level1/Papers/AddCellMemberPaper"
-import { MemberPaper } from "../../Level1/Papers/MemberPaper"
-import { MemberPaperProps } from "../../Level1/Papers/MemberPaper"
 import { CustomList } from "./CustomList"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -69,13 +64,7 @@ export const MembersList: FC<MembersListProps> = ({ members, editMode }) => {
   return (
     <CustomList
       items={members_}
-      render={(member) => (
-        <ListItem key={member.id}>
-          <ProfileEditDialog member={member}>
-            <MemberPaper member={member} editMode={editMode} />
-          </ProfileEditDialog>
-        </ListItem>
-      )}
+      render={(member) => <MemberListItem key={member.id} member={member} />}
     />
   )
 }

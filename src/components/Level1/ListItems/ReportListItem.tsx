@@ -29,14 +29,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 )
-export interface ReportListItem {
+export interface ReportListItemProps {
   member: IMemberDownload
   report: IReport
   reportMode: ReportMode
   setIsTyping: (isTyping: boolean) => void
 }
 
-export const ReportListItem: FC<ReportListItem> = ({
+export const ReportListItem: FC<ReportListItemProps> = ({
   member,
   report,
   reportMode,

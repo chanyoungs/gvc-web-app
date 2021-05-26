@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface ReportsContainerProps {
+export interface ReportsListProps {
   members: IMemberDownload[]
   reports: IReports
   date: Moment
@@ -50,7 +50,7 @@ export interface ReportsContainerProps {
   setIsTyping: (isTyping: boolean) => void
 }
 
-export const ReportsContainer: FC<ReportsContainerProps> = ({
+export const ReportsList: FC<ReportsListProps> = ({
   members,
   reports,
   date,
