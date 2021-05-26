@@ -43,10 +43,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface MembersListProps {
   members: IMemberDownload[]
-  editMode: boolean
 }
 
-export const MembersList: FC<MembersListProps> = ({ members, editMode }) => {
+export const MembersList: FC<MembersListProps> = ({ members }) => {
   const classes = useStyles()
 
   const search = useSelector<AppState, string>((state) => state.appBar.search)

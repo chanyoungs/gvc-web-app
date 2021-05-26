@@ -70,8 +70,6 @@ export default function App() {
     state.firestore.data.access?.admins.admins.includes(uid)
   )
 
-  console.log({ isAdmin, uid })
-
   if (isLoaded(fonts) && fonts.length > 0) {
     WebFont.load({
       google: {

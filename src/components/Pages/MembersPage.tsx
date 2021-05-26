@@ -20,14 +20,6 @@ export interface ISMembersPage {
 
 export const MembersPage: FC<MembersPageProps> = (props) => {
   const classes = useStyles()
-  const [values, setValues] = useState<ISMembersPage>({
-    editMode: false,
-  })
-
-  const setEdit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    setValues({ ...values, editMode: !values.editMode })
-  }
-
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)
 
   // Get notices from Firestore
@@ -52,7 +44,7 @@ export const MembersPage: FC<MembersPageProps> = (props) => {
       <ContainerMain>
         <Notices notices={noticesArr} />
         <AddCellMemberPaper />
-        <MembersList members={membersArr} editMode={values.editMode} />
+        <MembersList members={membersArr} />
       </ContainerMain>
     </Fragment>
   )

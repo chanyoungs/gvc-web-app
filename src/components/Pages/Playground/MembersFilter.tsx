@@ -115,7 +115,7 @@ export function MembersFilter({ members }: Props) {
           <FormHelperText>Choose a date</FormHelperText>
         </FormControl>
       )}
-      <MembersList editMode={editMode} members={filteredMembers} />
+      <MembersList members={filteredMembers} />
     </Fragment>
   )
 }
