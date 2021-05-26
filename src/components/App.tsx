@@ -44,7 +44,6 @@ export default function App() {
   const isAuthenticated = useSelector<AppState, boolean>(
     (state) => !state.firebase.auth.isEmpty
   )
-  const uid = useSelector<AppState, string>((state) => state.firebase.auth.uid)
 
   const location = useLocation<{ from: string }>()
   const fromOrHome: string = location.state?.from || "/"
@@ -67,7 +66,7 @@ export default function App() {
   )
 
   const isAdmin = useSelector<AppState, boolean>((state) =>
-    state.firestore.data.access?.admins.admins.includes(uid)
+    state.firestore.data.access?.admins.admins.includes(state.firebase.auth.uid)
   )
 
   if (isLoaded(fonts) && fonts.length > 0) {

@@ -107,6 +107,10 @@ export const CustomDrawer: FC = () => {
     (state) => !state.firebase.auth.isEmpty
   )
 
+  const isAdmin = useSelector<AppState, boolean>((state) =>
+    state.firestore.data.access?.admins.admins.includes(state.firebase.auth.uid)
+  )
+
   const items: Item[] = [
     {
       name: isAuthenticated ? "My Account" : "Sign In",
@@ -118,7 +122,7 @@ export const CustomDrawer: FC = () => {
       name: "Admin",
       icon: <AssignmentIndIcon />,
       page: "/admin",
-      disabled: !isAuthenticated,
+      disabled: !isAuthenticated || !isAdmin,
     },
     {
       name: "Members",

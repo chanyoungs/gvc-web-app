@@ -48,7 +48,7 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
           }
         >
           <Tab label="New Members" />
-          <Tab label="Full Congregation" />
+          <Tab label="All Members" />
         </Tabs>
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
