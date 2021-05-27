@@ -1,20 +1,23 @@
-import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
 import Menu from "@material-ui/core/Menu"
 import MenuItem from "@material-ui/core/MenuItem"
-import MoreVertIcon from "@material-ui/icons/MoreVert"
 import React, { FC } from "react"
 
-export const ProfileMenu: FC<{
+interface CustomMenuProps {
   edge?: false | "start" | "end" | undefined
-}> = ({ edge }) => {
+  menus: { label: string; onClick: () => void }[]
+  icon: JSX.Element
+}
+
+export const CustomMenu: FC<CustomMenuProps> = ({ edge, menus, icon }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleClose = () => {
+  const handleClose = (onClick?: () => void) => () => {
+    onClick && onClick()
     setAnchorEl(null)
   }
 
@@ -27,17 +30,20 @@ export const ProfileMenu: FC<{
         edge={edge}
         onClick={handleClick}
       >
-        <MoreVertIcon />
+        {icon}
       </IconButton>
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}
+        onClose={handleClose()}
       >
-        <MenuItem onClick={handleClose}>프로필 보기</MenuItem>
-        <MenuItem onClick={handleClose}>상태 변경</MenuItem>
+        {menus.map((menu) => (
+          <MenuItem key={menu.label} onClick={handleClose(menu.onClick)}>
+            {menu.label}
+          </MenuItem>
+        ))}
       </Menu>
     </div>
   )

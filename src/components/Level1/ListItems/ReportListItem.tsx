@@ -10,13 +10,13 @@ import ToggleButton from "@material-ui/lab/ToggleButton"
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup"
 import React, { FC, useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { ProfileMenu } from "src/components/Level2/Menus/ProfileMenu"
 import { ReportMode } from "src/components/Pages/ReportsPage"
 import { getReportDocId, updateAttendance, updatePrayer, updateReport, uploadReport } from "src/store/actions/reportActions"
 import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberDownload, IReport } from "src/types"
 
 import { ProfileEditDialog } from "../Dialogs/ProfileEditDialog"
-import { ProfileMenu } from "../Menus/ProfileMenu"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -173,7 +173,7 @@ export const ReportListItem: FC<ReportListItemProps> = ({
       />
       {reportMode === "prayer" && (
         <ListItemSecondaryAction>
-          <ProfileMenu edge="end" />
+          <ProfileMenu />
         </ListItemSecondaryAction>
       )}
     </ListItem>

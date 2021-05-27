@@ -1,6 +1,12 @@
+import Divider from "@material-ui/core/Divider"
+import IconButton from "@material-ui/core/IconButton"
+import InputBase from "@material-ui/core/InputBase"
+import Paper from "@material-ui/core/Paper"
 import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
 import Tab from "@material-ui/core/Tab"
 import Tabs from "@material-ui/core/Tabs"
+import SearchIcon from "@material-ui/icons/Search"
+import SortIcon from "@material-ui/icons/Sort"
 import React, { FC, Fragment, useState } from "react"
 import { useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
@@ -11,7 +17,35 @@ import { MembersList } from "src/components/Level2/Lists/MembersList"
 import { Notices } from "src/components/Level2/SwipeableListViews/Notices"
 import { AppState } from "src/store/reducers/rootReducer"
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}))
+import { SortMenu } from "../../Level2/Menus/SortMenu"
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    search: {
+      padding: theme.spacing(1),
+      display: "flex",
+      alignItems: "center",
+    },
+    searchBar: {
+      flex: 1,
+    },
+    divider: {
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
+    },
+    icon: {
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
+    },
+    iconButton: {
+      padding: 0,
+    },
+    padding: {
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
+    },
+  })
+)
 
 export interface AdminPageProps {}
 
@@ -55,8 +89,27 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
           index={adminModeIndex}
           onChangeIndex={setAdminModeIndex}
         >
-          <>New members list</>
-          <MembersList members={membersArr} />
+          <Fragment>New members list</Fragment>
+          <Fragment>
+            <div className={classes.padding}>
+              <Paper className={classes.search}>
+                <div className={classes.icon}>
+                  <SearchIcon />
+                </div>
+                <InputBase className={classes.searchBar} />
+                <Divider orientation="vertical" flexItem />
+                <div className={classes.icon}>
+                  <SortMenu />
+                  {/* <IconButton className={classes.iconButton}>
+                    <SortIcon />
+                  </IconButton> */}
+                </div>
+              </Paper>
+            </div>
+            <div className={classes.padding}>
+              <MembersList members={membersArr} />
+            </div>
+          </Fragment>
         </SwipeableViews>
       </ContainerMain>
     </Fragment>

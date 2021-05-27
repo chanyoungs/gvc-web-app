@@ -6,9 +6,8 @@ import ListItemText from "@material-ui/core/ListItemText"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import React, { FC } from "react"
+import { ProfileMenu } from "src/components/Level2/Menus/ProfileMenu"
 import { IMemberDownload } from "src/types"
-
-import { ProfileMenu } from "../Menus/ProfileMenu"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +33,7 @@ export const MemberListItem: FC<MemberListItemProps> = ({ member }) => {
         primary={<Typography>{member.name}</Typography>}
       />
       <ListItemSecondaryAction>
-        <ProfileMenu edge="end" />
+        <ProfileMenu />
       </ListItemSecondaryAction>
     </ListItem>
   )
