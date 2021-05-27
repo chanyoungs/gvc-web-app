@@ -13,5 +13,5 @@ export const SortMenu: FC<SortMenuProps> = ({}) => {
     { label: "By Name", onClick: () => {} },
     { label: "By Cell", onClick: () => {} },
   ]
-  return <CustomMenu menus={menus} icon={<SortIcon />} edge="end" />
+  return <CustomMenu menus={menus} icon={<SortIcon />} />
 }
