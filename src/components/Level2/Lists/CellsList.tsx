@@ -1,4 +1,5 @@
 import Button from "@material-ui/core/Button"
+import ButtonBase from "@material-ui/core/ButtonBase"
 import Collapse from "@material-ui/core/Collapse"
 import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
@@ -13,6 +14,11 @@ import { MembersList } from "./MembersList"
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
+    cellButton: {
+      width: "100%",
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
+    },
     expand: {
       transform: "rotate(0deg)",
       marginLeft: "auto",
@@ -78,17 +84,21 @@ export const CellsList: FC<CellsListProps> = ({
       </Grid>
       {cells.map((cell) => (
         <div>
-          <Grid container justify="space-between" alignItems="center">
-            <Typography variant="h5">{`Cell ${cell}`}</Typography>
-            <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expandedStates[cell],
-              })}
-              onClick={handleExpandClick(cell)}
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          </Grid>
+          <ButtonBase
+            onClick={handleExpandClick(cell)}
+            className={classes.cellButton}
+          >
+            <Grid container justify="space-between" alignItems="center">
+              <Typography variant="h6">{`Cell ${cell}`}</Typography>
+              <div
+                className={clsx(classes.expand, {
+                  [classes.expandOpen]: expandedStates[cell],
+                })}
+              >
+                <ExpandMoreIcon />
+              </div>
+            </Grid>
+          </ButtonBase>
           <Collapse
             in={expandedStates[cell] || searching}
             timeout="auto"

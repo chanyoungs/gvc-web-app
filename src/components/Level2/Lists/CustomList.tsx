@@ -7,7 +7,7 @@ import React, { Fragment, ReactNode } from "react"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    list: { width: "100%", overflow: "auto" },
+    list: { width: "100%", overflow: "auto", padding: 0 },
     ul: { padding: 0 },
     subheader: { background: theme.palette.background.default },
   })
