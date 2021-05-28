@@ -5,13 +5,15 @@ import { CustomMenu } from "src/components/Level1/Menus/CustomMenu"
 
 const useStyles = makeStyles<Theme>((theme) => createStyles({}))
 
-export interface SortMenuProps {}
+export interface SortMenuProps {
+  handleClick: (choice: "name" | "cell") => () => void
+}
 
-export const SortMenu: FC<SortMenuProps> = ({}) => {
+export const SortMenu: FC<SortMenuProps> = ({ handleClick }) => {
   const classes = useStyles()
   const menus = [
-    { label: "By Name", onClick: () => {} },
-    { label: "By Cell", onClick: () => {} },
+    { label: "By Name", onClick: handleClick("name") },
+    { label: "By Cell", onClick: handleClick("cell") },
   ]
   return <CustomMenu menus={menus} icon={<SortIcon />} />
 }
