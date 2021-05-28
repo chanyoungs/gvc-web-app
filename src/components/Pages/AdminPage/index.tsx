@@ -69,11 +69,22 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
   const members: IMemberDownload[] = stateFS.ordered.members
   const notices: INoticeWithMeta[] = stateFS.ordered.notices
 
+  const newMembersSorted =
+    members &&
+    [...members]
+      .filter((member) => member.cell === "")
+      .sort((member1, member2) => {
+        return member1.name > member2.name ? 1 : -1
+      })
+
   const membersFilteredSorted =
     members &&
     [...members]
-      .filter((member) =>
-        member.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+      .filter(
+        (member) =>
+          member.name
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase()) && member.cell !== ""
       )
       .sort((member1, member2) => {
         return member1.name > member2.name ? 1 : -1
@@ -105,7 +116,7 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
           index={adminModeIndex}
           onChangeIndex={setAdminModeIndex}
         >
-          <Fragment>New members list</Fragment>
+          <MembersList members={newMembersSorted} />
           <Fragment>
             <div className={classes.padding}>
               <Paper className={classes.search}>
