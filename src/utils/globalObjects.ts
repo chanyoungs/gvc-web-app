@@ -64,6 +64,29 @@ export const globalObjects = () => {
     }
   }
 
+  // @ts-ignore
+  window.createCells = (cells = 5) => {
+    const cellsDocument: {
+      [key: string]: { leaders: string[]; name: string; members: string[] }
+    } = {}
+    for (let cell = 1; cell <= cells; cell++) {
+      let members: string[] = []
+      for (let member = 0; member <= 3; member++) {
+        const memberId = "c" + cell + "m" + member
+        members = [...members, memberId]
+      }
+      cellsDocument[cell] = {
+        leaders: [`c${cell}m0`],
+        name: "" + cell,
+        members,
+      }
+    }
+    db.collection("cells")
+      .doc("cells")
+      .set(cellsDocument)
+      .then(() => console.log("Complete!"))
+  }
+
   // // @ts-ignore
   // window.uploadBibles = () => {
   //   const bibles = require("./bibles.json")

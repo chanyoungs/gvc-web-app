@@ -46,11 +46,12 @@
     "react-swipeable-views": "0.13.9",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-firestore": "^0.12.0",
+    "redux-firestore": "^0.15.0",
     "redux-thunk": "^2.3.0",
     "rrule": "^2.6.4",
     "ts-image-processor": "^1.1.17",
     "typescript": "3.7.5",
+    "uuid": "^8.3.2",
     "webfontloader": "^1.6.28",
     "yup": "^0.28.1"
   },

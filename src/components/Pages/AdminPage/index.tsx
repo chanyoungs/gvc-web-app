@@ -12,6 +12,7 @@ import { useFirestoreConnect } from "react-redux-firebase"
 import SwipeableViews from "react-swipeable-views"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
+import { Searchbar } from "src/components/Level1/TextFields/Searchbar"
 import { CellsList } from "src/components/Level2/Lists/CellsList"
 import { MembersList } from "src/components/Level2/Lists/MembersList"
 import { Notices } from "src/components/Level2/SwipeableListViews/Notices"
@@ -119,7 +120,16 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
           <MembersList members={newMembersSorted} />
           <Fragment>
             <div className={classes.padding}>
-              <Paper className={classes.search}>
+              <Searchbar
+                setSearch={setSearch}
+                addonElements={[
+                  <Divider orientation="vertical" flexItem />,
+                  <SortMenu
+                    handleClick={(choice) => () => setSortMode(choice)}
+                  />,
+                ]}
+              />
+              {/* <Paper className={classes.search}>
                 <div className={classes.icon}>
                   <SearchIcon />
                 </div>
@@ -131,7 +141,7 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
                 />
                 <Divider orientation="vertical" flexItem />
                 <SortMenu handleClick={(choice) => () => setSortMode(choice)} />
-              </Paper>
+              </Paper> */}
             </div>
             {search !== "" && membersFilteredSorted && (
               <Typography>{`${membersFilteredSorted.length} matching results`}</Typography>
