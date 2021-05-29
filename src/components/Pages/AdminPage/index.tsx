@@ -1,23 +1,25 @@
 import Divider from "@material-ui/core/Divider"
-import InputBase from "@material-ui/core/InputBase"
-import Paper from "@material-ui/core/Paper"
+import IconButton from "@material-ui/core/IconButton"
 import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
 import Tab from "@material-ui/core/Tab"
 import Tabs from "@material-ui/core/Tabs"
 import Typography from "@material-ui/core/Typography"
-import SearchIcon from "@material-ui/icons/Search"
+import CheckIcon from "@material-ui/icons/Check"
+import CloseIcon from "@material-ui/icons/Close"
 import React, { FC, Fragment, useState } from "react"
 import { useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
 import SwipeableViews from "react-swipeable-views"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
+import { CustomDialog } from "src/components/Level1/Dialogs/CustomDialog"
 import { Searchbar } from "src/components/Level1/TextFields/Searchbar"
+import { CellAllocationDialog } from "src/components/Level2/Dialogs/CellAllocationDialog"
 import { CellsList } from "src/components/Level2/Lists/CellsList"
 import { MembersList } from "src/components/Level2/Lists/MembersList"
 import { Notices } from "src/components/Level2/SwipeableListViews/Notices"
 import { AppState } from "src/store/reducers/rootReducer"
-import { IMemberDownload, INoticeWithMeta } from "src/types"
+import { ICell, IMemberDownload, INoticeWithMeta } from "src/types"
 
 import { SortMenu } from "../../Level2/Menus/SortMenu"
 
@@ -42,6 +44,12 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: theme.spacing(1),
       paddingBottom: theme.spacing(1),
     },
+    checkIcon: {
+      color: "#2196F3",
+    },
+    closeIcon: {
+      color: theme.palette.secondary.main,
+    },
   })
 )
 
@@ -52,6 +60,8 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
   const theme = useTheme()
   const [adminModeIndex, setAdminModeIndex] = useState(0)
   const [sortMode, setSortMode] = useState<"name" | "cell">("name")
+  const [chosenMember, setChosenMember] = useState<IMemberDownload | null>(null)
+  const [openDialog, setOpenDialog] = useState<boolean>(false)
 
   const [search, setSearch] = useState("")
 
@@ -66,6 +76,12 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
       collection: "members",
     },
   ])
+
+  useFirestoreConnect([
+    {
+      collection: "cells",
+    },
+  ])
   const stateFS = useSelector<AppState, any>((state) => state.firestore)
   const members: IMemberDownload[] = stateFS.ordered.members
   const notices: INoticeWithMeta[] = stateFS.ordered.notices
@@ -74,9 +90,7 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
     members &&
     [...members]
       .filter((member) => member.cell === "")
-      .sort((member1, member2) => {
-        return member1.name > member2.name ? 1 : -1
-      })
+      .sort((member1, member2) => (member1.name > member2.name ? 1 : -1))
 
   const membersFilteredSorted =
     members &&
@@ -91,7 +105,7 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
         return member1.name > member2.name ? 1 : -1
       })
 
-  const cells: string[] =
+  const cellsFilteredSorted: string[] =
     membersFilteredSorted &&
     Array.from(
       new Set(membersFilteredSorted.map((member) => member.cell).sort())
@@ -99,10 +113,18 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
 
   return (
     <Fragment>
+      {chosenMember && (
+        <CellAllocationDialog
+          member={chosenMember}
+          open={openDialog}
+          handleClose={() => setOpenDialog(false)}
+        />
+      )}
       <AppBarMain title="Admin" />
       <ContainerMain>
         <Notices notices={notices} />
         <Tabs
+          className={classes.padding}
           variant="fullWidth"
           value={adminModeIndex}
           onChange={(event: React.ChangeEvent<{}>, value: number) =>
@@ -117,7 +139,26 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
           index={adminModeIndex}
           onChangeIndex={setAdminModeIndex}
         >
-          <MembersList members={newMembersSorted} />
+          <div className={classes.padding}>
+            <MembersList
+              members={newMembersSorted}
+              secondaryAction={(member: IMemberDownload) => (
+                <Fragment>
+                  <IconButton
+                    onClick={() => {
+                      setChosenMember(member)
+                      setOpenDialog(true)
+                    }}
+                  >
+                    <CheckIcon className={classes.checkIcon} />
+                  </IconButton>
+                  <IconButton>
+                    <CloseIcon className={classes.closeIcon} />
+                  </IconButton>
+                </Fragment>
+              )}
+            />
+          </div>
           <Fragment>
             <div className={classes.padding}>
               <Searchbar
@@ -129,19 +170,6 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
                   />,
                 ]}
               />
-              {/* <Paper className={classes.search}>
-                <div className={classes.icon}>
-                  <SearchIcon />
-                </div>
-                <InputBase
-                  className={classes.searchBar}
-                  onChange={(event) => {
-                    setSearch(event.target.value)
-                  }}
-                />
-                <Divider orientation="vertical" flexItem />
-                <SortMenu handleClick={(choice) => () => setSortMode(choice)} />
-              </Paper> */}
             </div>
             {search !== "" && membersFilteredSorted && (
               <Typography>{`${membersFilteredSorted.length} matching results`}</Typography>
@@ -151,7 +179,7 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
                 <MembersList members={membersFilteredSorted} />
               ) : (
                 <CellsList
-                  cells={cells}
+                  cells={cellsFilteredSorted}
                   members={membersFilteredSorted}
                   searching={search !== ""}
                 />

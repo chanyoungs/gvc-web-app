@@ -11,9 +11,13 @@ const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
 export interface MembersListProps {
   members: IMemberDownload[]
+  secondaryAction?: (member: IMemberDownload) => React.ReactNode
 }
 
-export const MembersList: FC<MembersListProps> = ({ members }) => {
+export const MembersList: FC<MembersListProps> = ({
+  members,
+  secondaryAction,
+}) => {
   const classes = useStyles()
 
   const search = useSelector<AppState, string>((state) => state.appBar.search)
@@ -31,7 +35,13 @@ export const MembersList: FC<MembersListProps> = ({ members }) => {
   return (
     <CustomList
       items={members_}
-      render={(member) => <MemberListItem key={member.id} member={member} />}
+      render={(member) => (
+        <MemberListItem
+          key={member.id}
+          member={member}
+          secondaryAction={secondaryAction}
+        />
+      )}
     />
   )
 }

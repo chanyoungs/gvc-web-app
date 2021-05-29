@@ -18,9 +18,13 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 export interface MemberListItemProps {
   member: IMemberDownload
+  secondaryAction?: (member: IMemberDownload) => React.ReactNode
 }
 
-export const MemberListItem: FC<MemberListItemProps> = ({ member }) => {
+export const MemberListItem: FC<MemberListItemProps> = ({
+  member,
+  secondaryAction,
+}) => {
   const classes = useStyles()
 
   return (
@@ -33,7 +37,7 @@ export const MemberListItem: FC<MemberListItemProps> = ({ member }) => {
         primary={<Typography>{member.name}</Typography>}
       />
       <ListItemSecondaryAction>
-        <ProfileMenu />
+        {secondaryAction ? secondaryAction(member) : <ProfileMenu />}
       </ListItemSecondaryAction>
     </ListItem>
   )

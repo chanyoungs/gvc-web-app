@@ -121,6 +121,18 @@ export interface IMemberDownload extends Omit<IMemberUpload, "dob"> {
   dob: firebase.firestore.Timestamp // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
 }
 
+// ---Cells---
+export interface ICell {
+  id: string
+  leaders: string[]
+  name: string
+  members: string[]
+}
+
+export interface ICells {
+  [key: string]: ICell
+}
+
 // Firebase Error Interface
 export interface IFBError {
   code: string

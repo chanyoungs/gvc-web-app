@@ -1,5 +1,5 @@
 import moment from "moment"
-import { IReport } from "src/types"
+import { ICell, IReport } from "src/types"
 
 import { db } from "./../firebase"
 
@@ -67,7 +67,7 @@ export const globalObjects = () => {
   // @ts-ignore
   window.createCells = (cells = 5) => {
     const cellsDocument: {
-      [key: string]: { leaders: string[]; name: string; members: string[] }
+      [key: string]: ICell
     } = {}
     for (let cell = 1; cell <= cells; cell++) {
       let members: string[] = []
@@ -76,6 +76,7 @@ export const globalObjects = () => {
         members = [...members, memberId]
       }
       cellsDocument[cell] = {
+        id: "" + cell,
         leaders: [`c${cell}m0`],
         name: "" + cell,
         members,

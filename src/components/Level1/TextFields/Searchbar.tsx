@@ -2,7 +2,7 @@ import InputBase from "@material-ui/core/InputBase"
 import Paper from "@material-ui/core/Paper"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import SearchIcon from "@material-ui/icons/Search"
-import React, { FC } from "react"
+import React, { FC, Fragment } from "react"
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -40,7 +40,9 @@ export const Searchbar: FC<SearchbarProps> = ({ setSearch, addonElements }) => {
           setSearch(event.target.value)
         }}
       />
-      {addonElements.map((addonElement) => addonElement)}
+      {addonElements.map((addonElement, i) => (
+        <Fragment key={i}>{addonElement}</Fragment>
+      ))}
     </Paper>
   )
 }
