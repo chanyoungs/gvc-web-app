@@ -9,12 +9,7 @@ import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
-import {
-  createStyles,
-  makeStyles,
-  Theme,
-  useTheme,
-} from "@material-ui/core/styles"
+import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
@@ -27,24 +22,14 @@ import UndoIcon from "@material-ui/icons/Undo"
 import VisibilityIcon from "@material-ui/icons/Visibility"
 import { DatePicker } from "@material-ui/pickers"
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date"
-import {
-  Field,
-  FieldAttributes,
-  Form,
-  Formik,
-  FormikHelpers,
-  useField,
-  useFormikContext,
-} from "formik"
+import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
 import React, { FC, Fragment, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { initialValues } from "src/components/Pages/AuthPage"
-import {
-  SignUpFields,
-  SignUpSteps,
-} from "src/components/Pages/AuthPage/SignUpFields"
+import { SignUpFields, SignUpSteps } from "src/components/Pages/AuthPage/SignUpFields"
 import { getPartialAuthValidationSchema } from "src/components/Pages/AuthPage/validationSchema"
 import { FormikContext } from "src/store/contexts/FormikContext"
+import { memberDownloadToUpload } from "src/utils/memberDownloadToUpload"
 import * as yup from "yup"
 
 import { editProfile } from "../../../store/actions/authActions"
@@ -146,10 +131,9 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
   //   ...props.member,
   //   dob: props.member.dob.toDate(),
   // })
-  const [member, setMember] = React.useState<IMemberUpload>({
-    ...props.member,
-    dob: props.member.dob.toDate(),
-  })
+  const [member, setMember] = React.useState<IMemberUpload>(
+    memberDownloadToUpload(props.member)
+  )
   const [deleteImage, setDeleteImage] = React.useState<boolean>(false)
   useEffect(() => {
     setEdit(false)
@@ -158,10 +142,7 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
       url: "",
     })
     setProgress(0)
-    setMember({
-      ...props.member,
-      dob: props.member.dob.toDate(),
-    })
+    setMember(memberDownloadToUpload(props.member))
     setDeleteImage(false)
   }, [open, props.member])
 
@@ -244,8 +225,7 @@ export const ProfileEditDialog: FC<ProfileEditDialogProps> = (props) => {
         validateOnChange
         initialValues={{
           ...initialValues,
-          ...props.member,
-          dob: props.member.dob.toDate(),
+          ...memberDownloadToUpload(props.member),
         }}
         validationSchema={updateProfileValidationSchema}
         onSubmit={onSubmit}

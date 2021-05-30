@@ -23,7 +23,7 @@ const useStyles = makeStyles<Theme>((theme) =>
 
 export interface SearchbarProps {
   setSearch: (search: string) => void
-  addonElements: React.ReactNode[]
+  addonElements?: React.ReactNode[]
 }
 
 export const Searchbar: FC<SearchbarProps> = ({ setSearch, addonElements }) => {
@@ -40,9 +40,10 @@ export const Searchbar: FC<SearchbarProps> = ({ setSearch, addonElements }) => {
           setSearch(event.target.value)
         }}
       />
-      {addonElements.map((addonElement, i) => (
-        <Fragment key={i}>{addonElement}</Fragment>
-      ))}
+      {addonElements &&
+        addonElements.map((addonElement, i) => (
+          <Fragment key={i}>{addonElement}</Fragment>
+        ))}
     </Paper>
   )
 }

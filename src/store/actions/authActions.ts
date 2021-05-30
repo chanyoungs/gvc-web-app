@@ -57,7 +57,7 @@ export const signUp =
         {
           ...profile,
           username: profile.email,
-          cell: "",
+          cell: "unassigned",
           photoUrl: "",
           positions: [],
         }
@@ -203,7 +203,7 @@ export const editProfile =
             // TODO: Delete thumbnail
             const promiseThumbnail = new Promise(
               (
-                resThumbnail: () => void,
+                resThumbnail: (value?: any) => void,
                 rejThumbnail: (errThumbnail: Error) => void
               ) => {
                 refThumbnail
@@ -219,7 +219,10 @@ export const editProfile =
             )
 
             const promiseFull = new Promise(
-              (resFull: () => void, rejFull: (errFull: Error) => void) => {
+              (
+                resFull: (value?: any) => void,
+                rejFull: (errFull: Error) => void
+              ) => {
                 refFull
                   .delete()
                   .then(() => {

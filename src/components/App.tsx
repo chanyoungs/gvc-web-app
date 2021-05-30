@@ -103,7 +103,7 @@ export default function App() {
                 <PrivateRoute path="/private" component={MembersPage} />
                 <PrivateRoute
                   path="/admin"
-                  redirectConditionMet={!isAdmin}
+                  // redirectConditionMet={!isAdmin}
                   redirectPath="/"
                   component={AdminPage}
                 />

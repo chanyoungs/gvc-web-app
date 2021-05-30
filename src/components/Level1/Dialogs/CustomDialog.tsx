@@ -41,7 +41,7 @@ export const CustomDialog: FC<CustomDialogProps> = (props) => {
             props.onCancel && props.onCancel()
             props.handleClose()
           }}
-          color="primary"
+          color="secondary"
         >
           {props.cancelText || "CANCEL"}
         </Button>
@@ -50,7 +50,7 @@ export const CustomDialog: FC<CustomDialogProps> = (props) => {
             props.onConfirm()
             props.handleClose()
           }}
-          color="primary"
+          color="secondary"
           autoFocus
         >
           {props.confirmText || "CONFIRM"}

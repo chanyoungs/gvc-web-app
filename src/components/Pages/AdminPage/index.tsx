@@ -86,10 +86,12 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
   const members: IMemberDownload[] = stateFS.ordered.members
   const notices: INoticeWithMeta[] = stateFS.ordered.notices
 
+  const UNASSIGNED = "unassigned"
+
   const newMembersSorted =
     members &&
     [...members]
-      .filter((member) => member.cell === "")
+      .filter((member) => member.cell === UNASSIGNED)
       .sort((member1, member2) => (member1.name > member2.name ? 1 : -1))
 
   const membersFilteredSorted =
@@ -99,7 +101,7 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
         (member) =>
           member.name
             .toLocaleLowerCase()
-            .includes(search.toLocaleLowerCase()) && member.cell !== ""
+            .includes(search.toLocaleLowerCase()) && member.cell !== UNASSIGNED
       )
       .sort((member1, member2) => {
         return member1.name > member2.name ? 1 : -1

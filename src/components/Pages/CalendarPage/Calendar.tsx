@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
 import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberDownload } from "src/types"
+import { memberDownloadToUpload } from "src/utils/memberDownloadToUpload"
 
 import { dayGridPlugin, interactionPlugin, listPlugin, rrulePlugin, timeGridPlugin } from "./pluginModules"
 
@@ -80,14 +81,18 @@ export const CustomCalendar: FC = () => {
   }
 
   const birthdays: EventInput[] = members
-    ? members.map((member) => ({
-        allDay: true,
-        title: `🎁 ${member.name}`,
-        rrule: {
-          freq: "yearly",
-          dtstart: member.dob.toDate(),
-        },
-      }))
+    ? members.map((m) => {
+        const member = memberDownloadToUpload(m)
+
+        return {
+          allDay: true,
+          title: `🎁 ${member.name}`,
+          rrule: {
+            freq: "yearly",
+            dtstart: member.dob,
+          },
+        }
+      })
     : []
 
   console.log("CustomCalendar:FC -> birthdays", birthdays)

@@ -83,7 +83,7 @@ export const CellsList: FC<CellsListProps> = ({
         </Button>
       </Grid>
       {cells.map((cell) => (
-        <div>
+        <div key={cell}>
           <ButtonBase
             onClick={handleExpandClick(cell)}
             className={classes.cellButton}
