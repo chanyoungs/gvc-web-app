@@ -65,11 +65,6 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
 
   const [search, setSearch] = useState("")
 
-  // Get notices from Firestore
-  useFirestoreConnect([
-    { collection: "notices", orderBy: ["createdAt", "asc"] },
-  ])
-
   // Get members from Firestore
   useFirestoreConnect([
     {
@@ -77,14 +72,8 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
     },
   ])
 
-  useFirestoreConnect([
-    {
-      collection: "cells",
-    },
-  ])
   const stateFS = useSelector<AppState, any>((state) => state.firestore)
   const members: IMemberDownload[] = stateFS.ordered.members
-  const notices: INoticeWithMeta[] = stateFS.ordered.notices
 
   const UNASSIGNED = "unassigned"
 
@@ -124,7 +113,6 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
       )}
       <AppBarMain title="Admin" />
       <ContainerMain>
-        <Notices notices={notices} />
         <Tabs
           className={classes.padding}
           variant="fullWidth"

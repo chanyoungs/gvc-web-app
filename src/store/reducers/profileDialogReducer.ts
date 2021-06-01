@@ -1,5 +1,3 @@
-import { IMemberDownload } from "src/types"
-
 import {
   CLOSE_PROFILE_DIALOG,
   OPEN_PROFILE_DIALOG,
@@ -8,12 +6,12 @@ import {
 } from "../actions/types"
 
 export interface ProfileDialogState {
-  member: null | IMemberDownload
+  memberId: null | string
   open: boolean
 }
 
 const initState: ProfileDialogState = {
-  member: null,
+  memberId: null,
   open: false,
 }
 
@@ -23,11 +21,11 @@ export const profileDialogReducer = (
 ): ProfileDialogState => {
   switch (action.type) {
     case OPEN_PROFILE_DIALOG:
-      return { member: action.payload, open: true }
+      return { memberId: action.payload, open: true }
     case CLOSE_PROFILE_DIALOG:
       return { ...state, open: false }
     case UNMOUNT_PROFILE_DIALOG:
-      return { member: null, open: false }
+      return { memberId: null, open: false }
     default:
       return state
   }

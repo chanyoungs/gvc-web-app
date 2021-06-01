@@ -38,7 +38,7 @@ export type ServiceWorkerActionTypes = ServiceWorkerInit | ServiceWorkerUpdate
 export const OPEN_PROFILE_DIALOG = "OPEN_PROFILE_DIALOG"
 export interface OpenProfileDialog {
   type: typeof OPEN_PROFILE_DIALOG
-  payload: IMemberDownload
+  payload: string
 }
 
 export const CLOSE_PROFILE_DIALOG = "CLOSE_PROFILE_DIALOG"

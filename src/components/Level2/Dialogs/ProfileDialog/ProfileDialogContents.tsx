@@ -8,6 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
 import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
+import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
@@ -18,17 +19,19 @@ import ImageIcon from "@material-ui/icons/Image"
 import UndoIcon from "@material-ui/icons/Undo"
 import VisibilityIcon from "@material-ui/icons/Visibility"
 import { Form, Formik, FormikHelpers } from "formik"
-import React, { FC, Fragment } from "react"
-import { useDispatch } from "react-redux"
+import React, { FC, Fragment, useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { initialValues } from "src/components/Pages/AuthPage"
 import { SignUpFields, SignUpSteps } from "src/components/Pages/AuthPage/SignUpFields"
 import { getPartialAuthValidationSchema } from "src/components/Pages/AuthPage/validationSchema"
 import { FormikContext } from "src/store/contexts/FormikContext"
+import { AppState } from "src/store/reducers/rootReducer"
 import { memberDownloadToUpload } from "src/utils/memberDownloadToUpload"
 import * as yup from "yup"
 
 import { editProfile } from "../../../../store/actions/authActions"
-import { AuthTypes, IMemberDownload, IMemberUpload } from "../../../../types"
+import { AuthTypes, ICells, IMemberDownload, IMemberUpload } from "../../../../types"
+import { CellAllocationDialog } from "../CellAllocationDialog"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -115,6 +118,14 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
 ) => {
   const theme = useTheme()
   const classes = useStyles()
+  const [openCellAlllocationDialog, setOpenCellAlllocationDialog] =
+    useState(false)
+  const isAdmin = useSelector<AppState, boolean>((state) =>
+    state.firestore.data.access?.admins.admins.includes(state.firebase.auth.uid)
+  )
+  const cells: ICells = useSelector<AppState, ICells>(
+    (state) => state.firestore.data.cells?.cells
+  )
   const dispatch = useDispatch()
   const desktopMode = useMediaQuery(theme.breakpoints.up("sm"))
   const [edit, setEdit] = React.useState<boolean>(false)
@@ -131,6 +142,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
   const [member, setMember] = React.useState<IMemberUpload>(
     memberDownloadToUpload(props.member)
   )
+
   const [deleteImage, setDeleteImage] = React.useState<boolean>(false)
 
   const handleCloseAndReset = (resetForm: () => void) => () => {
@@ -219,7 +231,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                 </Grid>
                 <Grid item xs>
                   <Typography variant="h6" align="center">
-                    Member Profile
+                    {`${member.name} Profile`}
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -234,6 +246,11 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
               </Grid>
             </DialogTitle>
             <DialogContent>
+              <CellAllocationDialog
+                member={props.member}
+                open={openCellAlllocationDialog}
+                handleClose={() => setOpenCellAlllocationDialog(false)}
+              />
               <Grid container justify="center" alignItems="center" spacing={1}>
                 <Grid item xs={12}>
                   {deleteImage ? (
@@ -351,6 +368,31 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                           </Box>
                         </Typography>
                       </Grid>
+                      {stepIndex === 0 && (
+                        <Grid item xs={edit ? 12 : 11}>
+                          <TextField
+                            label="Cell"
+                            value={cells[props.member.cell].name}
+                            fullWidth
+                            {...(edit
+                              ? {
+                                  onClick: () =>
+                                    setOpenCellAlllocationDialog(true),
+                                  variant: "outlined",
+                                  disabled: !isAdmin,
+                                  InputProps: {
+                                    readOnly: true,
+                                  },
+                                }
+                              : {
+                                  InputProps: {
+                                    readOnly: true,
+                                    disableUnderline: true,
+                                  },
+                                })}
+                          ></TextField>
+                        </Grid>
+                      )}
                       {Object.keys(SignUpFields[stepIndex]).map((key) => {
                         const signUpField =
                           SignUpFields[stepIndex][

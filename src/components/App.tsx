@@ -49,10 +49,7 @@ export default function App() {
   const location = useLocation<{ from: string }>()
   const fromOrHome: string = location.state?.from || "/"
 
-  useFirestoreConnect([{ collection: "themes" }])
-  useFirestoreConnect([{ collection: "fonts" }])
-  useFirestoreConnect([{ collection: "settings" }])
-  useFirestoreConnect([{ collection: "access" }])
+  useFirestoreConnect(["themes", "fonts", "settings", "access", "cells"])
 
   const themes = useSelector<AppState, Themes>(
     (state) => state.firestore.data.themes
@@ -105,7 +102,7 @@ export default function App() {
                 <PrivateRoute path="/private" component={MembersPage} />
                 <PrivateRoute
                   path="/admin"
-                  redirectConditionMet={!isAdmin}
+                  // redirectConditionMet={!isAdmin}
                   redirectPath="/"
                   component={AdminPage}
                 />

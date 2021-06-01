@@ -27,12 +27,12 @@ export interface CustomAvatarProps {
 export const CustomAvatar: FC<CustomAvatarProps> = (props) => {
   const classes = useStyles({ size: props.size })
   const dispatch = useDispatch()
-  const onClick = () =>
-    dispatch({ type: OPEN_PROFILE_DIALOG, payload: props.member })
 
   return (
     <IconButton
-      onClick={onClick}
+      onClick={() =>
+        dispatch({ type: OPEN_PROFILE_DIALOG, payload: props.member.id })
+      }
       className={props.padding ? undefined : classes.iconButton}
     >
       <Avatar

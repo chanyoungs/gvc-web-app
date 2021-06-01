@@ -1,6 +1,5 @@
 import FormControl from "@material-ui/core/FormControl"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
-import FormLabel from "@material-ui/core/FormLabel"
 import Radio from "@material-ui/core/Radio"
 import RadioGroup from "@material-ui/core/RadioGroup"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
@@ -10,7 +9,7 @@ import { CustomDialog } from "src/components/Level1/Dialogs/CustomDialog"
 import { Searchbar } from "src/components/Level1/TextFields/Searchbar"
 import { updateMemberCell } from "src/store/actions/adminActions"
 import { AppState } from "src/store/reducers/rootReducer"
-import { ICells, IMemberDownload } from "src/types"
+import { ICells, IMemberDownload, IMemberUpload } from "src/types"
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -21,7 +20,7 @@ const useStyles = makeStyles<Theme>((theme) =>
 )
 
 export interface CellAllocationDialogProps {
-  member: IMemberDownload
+  member: IMemberDownload | IMemberUpload
   open: boolean
   handleClose: () => void
 }
