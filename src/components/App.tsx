@@ -14,6 +14,7 @@ import { ServiceWorkerAlert } from "./Level1/Alerts/ServiceWorkerAlert"
 import { AppBarMain } from "./Level1/AppBars/AppBarMain"
 import { LoadingBackdrop } from "./Level1/Backdrops/LoadingBackdrop"
 import { Font } from "./Level1/Dialogs/FontDialog"
+import { ProfileDialog } from "./Level2/Dialogs/ProfileDialog"
 import { AdminPage } from "./Pages/AdminPage"
 import { AuthPage } from "./Pages/AuthPage"
 import { BiblePage } from "./Pages/BiblePage"
@@ -88,6 +89,7 @@ export default function App() {
           <CssBaseline />
           <div className={classes.root}>
             <ServiceWorkerAlert />
+            <ProfileDialog />
             <BrowserRouter>
               <Switch>
                 <PrivateRoute path="/" exact component={ReportsPage} />
@@ -103,7 +105,7 @@ export default function App() {
                 <PrivateRoute path="/private" component={MembersPage} />
                 <PrivateRoute
                   path="/admin"
-                  // redirectConditionMet={!isAdmin}
+                  redirectConditionMet={!isAdmin}
                   redirectPath="/"
                   component={AdminPage}
                 />

@@ -18,7 +18,6 @@ import { ReportListItem } from "src/components/Level1/ListItems/ReportListItem"
 
 import { AppState } from "../../../store/reducers/rootReducer"
 import { INoticeWithMeta } from "../../../types"
-import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
 import { Notices as NoticesGridList } from "../../Level2/GridLists/Notices"
 import { DatesList, DatesListProps } from "../../Level2/Lists/DatesList"
 import { MembersEditList } from "../../Level2/Lists/MembersEditList"

@@ -10,13 +10,12 @@ import ToggleButton from "@material-ui/lab/ToggleButton"
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup"
 import React, { FC, useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { CustomAvatar } from "src/components/Level2/Avatars/CustomAvatar"
 import { ProfileMenu } from "src/components/Level2/Menus/ProfileMenu"
 import { ReportMode } from "src/components/Pages/ReportsPage"
 import { getReportDocId, updateAttendance, updatePrayer, updateReport, uploadReport } from "src/store/actions/reportActions"
 import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberDownload, IReport } from "src/types"
-
-import { ProfileEditDialog } from "../Dialogs/ProfileEditDialog"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -104,9 +103,7 @@ export const ReportListItem: FC<ReportListItemProps> = ({
   return (
     <ListItem alignItems="flex-start" className={classes.listItem}>
       <ListItemAvatar>
-        <ProfileEditDialog member={member}>
-          <Avatar alt={member.name} src={member.thumbnailUrl} />
-        </ProfileEditDialog>
+        <CustomAvatar member={member} />
       </ListItemAvatar>
       <ListItemText
         disableTypography

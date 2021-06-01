@@ -8,6 +8,7 @@ import { authReducer } from "./authReducer"
 import { bibleReducer } from "./bibleReducer"
 import { noticeReducer } from "./noticeReducer"
 import { prayerReducer } from "./prayerReducer"
+import { profileDialogReducer } from "./profileDialogReducer"
 import { reportReducer } from "./reportReducer"
 import { serviceWorkerReducer } from "./serviceWorkerReducer"
 
@@ -22,6 +23,7 @@ export const rootReducer = combineReducers({
   alert: alertReducer,
   reports: reportReducer,
   serviceWorker: serviceWorkerReducer,
+  profileDialog: profileDialogReducer,
 })
 
 export type AppState = ReturnType<typeof rootReducer>

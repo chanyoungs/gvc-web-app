@@ -6,6 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import React, { FC } from "react"
+import { CustomAvatar } from "src/components/Level2/Avatars/CustomAvatar"
 import { ProfileMenu } from "src/components/Level2/Menus/ProfileMenu"
 import { IMemberDownload } from "src/types"
 
@@ -30,7 +31,7 @@ export const MemberListItem: FC<MemberListItemProps> = ({
   return (
     <ListItem className={classes.listItem}>
       <ListItemAvatar>
-        <Avatar alt={member.name} src={member.thumbnailUrl} />
+        <CustomAvatar member={member} />
       </ListItemAvatar>
       <ListItemText
         disableTypography

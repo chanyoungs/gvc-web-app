@@ -2,6 +2,7 @@ import { ExtendedFirestoreInstance, getFirebase } from "react-redux-firebase"
 import { ThunkAction } from "redux-thunk"
 import { Font } from "src/components/Level1/Dialogs/FontDialog"
 import { IBibleRef } from "src/components/Pages/BiblePage"
+import { IMemberDownload } from "src/types"
 
 import { IFBError, INotice, IReport, IReports, TPrayerQueries } from "../../types"
 import { AppState } from "../reducers/rootReducer"
@@ -31,7 +32,29 @@ export interface ServiceWorkerUpdate {
   payload: ServiceWorkerRegistration
 }
 
-export type ServiceWorkerTypes = ServiceWorkerInit | ServiceWorkerUpdate
+export type ServiceWorkerActionTypes = ServiceWorkerInit | ServiceWorkerUpdate
+
+// Profile dialog actions
+export const OPEN_PROFILE_DIALOG = "OPEN_PROFILE_DIALOG"
+export interface OpenProfileDialog {
+  type: typeof OPEN_PROFILE_DIALOG
+  payload: IMemberDownload
+}
+
+export const CLOSE_PROFILE_DIALOG = "CLOSE_PROFILE_DIALOG"
+export interface CloseProfileDialog {
+  type: typeof CLOSE_PROFILE_DIALOG
+}
+
+export const UNMOUNT_PROFILE_DIALOG = "UNMOUNT_PROFILE_DIALOG"
+export interface UnmountProfileDialog {
+  type: typeof UNMOUNT_PROFILE_DIALOG
+}
+
+export type ProfileDialogActionTypes =
+  | OpenProfileDialog
+  | CloseProfileDialog
+  | UnmountProfileDialog
 
 // Report actions
 export const UPDATE_REPORT = "UPDATE_REPORT"
@@ -409,4 +432,5 @@ export type AppActions =
   | FontActionTypes
   | AlertActionTypes
   | ReportActionTypes
-  | ServiceWorkerTypes
+  | ServiceWorkerActionTypes
+  | ProfileDialogActionTypes

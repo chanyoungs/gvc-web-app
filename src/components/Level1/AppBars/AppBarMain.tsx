@@ -16,7 +16,9 @@ import ShareIcon from "@material-ui/icons/Share"
 import clsx from "clsx"
 import React, { Fragment, ReactNode, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { CustomAvatar } from "src/components/Level2/Avatars/CustomAvatar"
 import { SET_DRAWER_OPEN, SET_DRAWER_TRANSITION } from "src/store/actions/types"
+import { IMemberDownload } from "src/types"
 
 import { appBarSearchOnChange } from "../../../store/actions/appBarActions"
 import { AppState } from "../../../store/reducers/rootReducer"
@@ -130,6 +132,7 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
   const setDrawerOpen = (open: boolean) => {
     dispatch({ type: SET_DRAWER_OPEN, payload: open })
   }
+
   const classes = useStyles({ drawerWidth, drawerTransition })
 
   const setSearch = (
@@ -190,9 +193,13 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
                   <ShareIcon color="inherit" />
                 </IconButton>
               )}
-              <IconButton color="inherit">
-                <AccountCircleIcon color="inherit" />
-              </IconButton>
+              {profile && (
+                <CustomAvatar
+                  member={profile as IMemberDownload}
+                  size={3}
+                  padding
+                />
+              )}
             </Toolbar>
           )}
         </AppBar>

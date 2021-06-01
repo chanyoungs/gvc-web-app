@@ -1,4 +1,4 @@
-import { SERVICE_WORKER_INIT, SERVICE_WORKER_UPDATE, ServiceWorkerTypes } from "../actions/types"
+import { SERVICE_WORKER_INIT, SERVICE_WORKER_UPDATE, ServiceWorkerActionTypes } from "../actions/types"
 
 interface IServiceWorkerState {
   initialised: boolean
@@ -13,7 +13,7 @@ const initState: IServiceWorkerState = {
 
 export const serviceWorkerReducer = (
   state = initState,
-  action: ServiceWorkerTypes
+  action: ServiceWorkerActionTypes
 ): IServiceWorkerState => {
   switch (action.type) {
     case SERVICE_WORKER_INIT:
