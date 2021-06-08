@@ -170,7 +170,7 @@ export const ReportListItem: FC<ReportListItemProps> = ({
       />
       {reportMode === "prayer" && (
         <ListItemSecondaryAction>
-          <ProfileMenu />
+          <ProfileMenu memberId={member.id} />
         </ListItemSecondaryAction>
       )}
     </ListItem>

@@ -38,7 +38,11 @@ export const MemberListItem: FC<MemberListItemProps> = ({
         primary={<Typography>{member.name}</Typography>}
       />
       <ListItemSecondaryAction>
-        {secondaryAction ? secondaryAction(member) : <ProfileMenu />}
+        {secondaryAction ? (
+          secondaryAction(member)
+        ) : (
+          <ProfileMenu memberId={member.id} />
+        )}
       </ListItemSecondaryAction>
     </ListItem>
   )
