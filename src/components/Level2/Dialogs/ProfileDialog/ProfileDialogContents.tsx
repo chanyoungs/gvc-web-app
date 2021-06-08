@@ -72,8 +72,9 @@ const useStyles = makeStyles((theme: Theme) =>
     edit: {
       padding: 0,
     },
-    text: {
-      // color: theme.palette.common.black,
+    saveButton: {
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2),
     },
     input: {
       display: "none",
@@ -217,11 +218,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
             onExited={props.onExited}
           >
             <LoadingBackdrop open={isSubmitting} />
-            <DialogTitle
-              disableTypography
-              id="form-dialog-title"
-              className={classes.text}
-            >
+            <DialogTitle disableTypography id="form-dialog-title">
               <Grid container justify="center" alignItems="center" spacing={1}>
                 <Grid item>
                   <IconButton
@@ -446,8 +443,12 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
               {edit && (
                 <Button
                   onClick={submitForm}
-                  className={classes.text}
+                  className={classes.saveButton}
                   disabled={isSubmitting}
+                  disableElevation
+                  color="primary"
+                  variant="contained"
+                  fullWidth
                 >
                   SAVE
                 </Button>
