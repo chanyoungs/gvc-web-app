@@ -21,6 +21,7 @@ import VisibilityIcon from "@material-ui/icons/Visibility"
 import { Form, Formik, FormikHelpers } from "formik"
 import React, { FC, Fragment, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { LoadingBackdrop } from "src/components/Level1/Backdrops/LoadingBackdrop"
 import { initialValues } from "src/components/Pages/AuthPage"
 import { SignUpFields, SignUpSteps } from "src/components/Pages/AuthPage/SignUpFields"
 import { getPartialAuthValidationSchema } from "src/components/Pages/AuthPage/validationSchema"
@@ -137,7 +138,6 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
     url: "",
   })
   const [progress, setProgress] = React.useState<number>(0)
-  const [updating, setUpdating] = React.useState<boolean>(false)
 
   const [member, setMember] = React.useState<IMemberUpload>(
     memberDownloadToUpload(props.member)
@@ -160,8 +160,8 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
         member,
         image: localImage,
         deleteImage,
+        currentCellId: props.member.cell,
         setProgress,
-        setUpdating,
         handleClose: props.handleClose,
       })
     )
@@ -176,12 +176,12 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
     const imageFile = event.target.files && event.target.files[0]
     const reader = new FileReader()
     reader.onloadstart = (e) => {
-      setUpdating(true)
+      // setUpdating(true)
     }
     reader.onloadend = (e) => {
       const imageUrl = typeof reader.result === "string" ? reader.result : ""
       setLocalImage({ ...localImage, file: imageFile, url: imageUrl })
-      setUpdating(false)
+      // setUpdating(false)
     }
     const result = imageFile ? reader.readAsDataURL(imageFile) : ""
   }
@@ -214,6 +214,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
             aria-labelledby="form-dialog-title"
             onExited={props.onExited}
           >
+            <LoadingBackdrop open={isSubmitting} />
             <DialogTitle
               disableTypography
               id="form-dialog-title"
@@ -245,11 +246,15 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                 </Grid>
               </Grid>
             </DialogTitle>
+
             <DialogContent>
               <CellAllocationDialog
                 member={props.member}
                 open={openCellAlllocationDialog}
                 handleClose={() => setOpenCellAlllocationDialog(false)}
+                onConfirm={(chosenCellId) =>
+                  setValues({ ...values, cell: chosenCellId })
+                }
               />
               <Grid container justify="center" alignItems="center" spacing={1}>
                 <Grid item xs={12}>
@@ -281,7 +286,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                       )}
                       {edit && (
                         <div className={classes.overlay}>
-                          {updating ? (
+                          {isSubmitting ? (
                             <CircularProgress />
                           ) : (
                             <div className={classes.actions}>
@@ -372,7 +377,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                         <Grid item xs={edit ? 12 : 11}>
                           <TextField
                             label="Cell"
-                            value={cells[props.member.cell].name}
+                            value={cells[values.cell].name}
                             fullWidth
                             {...(edit
                               ? {
@@ -430,7 +435,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                 <Button
                   onClick={submitForm}
                   className={classes.text}
-                  disabled={updating}
+                  disabled={isSubmitting}
                 >
                   SAVE
                 </Button>

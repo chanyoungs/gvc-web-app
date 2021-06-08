@@ -23,26 +23,28 @@ export interface CellAllocationDialogProps {
   member: IMemberDownload | IMemberUpload
   open: boolean
   handleClose: () => void
+  onConfirm?: (chosenCellId: string) => void
 }
 
 export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
   member,
+  onConfirm,
   ...rest
 }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [search, setSearch] = useState("")
-  const [chosenCellId, setChosenCellId] = useState("na")
+  const [newCellId, setNewCellId] = useState("na")
 
   const initialiseCell = () =>
-    setChosenCellId(member.cell === "unassigned" ? "na" : member.cell)
+    setNewCellId(member.cell === "unassigned" ? "na" : member.cell)
 
   useEffect(() => {
     initialiseCell()
   }, [member.cell])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChosenCellId((event.target as HTMLInputElement).value)
+    setNewCellId((event.target as HTMLInputElement).value)
   }
 
   const cells: ICells = useSelector<AppState, ICells>(
@@ -59,11 +61,7 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
             <Searchbar setSearch={setSearch} />
           </div>
           <FormControl component="fieldset">
-            <RadioGroup
-              name="cell"
-              value={chosenCellId}
-              onChange={handleChange}
-            >
+            <RadioGroup name="cell" value={newCellId} onChange={handleChange}>
               {cells &&
                 Object.values(cells)
                   .filter(
@@ -90,9 +88,21 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
           </FormControl>
         </Fragment>
       }
-      onConfirm={() => {
-        dispatch(updateMemberCell(member, chosenCellId))
-      }}
+      onConfirm={
+        onConfirm
+          ? () => onConfirm(newCellId)
+          : () => {
+              if (member.cell !== newCellId) {
+                dispatch(
+                  updateMemberCell({
+                    memberId: member.id,
+                    currentCellId: member.cell,
+                    newCellId,
+                  })
+                )
+              }
+            }
+      }
       {...rest}
     />
   )

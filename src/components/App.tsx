@@ -120,7 +120,7 @@ export default function App() {
           </div>
         </MuiThemeProvider>
       ) : (
-        <LoadingBackdrop />
+        <LoadingBackdrop background={false} />
       )}
     </Fragment>
   )

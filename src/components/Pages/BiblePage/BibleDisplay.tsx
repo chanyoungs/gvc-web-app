@@ -95,7 +95,7 @@ export const BibleDisplay: FC<BibleDisplayProps> = ({
             </ListItem>
           ))
       ) : (
-        <LoadingBackdrop />
+        <LoadingBackdrop background={false} />
       )}
     </List>
   )

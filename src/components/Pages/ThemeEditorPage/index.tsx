@@ -36,7 +36,7 @@ export const ThemeEditorPage: FC = () => {
       {isLoaded(themes) && isLoaded(settings) ? (
         <ThemeEditor themes={themes} currentThemeName={settings.theme.name} />
       ) : (
-        <LoadingBackdrop />
+        <LoadingBackdrop background={false} />
       )}
     </Fragment>
   )

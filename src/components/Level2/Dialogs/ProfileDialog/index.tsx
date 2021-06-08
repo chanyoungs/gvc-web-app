@@ -1,10 +1,11 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import React, { FC } from "react"
+import React, { FC, Fragment } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { CLOSE_PROFILE_DIALOG, UNMOUNT_PROFILE_DIALOG } from "src/store/actions/types"
 import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberDownload } from "src/types"
 
+import { ProfileDialogContainer } from "./ProfileDialogContainer"
 import { ProfileDialogContents } from "./ProfileDialogContents"
 
 const useStyles = makeStyles<Theme>((theme) => createStyles({}))
@@ -18,19 +19,9 @@ export const ProfileDialog: FC<ProfileDialogProps> = () => {
     (state) => state.profileDialog
   )
 
-  const member = useSelector<AppState, IMemberDownload>((state) => {
-    const members = state.firestore.data.members
-    return memberId && members && members[memberId]
-  })
-
   return (
-    member && (
-      <ProfileDialogContents
-        member={member}
-        open={open}
-        handleClose={() => dispatch({ type: CLOSE_PROFILE_DIALOG })}
-        onExited={() => dispatch({ type: UNMOUNT_PROFILE_DIALOG })}
-      />
-    )
+    <Fragment>
+      {memberId && <ProfileDialogContainer memberId={memberId} open={open} />}
+    </Fragment>
   )
 }

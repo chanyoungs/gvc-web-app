@@ -302,7 +302,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
           }
           className={classes.snackbar}
         />
-        <LoadingBackdrop open={backdropOpen} />
+        <LoadingBackdrop open={backdropOpen} background={false} />
       </ContainerMain>
     </Fragment>
   )

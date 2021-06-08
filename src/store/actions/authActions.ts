@@ -1,3 +1,4 @@
+import { updateMemberCell } from "src/store/actions/adminActions"
 import {
   DELETE_PHOTO,
   DELETE_PHOTO_ERROR,
@@ -57,8 +58,6 @@ export const signUp =
         {
           ...profile,
           username: profile.email,
-          cell: "unassigned",
-          photoUrl: "",
           positions: [],
         }
       )
@@ -168,8 +167,8 @@ interface EditProfileProps {
   member: IMemberUpload
   image: { file: File | null; url: string }
   deleteImage: boolean
+  currentCellId: string
   setProgress: (progress: number) => void
-  setUpdating: (updating: boolean) => void
   handleClose: () => void
 }
 
@@ -179,11 +178,11 @@ export const editProfile =
     member,
     image,
     deleteImage,
+    currentCellId,
     setProgress,
-    setUpdating,
     handleClose,
   }: EditProfileProps): ThunkActionCustom<void> =>
-  (dispatch, getState, { getFirestore, getFirebase }) => {
+  async (dispatch, getState, { getFirestore, getFirebase }) => {
     const firebase = getFirebase()
     const firestore = getFirestore()
     // firebase.updateProfile(member)
@@ -199,7 +198,7 @@ export const editProfile =
           reject: (error: Error) => void
         ) => {
           if (deleteImage) {
-            setUpdating(true)
+            // setUpdating(true)
             // TODO: Delete thumbnail
             const promiseThumbnail = new Promise(
               (
@@ -247,7 +246,7 @@ export const editProfile =
               })
           } else {
             if (image.file) {
-              setUpdating(true)
+              // setUpdating(true)
 
               console.log("Creating thumbnail photo!")
 
@@ -364,27 +363,35 @@ export const editProfile =
         }
       )
 
-    updatePhoto(image)
-      .then((memberWithPhotoUrl) => {
-        dispatch({ type: UPLOAD_PHOTO })
+    try {
+      const memberWithPhotoUrl = await updatePhoto(image)
+      dispatch({ type: UPLOAD_PHOTO })
+      await firestore
+        .collection("members")
+        .doc(memberWithPhotoUrl.id)
+        .set(memberWithPhotoUrl)
 
-        firestore
-          .collection("members")
-          .doc(memberWithPhotoUrl.id)
-          .set(memberWithPhotoUrl)
-          .then(() => {
-            dispatch({ type: EDIT_PROFILE })
-            console.log("Profile Edited!")
-            handleClose()
-            setUpdating(false)
+      dispatch({ type: EDIT_PROFILE })
+      console.log("Profile Edited!")
+
+      const callback = () => {
+        handleClose()
+        // setUpdating(false)
+      }
+
+      if (member.cell !== currentCellId) {
+        dispatch(
+          updateMemberCell({
+            memberId: member.id,
+            currentCellId,
+            newCellId: member.cell,
+            callback,
           })
-          .catch((error: IFBError) => {
-            dispatch({ type: EDIT_PROFILE_ERROR, payload: error })
-            console.log("Profile Edit Error!", error)
-          })
-      })
-      .catch((error) => {
-        dispatch({ type: UPLOAD_PHOTO_ERROR, payload: error })
-        console.log("Upload photo error", error)
-      })
+        )
+      } else {
+        callback()
+      }
+    } catch (error) {
+      console.error("Profile Edit Error!", error)
+    }
   }

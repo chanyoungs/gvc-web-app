@@ -19,7 +19,7 @@ import { CellsList } from "src/components/Level2/Lists/CellsList"
 import { MembersList } from "src/components/Level2/Lists/MembersList"
 import { Notices } from "src/components/Level2/SwipeableListViews/Notices"
 import { AppState } from "src/store/reducers/rootReducer"
-import { ICell, IMemberDownload, INoticeWithMeta } from "src/types"
+import { CELL_UNASSIGNED, ICell, IMemberDownload, INoticeWithMeta } from "src/types"
 
 import { SortMenu } from "../../Level2/Menus/SortMenu"
 
@@ -75,12 +75,10 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
   const stateFS = useSelector<AppState, any>((state) => state.firestore)
   const members: IMemberDownload[] = stateFS.ordered.members
 
-  const UNASSIGNED = "unassigned"
-
   const newMembersSorted =
     members &&
     [...members]
-      .filter((member) => member.cell === UNASSIGNED)
+      .filter((member) => member.cell === CELL_UNASSIGNED)
       .sort((member1, member2) => (member1.name > member2.name ? 1 : -1))
 
   const membersFilteredSorted =
@@ -90,7 +88,8 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
         (member) =>
           member.name
             .toLocaleLowerCase()
-            .includes(search.toLocaleLowerCase()) && member.cell !== UNASSIGNED
+            .includes(search.toLocaleLowerCase()) &&
+          member.cell !== CELL_UNASSIGNED
       )
       .sort((member1, member2) => {
         return member1.name > member2.name ? 1 : -1

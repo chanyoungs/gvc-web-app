@@ -52,7 +52,7 @@ const rrfProps = {
 
 const AuthIsLoaded = ({ children }: { children: JSX.Element }) => {
   const auth = useSelector<AppState>((state) => state.firebase.auth)
-  return isLoaded(auth) ? children : <LoadingBackdrop />
+  return isLoaded(auth) ? children : <LoadingBackdrop background={false} />
 }
 
 ReactDOM.render(
