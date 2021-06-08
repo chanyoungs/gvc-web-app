@@ -7,6 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
+import InputAdornment from "@material-ui/core/InputAdornment"
 import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
@@ -15,6 +16,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import CloseIcon from "@material-ui/icons/Close"
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
+import GroupIcon from "@material-ui/icons/Group"
 import ImageIcon from "@material-ui/icons/Image"
 import UndoIcon from "@material-ui/icons/Undo"
 import VisibilityIcon from "@material-ui/icons/Visibility"
@@ -387,11 +389,21 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                                   disabled: !isAdmin,
                                   InputProps: {
                                     readOnly: true,
+                                    endAdornment: (
+                                      <InputAdornment position="end">
+                                        <GroupIcon />
+                                      </InputAdornment>
+                                    ),
                                   },
                                 }
                               : {
                                   InputProps: {
                                     readOnly: true,
+                                    endAdornment: (
+                                      <InputAdornment position="end">
+                                        <GroupIcon />
+                                      </InputAdornment>
+                                    ),
                                     disableUnderline: true,
                                   },
                                 })}
