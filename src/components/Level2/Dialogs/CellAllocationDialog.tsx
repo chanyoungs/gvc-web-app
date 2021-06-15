@@ -52,13 +52,7 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
   const [addCellName, setAddCellName] = useState("")
 
   const initialiseCell = () =>
-    setNewCellId(
-      cellRequest !== cellCurrent
-        ? cellRequest
-        : cellCurrent === CELL_UNASSIGNED_ID
-        ? "na"
-        : cellCurrent
-    )
+    setNewCellId(cellRequest !== cellCurrent ? cellRequest : cellCurrent)
 
   useEffect(() => {
     initialiseCell()
@@ -71,6 +65,13 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
   const cells: ICells = useSelector<AppState, ICells>(
     (state) => state.firestore.data.cells?.cells
   )
+
+  const lead = [CELL_UNASSIGNED_ID, "na"]
+
+  const cellsKeysSorted = [
+    ...lead,
+    ...Object.keys(cells).filter((key) => !lead.includes(key)),
+  ]
 
   const cellAlreadyExists =
     Object.values(cells).filter((cell) => cell.name === addCellName).length > 0
@@ -121,28 +122,25 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
         <FormControl component="fieldset">
           <RadioGroup name="cell" value={newCellId} onChange={handleChange}>
             {cells &&
-              Object.values(cells)
+              cellsKeysSorted
                 .filter(
-                  (c) =>
-                    (search === "" ||
-                      c.name
-                        .toLocaleLowerCase()
-                        .includes(search.toLocaleLowerCase())) &&
-                    c.id !== CELL_UNASSIGNED_ID
+                  (cellKey) =>
+                    search === "" ||
+                    cells[cellKey].name
+                      .toLocaleLowerCase()
+                      .includes(search.toLocaleLowerCase())
                 )
-                .sort((c1, c2) => {
-                  if (c1.name === "N/A") return -1
-                  else if (c2.name === "N/A") return 1
-                  else return c1.name > c2.name ? 1 : -1
-                })
-                .map((cell) => (
-                  <FormControlLabel
-                    key={cell.id}
-                    value={cell.id}
-                    control={<Radio />}
-                    label={cell.name}
-                  />
-                ))}
+                .map((cellKey) => {
+                  const cell = cells[cellKey]
+                  return (
+                    <FormControlLabel
+                      key={cell.id}
+                      value={cell.id}
+                      control={<Radio />}
+                      label={cell.name}
+                    />
+                  )
+                })}
           </RadioGroup>
         </FormControl>
       </DialogContent>
