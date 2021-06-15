@@ -130,7 +130,6 @@ export interface ICell {
   id: string
   leaders: string[]
   name: string
-  members: string[]
 }
 
 export interface ICells {

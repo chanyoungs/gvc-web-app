@@ -15,7 +15,7 @@ import React, { FC, Fragment, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { CustomDialog } from "src/components/Level1/Dialogs/CustomDialog"
 import { Searchbar } from "src/components/Level1/TextFields/Searchbar"
-import { updateMemberCell } from "src/store/actions/adminActions"
+import { addNewCell, updateMemberCell } from "src/store/actions/adminActions"
 import { AppState } from "src/store/reducers/rootReducer"
 import { ICells, IMemberDownload, IMemberUpload } from "src/types"
 
@@ -95,7 +95,10 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
           <DialogActions>
             <Button onClick={handleCloseAddNewCellDialog}>Cancel</Button>
             <Button
-              onClick={() => {}}
+              onClick={() => {
+                dispatch(addNewCell({ name: addCellName }))
+                handleCloseAddNewCellDialog()
+              }}
               disabled={cellAlreadyExists || addCellName === ""}
             >
               Confirm

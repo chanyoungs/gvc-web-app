@@ -1,4 +1,5 @@
-import { ICells, IMemberDownload, IMemberUpload } from "src/types"
+import { ICell, ICells, IMemberDownload, IMemberUpload } from "src/types"
+import { v4 as uuid } from "uuid"
 
 import { ThunkActionCustom } from "./types"
 
@@ -26,6 +27,35 @@ export const updateMemberCell =
       callback && callback()
     } catch (error) {
       console.error("Cell (re)allocation fail!", error)
+    }
+  }
+
+export interface AddNewCellProps {
+  name: string
+  callback?: () => void
+}
+
+export const addNewCell =
+  ({ name, callback }: AddNewCellProps): ThunkActionCustom<void> =>
+  async (dispatch, getState, { getFirestore, getFirebase }) => {
+    const firestore = getFirestore()
+    const newCellId = uuid()
+    const newCell: ICell = {
+      id: newCellId,
+      leaders: [],
+      name,
+    }
+    try {
+      await firestore
+        .collection("cells")
+        .doc("cells")
+        .update({
+          [newCellId]: newCell,
+        })
+      console.log(`Cell ${name} added successfully!`)
+      callback && callback()
+    } catch (error) {
+      console.error("Cell addition fail!", error)
     }
   }
 

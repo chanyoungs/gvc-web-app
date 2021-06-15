@@ -71,13 +71,11 @@ export const globalObjects = () => {
       let members: string[] = []
       for (let member = 0; member <= 3; member++) {
         const memberId = "c" + cell + "m" + member
-        members = [...members, memberId]
       }
       cellsDocument[cell] = {
         id: "" + cell,
         leaders: [`c${cell}m0`],
         name: "" + cell,
-        members,
       }
     }
     db.collection("cells")
