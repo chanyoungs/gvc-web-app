@@ -7,7 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import React, { FC } from "react"
 
 export interface CustomDialogProps {
-  title: string | JSX.Element
+  title?: string | JSX.Element
   content?: JSX.Element
   contentText?: string
   confirmText?: string
@@ -28,7 +28,9 @@ export const CustomDialog: FC<CustomDialogProps> = (props) => {
       aria-describedby="alert-dialog-description"
       onExited={props.onExited}
     >
-      <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
+      {props.title && (
+        <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
+      )}
       <DialogContent>
         {props.content}
         <DialogContentText id="alert-dialog-description">

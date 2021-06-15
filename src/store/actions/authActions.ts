@@ -178,7 +178,6 @@ export const editProfile =
     member,
     image,
     deleteImage,
-    currentCellId,
     setProgress,
     handleClose,
   }: EditProfileProps): ThunkActionCustom<void> =>
@@ -199,7 +198,6 @@ export const editProfile =
         ) => {
           if (deleteImage) {
             // setUpdating(true)
-            // TODO: Delete thumbnail
             const promiseThumbnail = new Promise(
               (
                 resThumbnail: (value?: any) => void,
@@ -373,24 +371,7 @@ export const editProfile =
 
       dispatch({ type: EDIT_PROFILE })
       console.log("Profile Edited!")
-
-      const callback = () => {
-        handleClose()
-        // setUpdating(false)
-      }
-
-      if (member.cell !== currentCellId) {
-        dispatch(
-          updateMemberCell({
-            memberId: member.id,
-            currentCellId,
-            newCellId: member.cell,
-            callback,
-          })
-        )
-      } else {
-        callback()
-      }
+      handleClose()
     } catch (error) {
       console.error("Profile Edit Error!", error)
     }
