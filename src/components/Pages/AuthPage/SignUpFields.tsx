@@ -20,6 +20,7 @@ import KakaoIcon from "src/images/kakaotalk.svg"
 import { AuthTypes, ISignUp } from "src/types"
 
 import { AuthCheckboxTextField } from "./AuthCheckboxTextField"
+import { FormikCellSelection } from "./FormikCellSelection"
 
 export const SignUpSteps = [
   "1. Basic Info",
@@ -48,175 +49,215 @@ const londonPurposeMenuItems: {
   { value: "travel", label: "Travel" },
 ]
 
-export const SignUpFields: {
+export const SignUpFields = (
+  keysToRemove: (keyof Partial<AuthTypes>)[] = []
+): {
   [key in keyof Partial<AuthTypes>]: JSX.Element
-}[] = [
-  {
-    email: (
-      <FormikTextField
-        textFieldProps={{
-          label: "Email Address*",
-          placeholder: "johnsmith@gmail.com",
-          type: "email",
-        }}
-        name="email"
-        icon={<EmailIcon />}
-      />
-    ),
-    password: (
-      <FormikTextField
-        textFieldProps={{
-          label: "Password*",
-          placeholder: "Password",
-          autoComplete: "current-password",
-          type: "password",
-        }}
-        name="password"
-        icon={<LockIcon />}
-      />
-    ),
-    name: (
-      <FormikTextField
-        textFieldProps={{
-          label: "Name*",
-          placeholder: "김철수/John Smith",
-        }}
-        name="name"
-        icon={<PersonIcon />}
-      />
-    ),
-    dob: (
-      <FormikDatePicker<ISignUp>
-        label="Date of Birth*"
-        placeholder="01/01/2000"
-        name="dob"
-        icon={<CalendarTodayIcon />}
-      />
-    ),
-    gender: (
-      <FormikRadio<ISignUp, ISignUp["gender"]>
-        name="gender"
-        radios={[
-          { value: "male", label: "Male" },
-          { value: "female", label: "Female" },
-        ]}
-      />
-    ),
-    phoneNumber: (
-      <FormikTextField
-        textFieldProps={{
-          label: "Phone Number*",
-          placeholder: "+44771234567",
-        }}
-        name="phoneNumber"
-        icon={<PhoneIcon />}
-      />
-    ),
-    kakaoId: (
-      <FormikTextField
-        textFieldProps={{
-          label: "Kakaotalk ID",
-          placeholder: "kakaoid123",
-        }}
-        name="kakaoId"
-        icon={<CustomIcon src={KakaoIcon} alt="K" />}
-      />
-    ),
-  },
-  {
-    previousChurch: (
-      <FormikTextField
-        textFieldProps={{
-          label: "Previous Church",
-          placeholder: "Previous Church",
-        }}
-        name="previousChurch"
-        icon={<CustomIcon src={ChurchIcon} alt="C" />}
-      />
-    ),
-    previousVolunteering: (
-      <FormikTextField
-        textFieldProps={{
-          label: "Previous Volunteering",
-          placeholder: "e.g. Media team",
-        }}
-        name="previousVolunteering"
-        icon={<EmojiPeopleIcon />}
-      />
-    ),
-    faithStart: (
-      <FormikSelect<ISignUp, ISignUp["faithStart"]>
-        label="When did you come to have faith?"
-        name="faithStart"
-        menuItems={faithStartMenuItems}
-      />
-    ),
-    londonPurpose: (
-      <FormikSelect<ISignUp, ISignUp["londonPurpose"]>
-        label="Purpose of your stay in London"
-        name="londonPurpose"
-        menuItems={londonPurposeMenuItems}
-      />
-    ),
-    occupation: (
-      <FormikTextField
-        textFieldProps={{
-          label: "Occupation Details*",
-          placeholder: "e.g. Company/School, Job/Course",
-          multiline: true,
-          rows: 2,
-          rowsMax: 4,
-        }}
-        name="occupation"
-      />
-    ),
-  },
-  {
-    howDidYouHearInternet: (
-      <FormikCheckbox<ISignUp>
-        label="Internet: Naver, Google, Daum..."
-        groupLabel="How did you hear about us?"
-        name="howDidYouHearInternet"
-      />
-    ),
-    howDidYouHearIntroduced: (
-      <AuthCheckboxTextField
-        label="Introduced by..."
-        placeholder="Who introduced you?"
-        name="howDidYouHearIntroduced"
-      />
-    ),
-    howDidYouHearOther: (
-      <AuthCheckboxTextField
-        label="Other"
-        placeholder="How did you hear us?"
-        name="howDidYouHearOther"
-      />
-    ),
-    serviceFeedback: (
-      <FormikTextField
-        textFieldProps={{
-          label: "Service Feedback",
-          placeholder: "How was the church service?",
-          multiline: true,
-          rows: 4,
-          rowsMax: 6,
-        }}
-        name="serviceFeedback"
-      />
-    ),
-    agreeTAndC: (
-      <Fragment>
-        <Grid item xs>
-          <FormikCheckbox<ISignUp>
-            label={<Typography variant="caption">I consent to</Typography>}
-            name="agreeTAndC"
-          />
-        </Grid>
-        <Grid item>
-          <TermsAndConditionsDialog />
-        </Grid>
-      </Fragment>
-    ),
-  },
-]
+}[] => {
+  const fullSignUpFields = [
+    {
+      email: (
+        <FormikTextField<ISignUp>
+          textFieldProps={{
+            label: "Email Address*",
+            placeholder: "johnsmith@gmail.com",
+            type: "email",
+          }}
+          name="email"
+          icon={<EmailIcon />}
+        />
+      ),
+      password: (
+        <FormikTextField<ISignUp>
+          textFieldProps={{
+            label: "Password*",
+            placeholder: "Password",
+            autoComplete: "current-password",
+            type: "password",
+          }}
+          name="password"
+          icon={<LockIcon />}
+        />
+      ),
+      nameKor: (
+        <FormikTextField<ISignUp>
+          textFieldProps={{
+            label: "Name(Korean)",
+            placeholder: "김철수",
+          }}
+          name="nameKor"
+          icon={<PersonIcon />}
+        />
+      ),
+      nameEng: (
+        <FormikTextField<ISignUp>
+          textFieldProps={{
+            label: "Name(English)*",
+            placeholder: "Chulsoo Kim",
+          }}
+          name="nameEng"
+          icon={<PersonIcon />}
+        />
+      ),
+      dob: (
+        <FormikDatePicker<ISignUp>
+          label="Date of Birth*"
+          placeholder="01/01/2000"
+          name="dob"
+          icon={<CalendarTodayIcon />}
+        />
+      ),
+      cell: (
+        <FormikCellSelection<ISignUp>
+          textFieldProps={{ label: "Cell" }}
+          name="cell"
+          icon={<GroupIcon />}
+        />
+      ),
+      cellRequest: (
+        <FormikCellSelection<ISignUp>
+          textFieldProps={{ label: "Cell Request" }}
+          name="cellRequest"
+          icon={<GroupIcon />}
+        />
+      ),
+      gender: (
+        <FormikRadio<ISignUp, ISignUp["gender"]>
+          name="gender"
+          radios={[
+            { value: "male", label: "Male" },
+            { value: "female", label: "Female" },
+          ]}
+        />
+      ),
+      phoneNumber: (
+        <FormikTextField<ISignUp>
+          textFieldProps={{
+            label: "Phone Number*",
+            placeholder: "+44771234567",
+          }}
+          name="phoneNumber"
+          icon={<PhoneIcon />}
+        />
+      ),
+      kakaoId: (
+        <FormikTextField<ISignUp>
+          textFieldProps={{
+            label: "Kakaotalk ID",
+            placeholder: "kakaoid123",
+          }}
+          name="kakaoId"
+          icon={<CustomIcon src={KakaoIcon} alt="K" />}
+        />
+      ),
+    },
+    {
+      previousChurch: (
+        <FormikTextField<ISignUp>
+          textFieldProps={{
+            label: "Previous Church",
+            placeholder: "Previous Church",
+          }}
+          name="previousChurch"
+          icon={<CustomIcon src={ChurchIcon} alt="C" />}
+        />
+      ),
+      previousVolunteering: (
+        <FormikTextField<ISignUp>
+          textFieldProps={{
+            label: "Previous Volunteering",
+            placeholder: "e.g. Media team",
+          }}
+          name="previousVolunteering"
+          icon={<EmojiPeopleIcon />}
+        />
+      ),
+      faithStart: (
+        <FormikSelect<ISignUp, ISignUp["faithStart"]>
+          label="When did you come to have faith?"
+          name="faithStart"
+          menuItems={faithStartMenuItems}
+        />
+      ),
+      londonPurpose: (
+        <FormikSelect<ISignUp, ISignUp["londonPurpose"]>
+          label="Purpose of your stay in London"
+          name="londonPurpose"
+          menuItems={londonPurposeMenuItems}
+        />
+      ),
+      occupation: (
+        <FormikTextField<ISignUp>
+          textFieldProps={{
+            label: "Occupation Details*",
+            placeholder: "e.g. Company/School, Job/Course",
+            multiline: true,
+            rows: 2,
+            rowsMax: 4,
+          }}
+          name="occupation"
+        />
+      ),
+    },
+    {
+      howDidYouHearInternet: (
+        <FormikCheckbox<ISignUp>
+          label="Internet: Naver, Google, Daum..."
+          groupLabel="How did you hear about us?"
+          name="howDidYouHearInternet"
+        />
+      ),
+      howDidYouHearIntroduced: (
+        <AuthCheckboxTextField
+          label="Introduced by..."
+          placeholder="Who introduced you?"
+          name="howDidYouHearIntroduced"
+        />
+      ),
+      howDidYouHearOther: (
+        <AuthCheckboxTextField
+          label="Other"
+          placeholder="How did you hear us?"
+          name="howDidYouHearOther"
+        />
+      ),
+      serviceFeedback: (
+        <FormikTextField<ISignUp>
+          textFieldProps={{
+            label: "Service Feedback",
+            placeholder: "How was the church service?",
+            multiline: true,
+            rows: 4,
+            rowsMax: 6,
+          }}
+          name="serviceFeedback"
+        />
+      ),
+      agreeTAndC: (
+        <Fragment>
+          <Grid item xs>
+            <FormikCheckbox<ISignUp>
+              label={<Typography variant="caption">I consent to</Typography>}
+              name="agreeTAndC"
+            />
+          </Grid>
+          <Grid item>
+            <TermsAndConditionsDialog />
+          </Grid>
+        </Fragment>
+      ),
+    },
+  ]
+
+  return fullSignUpFields.map((step) => {
+    let filteredFields: { [key in keyof Partial<AuthTypes>]: JSX.Element } = {}
+    Object.keys(step).forEach((key) => {
+      if (!keysToRemove.includes(key as keyof AuthTypes))
+        filteredFields = {
+          ...filteredFields,
+          [key as keyof Partial<AuthTypes>]: step[key as keyof typeof step],
+        }
+    })
+    return filteredFields
+  })
+}

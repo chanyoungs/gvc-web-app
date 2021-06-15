@@ -11,6 +11,7 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup"
 import React, { FC, useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { CustomAvatar } from "src/components/Level2/Avatars/CustomAvatar"
+import { getName } from "src/components/Level2/Lists/listUtils"
 import { ProfileMenu } from "src/components/Level2/Menus/ProfileMenu"
 import { ReportMode } from "src/components/Pages/ReportsPage"
 import { getReportDocId, updateAttendance, updatePrayer, updateReport, uploadReport } from "src/store/actions/reportActions"
@@ -107,7 +108,7 @@ export const ReportListItem: FC<ReportListItemProps> = ({
       </ListItemAvatar>
       <ListItemText
         disableTypography
-        primary={<Typography>{member.name}</Typography>}
+        primary={<Typography>{getName(member)}</Typography>}
         secondary={
           reportMode === "prayer" ? (
             <TextField

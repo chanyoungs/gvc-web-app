@@ -17,7 +17,9 @@ import { CustomDialog } from "src/components/Level1/Dialogs/CustomDialog"
 import { Searchbar } from "src/components/Level1/TextFields/Searchbar"
 import { addNewCell, updateMemberCell } from "src/store/actions/adminActions"
 import { AppState } from "src/store/reducers/rootReducer"
-import { ICells, IMemberDownload, IMemberUpload } from "src/types"
+import { CELL_UNASSIGNED_ID, ICells, IMemberDownload, IMemberUpload } from "src/types"
+
+import { getName } from "../Lists/listUtils"
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -28,14 +30,16 @@ const useStyles = makeStyles<Theme>((theme) =>
 )
 
 export interface CellAllocationDialogProps {
-  member: IMemberDownload | IMemberUpload
+  cellCurrent?: string
+  cellRequest?: string
   open: boolean
   handleClose: () => void
-  onConfirm?: (chosenCellId: string) => void
+  onConfirm: (chosenCellId: string) => void
 }
 
 export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
-  member,
+  cellCurrent = CELL_UNASSIGNED_ID,
+  cellRequest = CELL_UNASSIGNED_ID,
   open,
   handleClose,
   onConfirm,
@@ -48,11 +52,17 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
   const [addCellName, setAddCellName] = useState("")
 
   const initialiseCell = () =>
-    setNewCellId(member.cell === "unassigned" ? "na" : member.cell)
+    setNewCellId(
+      cellRequest !== cellCurrent
+        ? cellRequest
+        : cellCurrent === CELL_UNASSIGNED_ID
+        ? "na"
+        : cellCurrent
+    )
 
   useEffect(() => {
     initialiseCell()
-  }, [member.cell])
+  }, [cellCurrent, cellRequest])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewCellId((event.target as HTMLInputElement).value)
@@ -78,7 +88,7 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
       aria-describedby="alert-dialog-description"
       onExited={initialiseCell}
     >
-      <DialogTitle id="alert-dialog-title">{`Allocate ${member.name} to a cell`}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Select a cell</DialogTitle>
       <DialogContent>
         <Dialog open={addCellDialogOpen} onClose={handleCloseAddNewCellDialog}>
           <DialogContent>
@@ -114,10 +124,11 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
               Object.values(cells)
                 .filter(
                   (c) =>
-                    search === "" ||
-                    c.name
-                      .toLocaleLowerCase()
-                      .includes(search.toLocaleLowerCase())
+                    (search === "" ||
+                      c.name
+                        .toLocaleLowerCase()
+                        .includes(search.toLocaleLowerCase())) &&
+                    c.id !== CELL_UNASSIGNED_ID
                 )
                 .sort((c1, c2) => {
                   if (c1.name === "N/A") return -1
@@ -156,16 +167,7 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
             </Button>
             <Button
               onClick={() => {
-                onConfirm
-                  ? onConfirm(newCellId)
-                  : member.cell !== newCellId &&
-                    dispatch(
-                      updateMemberCell({
-                        memberId: member.id,
-                        newCellId,
-                      })
-                    )
-
+                cellCurrent !== newCellId && onConfirm(newCellId)
                 handleClose()
               }}
               color="secondary"

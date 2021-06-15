@@ -6,6 +6,7 @@ import { AppState } from "src/store/reducers/rootReducer"
 
 import { IMemberDownload } from "../../../types"
 import { CustomList } from "./CustomList"
+import { filterMembersSearch, sortMembers } from "./listUtils"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
@@ -24,13 +25,7 @@ export const MembersList: FC<MembersListProps> = ({
 
   const members_ =
     members &&
-    [...members]
-      .filter((member) =>
-        member.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-      )
-      .sort((member1, member2) => {
-        return member1.name > member2.name ? 1 : -1
-      })
+    [...members].filter(filterMembersSearch(search)).sort(sortMembers)
 
   return (
     <CustomList

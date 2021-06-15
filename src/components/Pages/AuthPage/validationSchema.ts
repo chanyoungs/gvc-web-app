@@ -50,7 +50,8 @@ export const authValidationSchema: yup.ObjectSchemaDefinition<
     .string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
-  name: yup.string().required("Name is required"),
+  nameKor: yup.string(),
+  nameEng: yup.string().required("Name(English) is required"),
   dob: yup.date().nullable().required("Date of Birth is required"),
   gender: yup
     .mixed()

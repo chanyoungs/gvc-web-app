@@ -84,6 +84,31 @@ export const globalObjects = () => {
       .then(() => console.log("Complete!"))
   }
 
+  // @ts-ignore
+  window.renameNames = async () => {
+    const membersSnapshot = await db.collection("members").get()
+
+    membersSnapshot.forEach((memberSnapshot) => {
+      const memberId = memberSnapshot.id
+      const memberDataRaw = memberSnapshot.data()
+      if ("name" in memberDataRaw) {
+        const { name, ...memberUpdate } = memberDataRaw
+
+        const korean =
+          name[0].match(
+            /[\uac00-\ud7af]|[\u1100-\u11ff]|[\u3130-\u318f]|[\ua960-\ua97f]|[\ud7b0-\ud7ff]/g
+          ) !== null
+
+        const nameKor = korean ? name : ""
+        const nameEng = korean ? "English Name" : name
+
+        db.collection("members")
+          .doc(memberId)
+          .set({ ...memberUpdate, nameKor, nameEng })
+      }
+    })
+  }
+
   // // @ts-ignore
   // window.uploadBibles = () => {
   //   const bibles = require("./bibles.json")

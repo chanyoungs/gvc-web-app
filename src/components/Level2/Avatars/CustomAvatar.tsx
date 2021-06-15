@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux"
 import { OPEN_PROFILE_DIALOG } from "src/store/actions/types"
 import { IMemberDownload } from "src/types"
 
+import { getName } from "../Lists/listUtils"
+
 const useStyles = makeStyles<Theme, { size?: number }>((theme) =>
   createStyles({
     avatar: {
@@ -37,7 +39,7 @@ export const CustomAvatar: FC<CustomAvatarProps> = (props) => {
     >
       <Avatar
         className={props.size ? classes.avatar : undefined}
-        alt={props.member.name}
+        alt={getName(props.member)}
         src={props.member.thumbnailUrl}
       />
     </IconButton>

@@ -10,6 +10,7 @@ import clsx from "clsx"
 import React, { FC, Fragment, useState } from "react"
 import { IMemberDownload } from "src/types"
 
+import { sortMembers } from "./listUtils"
 import { MembersList } from "./MembersList"
 
 const useStyles = makeStyles<Theme>((theme) =>
@@ -75,7 +76,7 @@ export const CellsList: FC<CellsListProps> = ({
     Object.keys(cells).forEach((cell) => {
       membersByCell[cell] = members
         .filter((member) => member.cell === cell)
-        .sort((member1, member2) => (member1.name > member2.name ? 1 : -1))
+        .sort(sortMembers)
     })
 
   return (
@@ -125,9 +126,7 @@ export const CellsList: FC<CellsListProps> = ({
               <MembersList
                 members={members
                   .filter((member) => member.cell === cell)
-                  .sort((member1, member2) =>
-                    member1.name > member2.name ? 1 : -1
-                  )}
+                  .sort(sortMembers)}
               />
             </Collapse>
           </div>

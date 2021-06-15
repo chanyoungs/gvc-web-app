@@ -21,7 +21,7 @@ import * as yup from "yup"
 import FullLogo from "../../../images/gods_vision_church_logo.svg"
 import { resetPassword, signIn, signUp } from "../../../store/actions/authActions"
 import { AppState } from "../../../store/reducers/rootReducer"
-import { AuthTypes, CELL_UNASSIGNED, IResetPassword, ISignIn, ISignUp } from "../../../types"
+import { AuthTypes, CELL_UNASSIGNED_ID, IResetPassword, ISignIn, ISignUp } from "../../../types"
 import { ContainerMain } from "../../Level1/Containers/ContainerMain"
 import { AlertDialog } from "../../Level1/Dialogs/AlertDialog"
 import { SignInAndResetPasswordForm } from "./SignInAndResetPasswordForm"
@@ -95,7 +95,8 @@ const signUpValidationSchema1: yup.ObjectSchemaDefinition<Partial<ISignUp>> = {
   email: emailSignUp,
   ...getPartialAuthValidationSchema([
     "password",
-    "name",
+    "nameKor",
+    "nameEng",
     "dob",
     "gender",
     "phoneNumber",
@@ -126,8 +127,10 @@ const signUpValidationSchema = (activeStep: number) =>
 export const initialValues: AuthTypes = {
   email: "",
   password: "",
-  name: "",
-  cell: CELL_UNASSIGNED,
+  nameKor: "",
+  nameEng: "",
+  cell: CELL_UNASSIGNED_ID,
+  cellRequest: CELL_UNASSIGNED_ID,
   dob: null,
   gender: null,
   phoneNumber: "",

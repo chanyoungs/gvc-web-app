@@ -46,13 +46,15 @@ export type IReports = { [key: string]: IReport }
 // ---Auth---
 // Types
 
-export const CELL_UNASSIGNED = "unassigned"
+export const CELL_UNASSIGNED_ID = "unassigned"
 
 export type AuthTypes = {
   email: string
   password: string
-  name: string
+  nameKor: string
+  nameEng: string
   cell: string
+  cellRequest?: string
   dob: Date | null
   gender: "male" | "female" | null
   phoneNumber: string
@@ -92,7 +94,10 @@ export type ISignUp = Pick<
   AuthTypes,
   | "email"
   | "password"
-  | "name"
+  | "nameKor"
+  | "nameEng"
+  | "cell"
+  | "cellRequest"
   | "dob"
   | "gender"
   | "phoneNumber"

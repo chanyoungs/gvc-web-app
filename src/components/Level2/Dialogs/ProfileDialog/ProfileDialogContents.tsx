@@ -34,6 +34,7 @@ import * as yup from "yup"
 
 import { editProfile } from "../../../../store/actions/authActions"
 import { AuthTypes, ICells, IMemberDownload, IMemberUpload } from "../../../../types"
+import { getName } from "../../Lists/listUtils"
 import { CellAllocationDialog } from "../CellAllocationDialog"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -107,8 +108,9 @@ export interface ProfileDialogContentsProps {
 
 const updateProfileValidationSchema = yup.object<Partial<IMemberUpload>>(
   getPartialAuthValidationSchema([
-    "name",
+    "nameKor",
     "dob",
+    "nameEng",
     "gender",
     "phoneNumber",
     "faithStart",
@@ -231,7 +233,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                 </Grid>
                 <Grid item xs>
                   <Typography variant="h6" align="center">
-                    {`${member.name} Profile`}
+                    {`${getName(member)} Profile`}
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -248,7 +250,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
 
             <DialogContent>
               <CellAllocationDialog
-                member={props.member}
+                cellCurrent={props.member.cell}
                 open={openCellAlllocationDialog}
                 handleClose={() => setOpenCellAlllocationDialog(false)}
                 onConfirm={(chosenCellId) =>
@@ -277,7 +279,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                       {localImage.url || member.photoUrl ? (
                         <img
                           src={localImage.url || member.photoUrl}
-                          alt={member.name}
+                          alt={getName(member)}
                           className={classes.image}
                         />
                       ) : (
@@ -372,44 +374,11 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                           </Box>
                         </Typography>
                       </Grid>
-                      {stepIndex === 0 && (
-                        <Grid item xs={edit ? 12 : 11}>
-                          <TextField
-                            label="Cell"
-                            value={cells[values.cell].name}
-                            fullWidth
-                            {...(edit
-                              ? {
-                                  onClick: () =>
-                                    setOpenCellAlllocationDialog(true),
-                                  variant: "outlined",
-                                  disabled: !isAdmin,
-                                  InputProps: {
-                                    readOnly: true,
-                                    endAdornment: (
-                                      <InputAdornment position="end">
-                                        <GroupIcon />
-                                      </InputAdornment>
-                                    ),
-                                  },
-                                }
-                              : {
-                                  InputProps: {
-                                    readOnly: true,
-                                    endAdornment: (
-                                      <InputAdornment position="end">
-                                        <GroupIcon />
-                                      </InputAdornment>
-                                    ),
-                                    disableUnderline: true,
-                                  },
-                                })}
-                          ></TextField>
-                        </Grid>
-                      )}
-                      {Object.keys(SignUpFields[stepIndex]).map((key) => {
+                      {Object.keys(
+                        SignUpFields(["cellRequest"])[stepIndex]
+                      ).map((key) => {
                         const signUpField =
-                          SignUpFields[stepIndex][
+                          SignUpFields()[stepIndex][
                             key as keyof Partial<AuthTypes>
                           ]
                         return (

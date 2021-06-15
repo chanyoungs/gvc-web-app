@@ -33,6 +33,7 @@ import { AppState } from "../../store/reducers/rootReducer"
 import { NoticeAlert } from "../Level1/Alerts/NoticeAlert"
 import { LoadingBackdrop } from "../Level1/Backdrops/LoadingBackdrop"
 import { LoadingProgress } from "../Level1/Progress/LoadingProgress"
+import { getName } from "../Level2/Lists/listUtils"
 import { ReportsList } from "../Level2/Lists/ReportsList"
 import { Notices } from "../Level2/SwipeableListViews/Notices"
 
@@ -161,7 +162,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
               const reportId = `${date.format("YYYY.MM.DD")}-${member.id}`
               const report = reports && reportId in reports && reports[reportId]
               const prayer = report && "prayer" in report ? report.prayer : ""
-              return `${member.name}:\n${prayer}\n`
+              return `${getName(member)}:\n${prayer}\n`
             })
             .join("\n")
         : "",

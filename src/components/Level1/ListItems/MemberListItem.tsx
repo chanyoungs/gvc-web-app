@@ -7,6 +7,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import React, { FC } from "react"
 import { CustomAvatar } from "src/components/Level2/Avatars/CustomAvatar"
+import { getName } from "src/components/Level2/Lists/listUtils"
 import { ProfileMenu } from "src/components/Level2/Menus/ProfileMenu"
 import { IMemberDownload } from "src/types"
 
@@ -35,7 +36,7 @@ export const MemberListItem: FC<MemberListItemProps> = ({
       </ListItemAvatar>
       <ListItemText
         disableTypography
-        primary={<Typography>{member.name}</Typography>}
+        primary={<Typography>{getName(member)}</Typography>}
       />
       <ListItemSecondaryAction>
         {secondaryAction ? (

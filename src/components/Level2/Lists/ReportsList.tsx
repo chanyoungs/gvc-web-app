@@ -8,6 +8,7 @@ import { AppState } from "src/store/reducers/rootReducer"
 
 import { IMemberDownload, IReport, IReports } from "../../../types"
 import { CustomList } from "./CustomList"
+import { filterMembersSearch } from "./listUtils"
 
 // import { Iprayer } from "./../../../interfaces"
 const useStyles = makeStyles((theme: Theme) =>
@@ -60,11 +61,7 @@ export const ReportsList: FC<ReportsListProps> = ({
   const classes = useStyles()
   const search = useSelector<AppState, string>((state) => state.appBar.search)
 
-  const members_ =
-    members &&
-    [...members].filter((member) =>
-      member.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-    )
+  const members_ = members && [...members].filter(filterMembersSearch(search))
   // .sort((member1, member2) => {
   //   return member1.name > member2.name ? 1 : -1
   // })

@@ -44,9 +44,9 @@ export const SignUpForm: FC<SignUpFormProps> = ({
           </Box>
         </Typography>
       </Grid>
-      {Object.keys(SignUpFields[activeStep]).map((key) => (
+      {Object.keys(SignUpFields(["cell"])[activeStep]).map((key) => (
         <Grid item xs={12} key={key}>
-          {SignUpFields[activeStep][key as keyof Partial<AuthTypes>]}
+          {SignUpFields()[activeStep][key as keyof Partial<AuthTypes>]}
         </Grid>
       ))}
       {/* {field()} */}

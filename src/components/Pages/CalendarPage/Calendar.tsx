@@ -6,6 +6,7 @@ import moment from "moment"
 import React, { FC, Fragment, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
+import { getName } from "src/components/Level2/Lists/listUtils"
 import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberDownload } from "src/types"
 import { memberDownloadToUpload } from "src/utils/memberDownloadToUpload"
@@ -86,7 +87,7 @@ export const CustomCalendar: FC = () => {
 
         return {
           allDay: true,
-          title: `🎁 ${member.name}`,
+          title: `🎁 ${getName(member)}`,
           rrule: {
             freq: "yearly",
             dtstart: member.dob,

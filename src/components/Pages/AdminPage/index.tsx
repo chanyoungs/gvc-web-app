@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography"
 import CheckIcon from "@material-ui/icons/Check"
 import CloseIcon from "@material-ui/icons/Close"
 import React, { FC, Fragment, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
 import SwipeableViews from "react-swipeable-views"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
@@ -16,10 +16,12 @@ import { CustomDialog } from "src/components/Level1/Dialogs/CustomDialog"
 import { Searchbar } from "src/components/Level1/TextFields/Searchbar"
 import { CellAllocationDialog } from "src/components/Level2/Dialogs/CellAllocationDialog"
 import { CellsList } from "src/components/Level2/Lists/CellsList"
+import { filterMembersSearch, sortMembers } from "src/components/Level2/Lists/listUtils"
 import { MembersList } from "src/components/Level2/Lists/MembersList"
 import { Notices } from "src/components/Level2/SwipeableListViews/Notices"
+import { updateMemberCell } from "src/store/actions/adminActions"
 import { AppState } from "src/store/reducers/rootReducer"
-import { CELL_UNASSIGNED, ICell, IMemberDownload, INoticeWithMeta } from "src/types"
+import { CELL_UNASSIGNED_ID, ICell, IMemberDownload, INoticeWithMeta } from "src/types"
 
 import { SortMenu } from "../../Level2/Menus/SortMenu"
 
@@ -58,11 +60,11 @@ export interface AdminPageProps {}
 export const AdminPage: FC<AdminPageProps> = (props) => {
   const classes = useStyles()
   const theme = useTheme()
+  const dispatch = useDispatch()
   const [adminModeIndex, setAdminModeIndex] = useState(0)
   const [sortMode, setSortMode] = useState<"name" | "cell">("name")
   const [chosenMember, setChosenMember] = useState<IMemberDownload | null>(null)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
-
   const [search, setSearch] = useState("")
 
   // Get members from Firestore
@@ -78,22 +80,18 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
   const newMembersSorted =
     members &&
     [...members]
-      .filter((member) => member.cell === CELL_UNASSIGNED)
-      .sort((member1, member2) => (member1.name > member2.name ? 1 : -1))
+      .filter((member) => member.cell === CELL_UNASSIGNED_ID)
+      .sort(sortMembers)
 
   const membersFilteredSorted =
     members &&
     [...members]
       .filter(
         (member) =>
-          member.name
-            .toLocaleLowerCase()
-            .includes(search.toLocaleLowerCase()) &&
-          member.cell !== CELL_UNASSIGNED
+          filterMembersSearch(search)(member) &&
+          member.cell !== CELL_UNASSIGNED_ID
       )
-      .sort((member1, member2) => {
-        return member1.name > member2.name ? 1 : -1
-      })
+      .sort(sortMembers)
 
   const cellsFilteredSorted: string[] =
     membersFilteredSorted &&
@@ -105,9 +103,18 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
     <Fragment>
       {chosenMember && (
         <CellAllocationDialog
-          member={chosenMember}
+          cellCurrent={chosenMember.cell}
+          cellRequest={chosenMember.cellRequest}
           open={openDialog}
           handleClose={() => setOpenDialog(false)}
+          onConfirm={(chosenCellId) =>
+            dispatch(
+              updateMemberCell({
+                memberId: chosenMember.id,
+                newCellId: chosenCellId,
+              })
+            )
+          }
         />
       )}
       <AppBarMain title="Admin" />

@@ -22,7 +22,7 @@ export const updateMemberCell =
       await firestore
         .collection("members")
         .doc(memberId)
-        .update({ cell: newCellId })
+        .update({ cell: newCellId, cellRequest: newCellId })
       console.log("Cell (re)allocation success!")
       callback && callback()
     } catch (error) {

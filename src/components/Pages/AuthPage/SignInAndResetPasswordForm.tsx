@@ -18,60 +18,58 @@ export interface SignInAndResetPasswordFormProps {
   onForgotPassword: () => void
 }
 
-export const SignInAndResetPasswordForm: FC<SignInAndResetPasswordFormProps> = ({
-  authMode,
-  onForgotPassword,
-}) => {
-  const classes = useStyles()
+export const SignInAndResetPasswordForm: FC<SignInAndResetPasswordFormProps> =
+  ({ authMode, onForgotPassword }) => {
+    const classes = useStyles()
 
-  return (
-    <Fragment>
-      <Grid item xs={12}>
-        <FormikTextField
-          textFieldProps={{
-            label: "Email Address",
-            placeholder: "johnsmith@gmail.com",
-            type: "email",
-          }}
-          name="email"
-          icon={<EmailIcon />}
-        />
-      </Grid>
-      {authMode === "signIn" && (
+    return (
+      <Fragment>
         <Grid item xs={12}>
-          <FormikTextField
+          <FormikTextField<ISignIn>
             textFieldProps={{
-              label: "Password",
-              placeholder: "Password",
-              autoComplete: "current-password",
-              type: "password",
+              label: "Email Address",
+              placeholder: "johnsmith@gmail.com",
+              type: "email",
             }}
-            name="password"
-            icon={<LockIcon />}
+            name="email"
+            icon={<EmailIcon />}
           />
         </Grid>
-      )}
-      {authMode === "signIn" && (
-        <Fragment>
-          <Grid item xs>
-            <FormikCheckbox<ISignIn>
-              label={<Typography variant="caption">Remember me</Typography>}
-              name="rememberMe"
+        {authMode === "signIn" && (
+          <Grid item xs={12}>
+            <FormikTextField<ISignIn>
+              textFieldProps={{
+                label: "Password",
+                placeholder: "Password",
+                autoComplete: "current-password",
+                type: "password",
+              }}
+              name="password"
+              icon={<LockIcon />}
             />
           </Grid>
-          <Grid item>
-            <Link
-              onClick={onForgotPassword}
-              display="block"
-              align="center"
-              variant="caption"
-              color="inherit"
-            >
-              Forgot Password?
-            </Link>
-          </Grid>
-        </Fragment>
-      )}
-    </Fragment>
-  )
-}
+        )}
+        {authMode === "signIn" && (
+          <Fragment>
+            <Grid item xs>
+              <FormikCheckbox<ISignIn>
+                label={<Typography variant="caption">Remember me</Typography>}
+                name="rememberMe"
+              />
+            </Grid>
+            <Grid item>
+              <Link
+                onClick={onForgotPassword}
+                display="block"
+                align="center"
+                variant="caption"
+                color="inherit"
+              >
+                Forgot Password?
+              </Link>
+            </Grid>
+          </Fragment>
+        )}
+      </Fragment>
+    )
+  }
