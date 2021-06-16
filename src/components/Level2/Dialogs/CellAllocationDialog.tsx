@@ -17,7 +17,12 @@ import { CustomDialog } from "src/components/Level1/Dialogs/CustomDialog"
 import { Searchbar } from "src/components/Level1/TextFields/Searchbar"
 import { addNewCell, updateMemberCell } from "src/store/actions/adminActions"
 import { AppState } from "src/store/reducers/rootReducer"
-import { CELL_UNASSIGNED_ID, ICells, IMemberDownload, IMemberUpload } from "src/types"
+import {
+  CELL_UNASSIGNED_ID,
+  ICells,
+  IMemberDownload,
+  IMemberUpload,
+} from "src/types"
 
 import { getName } from "../Lists/listUtils"
 
@@ -51,8 +56,7 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
   const [addCellDialogOpen, setAddCellDialogOpen] = useState(false)
   const [addCellName, setAddCellName] = useState("")
 
-  const initialiseCell = () =>
-    setNewCellId(cellRequest !== cellCurrent ? cellRequest : cellCurrent)
+  const initialiseCell = () => setNewCellId(cellRequest)
 
   useEffect(() => {
     initialiseCell()

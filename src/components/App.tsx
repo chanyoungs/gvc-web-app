@@ -4,7 +4,15 @@ import { MuiThemeProvider } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
 import { useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
-import { BrowserRouter, Link, Redirect, Route, Switch, useHistory, useLocation } from "react-router-dom"
+import {
+  BrowserRouter,
+  Link,
+  Redirect,
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+} from "react-router-dom"
 import { Themes } from "src/types"
 import WebFont from "webfontloader"
 
@@ -102,7 +110,7 @@ export default function App() {
                 <PrivateRoute path="/private" component={MembersPage} />
                 <PrivateRoute
                   path="/admin"
-                  // redirectConditionMet={!isAdmin}
+                  redirectConditionMet={!isAdmin}
                   redirectPath="/"
                   component={AdminPage}
                 />
