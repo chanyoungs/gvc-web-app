@@ -234,7 +234,7 @@ export const SignUpFields = (
         />
       ),
       agreeTAndC: (
-        <Fragment>
+        <Grid container alignItems="center">
           <Grid item xs>
             <FormikCheckbox<ISignUp>
               label={<Typography variant="caption">I consent to</Typography>}
@@ -244,7 +244,7 @@ export const SignUpFields = (
           <Grid item>
             <TermsAndConditionsDialog />
           </Grid>
-        </Fragment>
+        </Grid>
       ),
     },
   ]

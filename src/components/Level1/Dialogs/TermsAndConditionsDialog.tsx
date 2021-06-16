@@ -5,7 +5,7 @@ import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import Link from "@material-ui/core/Link"
-import React, { FC } from "react"
+import React, { FC, Fragment } from "react"
 
 export const TermsAndConditionsDialog: FC = () => {
   const [open, setOpen] = React.useState(false)
@@ -19,7 +19,7 @@ export const TermsAndConditionsDialog: FC = () => {
   }
 
   return (
-    <>
+    <Fragment>
       <Link
         onClick={handleClickOpen}
         display="block"
@@ -27,7 +27,7 @@ export const TermsAndConditionsDialog: FC = () => {
         variant="caption"
         color="inherit"
       >
-        Terms and Conditions
+        Terms & Conditions
       </Link>
 
       <Dialog
@@ -194,6 +194,6 @@ export const TermsAndConditionsDialog: FC = () => {
           </Link>
         </DialogActions>
       </Dialog>
-    </>
+    </Fragment>
   )
 }

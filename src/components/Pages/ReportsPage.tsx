@@ -5,7 +5,12 @@ import Fab from "@material-ui/core/Fab"
 import IconButton from "@material-ui/core/IconButton"
 import InputAdornment from "@material-ui/core/InputAdornment"
 import Snackbar from "@material-ui/core/Snackbar"
-import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
+import {
+  createStyles,
+  makeStyles,
+  Theme,
+  useTheme,
+} from "@material-ui/core/styles"
 import Tab from "@material-ui/core/Tab"
 import Tabs from "@material-ui/core/Tabs"
 import Toolbar from "@material-ui/core/Toolbar"
@@ -33,7 +38,7 @@ import { AppState } from "../../store/reducers/rootReducer"
 import { NoticeAlert } from "../Level1/Alerts/NoticeAlert"
 import { LoadingBackdrop } from "../Level1/Backdrops/LoadingBackdrop"
 import { LoadingProgress } from "../Level1/Progress/LoadingProgress"
-import { getName } from "../Level2/Lists/listUtils"
+import { getName, sortMembers } from "../Level2/Lists/listUtils"
 import { ReportsList } from "../Level2/Lists/ReportsList"
 import { Notices } from "../Level2/SwipeableListViews/Notices"
 
@@ -108,7 +113,10 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   useFirestoreConnect([
     {
       collection: "members",
-      orderBy: ["name", "asc"],
+      orderBy: [
+        ["nameKor", "asc"],
+        ["nameEng", "asc"],
+      ],
       where: ["cell", "==", profile.cell ? profile.cell : ""],
     },
   ])
@@ -128,6 +136,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   const members = useSelector<AppState, IMemberDownload[]>(
     (state) => state.firestore.ordered.members
   )
+
   const reports = useSelector<AppState, IReports>(
     (state) => state.firestore.data.reports
   )

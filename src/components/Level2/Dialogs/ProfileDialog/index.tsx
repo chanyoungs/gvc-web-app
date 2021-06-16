@@ -1,7 +1,10 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { FC, Fragment } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { CLOSE_PROFILE_DIALOG, UNMOUNT_PROFILE_DIALOG } from "src/store/actions/types"
+import {
+  CLOSE_PROFILE_DIALOG,
+  UNMOUNT_PROFILE_DIALOG,
+} from "src/store/actions/types"
 import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberDownload } from "src/types"
 

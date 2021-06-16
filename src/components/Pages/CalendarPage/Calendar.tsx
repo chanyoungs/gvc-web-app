@@ -11,7 +11,13 @@ import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberDownload } from "src/types"
 import { memberDownloadToUpload } from "src/utils/memberDownloadToUpload"
 
-import { dayGridPlugin, interactionPlugin, listPlugin, rrulePlugin, timeGridPlugin } from "./pluginModules"
+import {
+  dayGridPlugin,
+  interactionPlugin,
+  listPlugin,
+  rrulePlugin,
+  timeGridPlugin,
+} from "./pluginModules"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
@@ -29,7 +35,6 @@ export const CustomCalendar: FC = () => {
   useFirestoreConnect([
     {
       collection: "members",
-      orderBy: ["name", "asc"],
       where: ["cell", "==", profile.cell ? profile.cell : ""],
     },
   ])
