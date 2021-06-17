@@ -109,6 +109,19 @@ export const globalObjects = () => {
     })
   }
 
+  // @ts-ignore
+  window.addCellRequests = async () => {
+    const membersSnapshot = await db.collection("members").get()
+
+    membersSnapshot.forEach((memberSnapshot) => {
+      const memberId = memberSnapshot.id
+      const memberDataRaw = memberSnapshot.data()
+      db.collection("members")
+        .doc(memberId)
+        .update({ cellRequest: memberDataRaw.cell })
+    })
+  }
+
   // // @ts-ignore
   // window.uploadBibles = () => {
   //   const bibles = require("./bibles.json")

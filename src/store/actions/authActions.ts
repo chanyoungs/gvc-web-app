@@ -167,7 +167,6 @@ interface EditProfileProps {
   member: IMemberUpload
   image: { file: File | null; url: string }
   deleteImage: boolean
-  currentCellId: string
   setProgress: (progress: number) => void
   handleClose: () => void
 }

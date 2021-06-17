@@ -165,7 +165,6 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
         member,
         image: localImage,
         deleteImage,
-        currentCellId: props.member.cell,
         setProgress,
         handleClose: props.handleClose,
       })
@@ -254,7 +253,11 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                 open={openCellAlllocationDialog}
                 handleClose={() => setOpenCellAlllocationDialog(false)}
                 onConfirm={(chosenCellId) =>
-                  setValues({ ...values, cell: chosenCellId })
+                  setValues({
+                    ...values,
+                    cell: chosenCellId,
+                    cellRequest: chosenCellId,
+                  })
                 }
               />
               <Grid container justify="center" alignItems="center" spacing={1}>

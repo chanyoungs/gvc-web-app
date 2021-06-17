@@ -11,20 +11,12 @@ import Radio from "@material-ui/core/Radio"
 import RadioGroup from "@material-ui/core/RadioGroup"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
-import React, { FC, Fragment, useEffect, useState } from "react"
+import React, { FC, Fragment, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { CustomDialog } from "src/components/Level1/Dialogs/CustomDialog"
 import { Searchbar } from "src/components/Level1/TextFields/Searchbar"
 import { addNewCell, updateMemberCell } from "src/store/actions/adminActions"
 import { AppState } from "src/store/reducers/rootReducer"
-import {
-  CELL_UNASSIGNED_ID,
-  ICells,
-  IMemberDownload,
-  IMemberUpload,
-} from "src/types"
-
-import { getName } from "../Lists/listUtils"
+import { CELL_UNASSIGNED_ID, ICells, IMemberDownload, IMemberUpload } from "src/types"
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -44,7 +36,7 @@ export interface CellAllocationDialogProps {
 
 export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
   cellCurrent = CELL_UNASSIGNED_ID,
-  cellRequest = CELL_UNASSIGNED_ID,
+  cellRequest,
   open,
   handleClose,
   onConfirm,
@@ -54,9 +46,14 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
   const [search, setSearch] = useState("")
   const [newCellId, setNewCellId] = useState("na")
   const [addCellDialogOpen, setAddCellDialogOpen] = useState(false)
-  const [addCellName, setAddCellName] = useState("")
+  const [addNewCellName, setAddNewCellName] = useState("")
 
-  const initialiseCell = () => setNewCellId(cellRequest)
+  const newCellNameTextField = useRef<HTMLInputElement>(null)
+
+  const initialiseCell = () => {
+    setNewCellId(cellRequest || cellCurrent)
+    setAddNewCellName("")
+  }
 
   useEffect(() => {
     initialiseCell()
@@ -66,9 +63,10 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
     setNewCellId((event.target as HTMLInputElement).value)
   }
 
-  const cells: ICells = useSelector<AppState, ICells>(
-    (state) => state.firestore.data.cells?.cells
-  )
+  const cells: ICells = useSelector<AppState, ICells>((state) => {
+    const cells = state.firestore.data.cells?.cells
+    return cells ? cells : {}
+  })
 
   const lead = [CELL_UNASSIGNED_ID, "na"]
 
@@ -78,12 +76,10 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
   ]
 
   const cellAlreadyExists =
-    Object.values(cells).filter((cell) => cell.name === addCellName).length > 0
+    Object.values(cells).filter((cell) => cell.name === addNewCellName).length >
+    0
 
-  const handleCloseAddNewCellDialog = () => {
-    setAddCellName("")
-    setAddCellDialogOpen(false)
-  }
+  const ADD_NEW_CELL_SELECTION = "addNewCell"
 
   return (
     <Dialog
@@ -95,31 +91,10 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
     >
       <DialogTitle id="alert-dialog-title">Select a cell</DialogTitle>
       <DialogContent>
-        <Dialog open={addCellDialogOpen} onClose={handleCloseAddNewCellDialog}>
-          <DialogContent>
-            <TextField
-              value={addCellName}
-              onChange={(event) => setAddCellName(event.target.value)}
-              label="New cell name"
-              error={cellAlreadyExists}
-              helperText={
-                cellAlreadyExists && `Cell ${addCellName} already exists!`
-              }
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseAddNewCellDialog}>Cancel</Button>
-            <Button
-              onClick={() => {
-                dispatch(addNewCell({ name: addCellName }))
-                handleCloseAddNewCellDialog()
-              }}
-              disabled={cellAlreadyExists || addCellName === ""}
-            >
-              Confirm
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <DialogContentText>{`Current cell: ${cells[cellCurrent].name}`}</DialogContentText>
+        {cellRequest !== cellCurrent && cellRequest && (
+          <DialogContentText>{`Requested cell: ${cells[cellRequest].name}`}</DialogContentText>
+        )}
         <div className={classes.searchbar}>
           <Searchbar setSearch={setSearch} />
         </div>
@@ -137,14 +112,34 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
                 .map((cellKey) => {
                   const cell = cells[cellKey]
                   return (
-                    <FormControlLabel
-                      key={cell.id}
-                      value={cell.id}
-                      control={<Radio />}
-                      label={cell.name}
-                    />
+                    cell && (
+                      <FormControlLabel
+                        key={cell.id}
+                        value={cell.id}
+                        control={<Radio />}
+                        label={cell.name}
+                      />
+                    )
                   )
                 })}
+            <FormControlLabel
+              control={<Radio />}
+              value={ADD_NEW_CELL_SELECTION}
+              label={
+                <TextField
+                  inputRef={newCellNameTextField}
+                  value={addNewCellName}
+                  onChange={(event) => setAddNewCellName(event.target.value)}
+                  label="New Cell Name"
+                  error={cellAlreadyExists}
+                  helperText={
+                    cellAlreadyExists &&
+                    `Cell ${addNewCellName} already exists!`
+                  }
+                  onFocus={() => setNewCellId(ADD_NEW_CELL_SELECTION)}
+                />
+              }
+            />
           </RadioGroup>
         </FormControl>
       </DialogContent>
@@ -153,7 +148,7 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
           <Grid item xs>
             <Button
               color="secondary"
-              onClick={() => setAddCellDialogOpen(true)}
+              onClick={() => newCellNameTextField.current?.focus()}
             >
               Add Cell
             </Button>
@@ -169,11 +164,21 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
             </Button>
             <Button
               onClick={() => {
-                cellCurrent !== newCellId && onConfirm(newCellId)
+                if (cellCurrent !== newCellId) {
+                  if (newCellId !== ADD_NEW_CELL_SELECTION) {
+                    onConfirm(newCellId)
+                  } else {
+                    dispatch(addNewCell({ name: addNewCellName, onConfirm }))
+                  }
+                }
                 handleClose()
               }}
               color="secondary"
               autoFocus
+              disabled={
+                cellAlreadyExists ||
+                (newCellId === ADD_NEW_CELL_SELECTION && addNewCellName === "")
+              }
             >
               CONFIRM
             </Button>

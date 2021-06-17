@@ -6,6 +6,7 @@ import { ThunkActionCustom } from "./types"
 export interface UpdateMemberCellProps {
   memberId: string
   newCellId: string
+
   callback?: () => void
 }
 
@@ -13,6 +14,7 @@ export const updateMemberCell =
   ({
     memberId,
     newCellId,
+
     callback,
   }: UpdateMemberCellProps): ThunkActionCustom<void> =>
   async (dispatch, getState, { getFirestore, getFirebase }) => {
@@ -32,11 +34,12 @@ export const updateMemberCell =
 
 export interface AddNewCellProps {
   name: string
+  onConfirm?: (newCellId: string) => void
   callback?: () => void
 }
 
 export const addNewCell =
-  ({ name, callback }: AddNewCellProps): ThunkActionCustom<void> =>
+  ({ name, onConfirm, callback }: AddNewCellProps): ThunkActionCustom<void> =>
   async (dispatch, getState, { getFirestore, getFirebase }) => {
     const firestore = getFirestore()
     const newCellId = uuid()
@@ -52,8 +55,9 @@ export const addNewCell =
         .update({
           [newCellId]: newCell,
         })
-      console.log(`Cell ${name} added successfully!`)
+      onConfirm && onConfirm(newCellId)
       callback && callback()
+      console.log(`Cell ${name} added successfully!`)
     } catch (error) {
       console.error("Cell addition fail!", error)
     }

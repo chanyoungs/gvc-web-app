@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import clsx from "clsx"
 import React, { FC, Fragment, useState } from "react"
-import { IMemberDownload } from "src/types"
+import { CELL_UNASSIGNED_ID, ICells, IMemberDownload } from "src/types"
 
 import { sortMembers } from "./listUtils"
 import { MembersList } from "./MembersList"
@@ -45,7 +45,7 @@ const useStyles = makeStyles<Theme>((theme) =>
 )
 
 export interface CellsListProps {
-  cells: string[]
+  cells: ICells
   members: IMemberDownload[]
   searching: boolean
 }
@@ -60,7 +60,7 @@ export const CellsList: FC<CellsListProps> = ({
   const allExpandedStates: { [key: string]: boolean } = {}
   const allCollapsedStates: { [key: string]: boolean } = {}
   cells &&
-    cells.forEach((cell) => {
+    Object.keys(cells).forEach((cell) => {
       allExpandedStates[cell] = true
       allCollapsedStates[cell] = false
     })
@@ -69,15 +69,6 @@ export const CellsList: FC<CellsListProps> = ({
   const handleExpandClick = (cell: string) => () => {
     setExpandedStates((es) => ({ ...es, [cell]: !es[cell] }))
   }
-
-  const membersByCell: { [key: string]: IMemberDownload[] } = {}
-
-  cells &&
-    Object.keys(cells).forEach((cell) => {
-      membersByCell[cell] = members
-        .filter((member) => member.cell === cell)
-        .sort(sortMembers)
-    })
 
   return (
     <Fragment>
@@ -101,36 +92,38 @@ export const CellsList: FC<CellsListProps> = ({
         </Button>
       </div>
       {cells &&
-        cells.map((cell) => (
-          <div key={cell}>
-            <ButtonBase
-              onClick={handleExpandClick(cell)}
-              className={classes.cellButton}
-            >
-              <Grid container justify="space-between" alignItems="center">
-                <Typography variant="h6">{`Cell ${cell}`}</Typography>
-                <div
-                  className={clsx(classes.expand, {
-                    [classes.expandOpen]: expandedStates[cell],
-                  })}
-                >
-                  <ExpandMoreIcon />
-                </div>
-              </Grid>
-            </ButtonBase>
-            <Collapse
-              in={expandedStates[cell] || searching}
-              timeout="auto"
-              unmountOnExit
-            >
-              <MembersList
-                members={members
-                  .filter((member) => member.cell === cell)
-                  .sort(sortMembers)}
-              />
-            </Collapse>
-          </div>
-        ))}
+        Object.keys(cells)
+          .filter((cellId) => cellId !== CELL_UNASSIGNED_ID)
+          .map((cellId) => (
+            <div key={cellId}>
+              <ButtonBase
+                onClick={handleExpandClick(cellId)}
+                className={classes.cellButton}
+              >
+                <Grid container justify="space-between" alignItems="center">
+                  <Typography variant="h6">{`Cell ${cells[cellId].name}`}</Typography>
+                  <div
+                    className={clsx(classes.expand, {
+                      [classes.expandOpen]: expandedStates[cellId],
+                    })}
+                  >
+                    <ExpandMoreIcon />
+                  </div>
+                </Grid>
+              </ButtonBase>
+              <Collapse
+                in={expandedStates[cellId] || searching}
+                timeout="auto"
+                unmountOnExit
+              >
+                <MembersList
+                  members={members
+                    .filter((member) => member.cell === cellId)
+                    .sort(sortMembers)}
+                />
+              </Collapse>
+            </div>
+          ))}
     </Fragment>
   )
 }

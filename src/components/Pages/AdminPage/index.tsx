@@ -21,7 +21,7 @@ import { MembersList } from "src/components/Level2/Lists/MembersList"
 import { Notices } from "src/components/Level2/SwipeableListViews/Notices"
 import { updateMemberCell } from "src/store/actions/adminActions"
 import { AppState } from "src/store/reducers/rootReducer"
-import { CELL_UNASSIGNED_ID, ICell, IMemberDownload, INoticeWithMeta } from "src/types"
+import { CELL_UNASSIGNED_ID, ICell, ICells, IMemberDownload, INoticeWithMeta } from "src/types"
 
 import { SortMenu } from "../../Level2/Menus/SortMenu"
 
@@ -76,11 +76,17 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
 
   const stateFS = useSelector<AppState, any>((state) => state.firestore)
   const members: IMemberDownload[] = stateFS.ordered.members
+  const cells = useSelector<AppState, ICells>(
+    (state) => state.firestore.data.cells.cells
+  )
 
   const newMembersSorted =
     members &&
     [...members]
-      .filter((member) => member.cell === CELL_UNASSIGNED_ID)
+      .filter(
+        (member) =>
+          member.cell === CELL_UNASSIGNED_ID || !(member.cell in cells)
+      )
       .sort(sortMembers)
 
   const membersFilteredSorted =
@@ -92,12 +98,6 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
           member.cell !== CELL_UNASSIGNED_ID
       )
       .sort(sortMembers)
-
-  const cellsFilteredSorted: string[] =
-    membersFilteredSorted &&
-    Array.from(
-      new Set(membersFilteredSorted.map((member) => member.cell).sort())
-    )
 
   return (
     <Fragment>
@@ -175,7 +175,7 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
                 <MembersList members={membersFilteredSorted} />
               ) : (
                 <CellsList
-                  cells={cellsFilteredSorted}
+                  cells={cells}
                   members={membersFilteredSorted}
                   searching={search !== ""}
                 />
