@@ -32,7 +32,7 @@ import {
   sharpen,
 } from "ts-image-processor"
 
-import { IFBError, IMemberUpload, IResetPassword, ISignIn, ISignUp } from "../../types"
+import { IFBError, IMemberDate, IResetPassword, ISignIn, ISignUp } from "../../types"
 import { ThunkActionCustom } from "./types"
 
 // Sign Up Member
@@ -58,7 +58,6 @@ export const signUp =
         {
           ...profile,
           username: profile.email,
-          positions: [],
         }
       )
       .then(() => {
@@ -164,7 +163,7 @@ export const signOut =
   }
 
 interface EditProfileProps {
-  member: IMemberUpload
+  member: IMemberDate
   image: { file: File | null; url: string }
   deleteImage: boolean
   setProgress: (progress: number) => void
@@ -192,7 +191,7 @@ export const editProfile =
     const updatePhoto = (image: EditProfileProps["image"]) =>
       new Promise(
         (
-          resolve: (memberWithPhotoUrl: IMemberUpload) => void,
+          resolve: (memberWithPhotoUrl: IMemberDate) => void,
           reject: (error: Error) => void
         ) => {
           if (deleteImage) {

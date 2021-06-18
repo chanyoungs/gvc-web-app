@@ -1,12 +1,11 @@
-import { IMemberDownload, IMemberUpload } from "src/types"
+import { IMemberDate, IMemberWithId } from "src/types"
 
-export const getName = (member: IMemberDownload | IMemberUpload) =>
+export const getName = (member: IMemberWithId | IMemberDate) =>
   member.nameKor || member.nameEng
 
-export const sortMembers = (
-  member1: IMemberDownload,
-  member2: IMemberDownload
-) => (getName(member1) > getName(member2) ? 1 : -1)
+export const sortMembers = (member1: IMemberWithId, member2: IMemberWithId) =>
+  getName(member1) > getName(member2) ? 1 : -1
 
-export const filterMembersSearch = (search: string) => (member: any) =>
-  getName(member).toLocaleLowerCase().includes(search.toLocaleLowerCase())
+export const filterMembersSearch =
+  (search: string) => (member: IMemberWithId | IMemberDate) =>
+    getName(member).toLocaleLowerCase().includes(search.toLocaleLowerCase())

@@ -27,9 +27,11 @@ import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 import { ALERT_CLOSE, ALERT_SAVED } from "src/store/actions/types"
 import { IAlertState } from "src/store/reducers/alertReducer"
-import { IMemberDownload, IReports } from "src/types"
+import { IMemberWithId, IReports } from "src/types"
+import { membersDownloadToMembersWithId } from "src/utils/membersConversion"
 
 import { AppState } from "../../store/reducers/rootReducer"
+import { CELL_MEMBERS_DOWNLOAD } from "../App"
 import { NoticeAlert } from "../Level1/Alerts/NoticeAlert"
 import { LoadingBackdrop } from "../Level1/Backdrops/LoadingBackdrop"
 import { LoadingProgress } from "../Level1/Progress/LoadingProgress"
@@ -129,9 +131,9 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
 
   const stateFS = useSelector<AppState, any>((state) => state.firestore)
   const notices = stateFS.ordered.notices
-  const members = useSelector<AppState, IMemberDownload[]>(
-    (state) => state.firestore.ordered.members
-  )
+  const members = membersDownloadToMembersWithId(
+    stateFS.data[CELL_MEMBERS_DOWNLOAD]
+  ).ordered
 
   const reports = useSelector<AppState, IReports>(
     (state) => state.firestore.data.reports
@@ -212,7 +214,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
         <div className={classes.noticeAlert}>
           {reportModes[reportModeIndex] === "prayer" ? (
             <NoticeAlert
-              title={"공지"}
+              title={"Notice"}
               content={"이번 주 오프라인으로 교회에서 예배드립니다."}
               severity="info"
               icon={<InfoIcon />}

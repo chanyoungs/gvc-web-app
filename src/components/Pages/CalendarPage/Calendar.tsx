@@ -3,21 +3,15 @@ import { DateClickArg } from "@fullcalendar/interaction"
 import FullCalendar, { EventClickArg, EventInput } from "@fullcalendar/react"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import moment from "moment"
-import React, { FC, Fragment, useRef, useState } from "react"
+import React, { FC, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useFirestoreConnect } from "react-redux-firebase"
+import { CELL_MEMBERS_DOWNLOAD } from "src/components/App"
 import { getName } from "src/components/Level2/Lists/listUtils"
+import { MembersReducer } from "src/store/reducers/membersReducer"
 import { AppState } from "src/store/reducers/rootReducer"
-import { IMemberDownload } from "src/types"
-import { memberDownloadToUpload } from "src/utils/memberDownloadToUpload"
+import { membersDownloadToMembersWithId, memberWithIdToDate } from "src/utils/membersConversion"
 
-import {
-  dayGridPlugin,
-  interactionPlugin,
-  listPlugin,
-  rrulePlugin,
-  timeGridPlugin,
-} from "./pluginModules"
+import { dayGridPlugin, interactionPlugin, listPlugin, rrulePlugin, timeGridPlugin } from "./pluginModules"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
@@ -32,15 +26,11 @@ export const CustomCalendar: FC = () => {
 
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)
 
-  useFirestoreConnect([
-    {
-      collection: "members",
-      where: ["cell", "==", profile.cell ? profile.cell : ""],
-    },
-  ])
-
-  const members = useSelector<AppState, IMemberDownload[]>(
-    (state) => state.firestore.ordered.members
+  const members = useSelector<AppState, MembersReducer["ordered"]>(
+    (state) =>
+      membersDownloadToMembersWithId(
+        state.firestore.data[CELL_MEMBERS_DOWNLOAD]
+      ).ordered
   )
 
   const dispatch = useDispatch()
@@ -88,7 +78,7 @@ export const CustomCalendar: FC = () => {
 
   const birthdays: EventInput[] = members
     ? members.map((m) => {
-        const member = memberDownloadToUpload(m)
+        const member = memberWithIdToDate(m)
 
         return {
           allDay: true,

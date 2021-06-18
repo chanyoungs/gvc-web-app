@@ -4,7 +4,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { FC } from "react"
 import { useDispatch } from "react-redux"
 import { OPEN_PROFILE_DIALOG } from "src/store/actions/types"
-import { IMemberDownload } from "src/types"
+import { IMemberWithId } from "src/types"
 
 import { getName } from "../Lists/listUtils"
 
@@ -21,7 +21,7 @@ const useStyles = makeStyles<Theme, { size?: number }>((theme) =>
 )
 
 export interface CustomAvatarProps {
-  member: IMemberDownload
+  member: IMemberWithId
   size?: number
   padding?: boolean
 }

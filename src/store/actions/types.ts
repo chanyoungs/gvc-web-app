@@ -5,6 +5,7 @@ import { IBibleRef } from "src/components/Pages/BiblePage"
 import { IMemberDownload } from "src/types"
 
 import { IFBError, INotice, IReport, IReports, TPrayerQueries } from "../../types"
+import { MembersReducer } from "../reducers/membersReducer"
 import { AppState } from "../reducers/rootReducer"
 
 // Setup
@@ -33,6 +34,15 @@ export interface ServiceWorkerUpdate {
 }
 
 export type ServiceWorkerActionTypes = ServiceWorkerInit | ServiceWorkerUpdate
+
+// Members actions
+export const ADD_MEMBERS_WITH_ID = "ADD_MEMBERS_WITH_ID"
+export interface AddMembersWithId {
+  type: typeof ADD_MEMBERS_WITH_ID
+  payload: MembersReducer
+}
+
+export type MembersActionTypes = AddMembersWithId
 
 // Profile dialog actions
 export const OPEN_PROFILE_DIALOG = "OPEN_PROFILE_DIALOG"
@@ -434,3 +444,4 @@ export type AppActions =
   | ReportActionTypes
   | ServiceWorkerActionTypes
   | ProfileDialogActionTypes
+  | MembersActionTypes

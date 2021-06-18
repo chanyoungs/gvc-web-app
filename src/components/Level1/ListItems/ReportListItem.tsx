@@ -16,7 +16,7 @@ import { ProfileMenu } from "src/components/Level2/Menus/ProfileMenu"
 import { ReportMode } from "src/components/Pages/ReportsPage"
 import { getReportDocId, updateAttendance, updatePrayer, updateReport, uploadReport } from "src/store/actions/reportActions"
 import { AppState } from "src/store/reducers/rootReducer"
-import { IMemberDownload, IReport } from "src/types"
+import { IMemberWithId, IReport } from "src/types"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 export interface ReportListItemProps {
-  member: IMemberDownload
+  member: IMemberWithId
   report: IReport
   reportMode: ReportMode
   setIsTyping: (isTyping: boolean) => void
@@ -114,7 +114,7 @@ export const ReportListItem: FC<ReportListItemProps> = ({
             <TextField
               // InputProps={{ className: classes.textFieldInputProps }}
               fullWidth
-              placeholder="기도제목을 입력해주세요"
+              placeholder="Enter prayer request"
               multiline
               rows={2}
               rowsMax={2}
@@ -171,7 +171,7 @@ export const ReportListItem: FC<ReportListItemProps> = ({
       />
       {reportMode === "prayer" && (
         <ListItemSecondaryAction>
-          <ProfileMenu memberId={member.id} />
+          <ProfileMenu member={member} />
         </ListItemSecondaryAction>
       )}
     </ListItem>

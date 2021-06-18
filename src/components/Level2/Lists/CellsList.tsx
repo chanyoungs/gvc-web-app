@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import clsx from "clsx"
 import React, { FC, Fragment, useState } from "react"
-import { CELL_UNASSIGNED_ID, ICells, IMemberDownload } from "src/types"
+import { CELL_UNASSIGNED_ID, ICells, IMemberWithId } from "src/types"
 
 import { sortMembers } from "./listUtils"
 import { MembersList } from "./MembersList"
@@ -46,7 +46,7 @@ const useStyles = makeStyles<Theme>((theme) =>
 
 export interface CellsListProps {
   cells: ICells
-  members: IMemberDownload[]
+  members: IMemberWithId[]
   searching: boolean
 }
 

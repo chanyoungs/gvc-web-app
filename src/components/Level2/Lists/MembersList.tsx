@@ -4,15 +4,15 @@ import { useSelector } from "react-redux"
 import { MemberListItem } from "src/components/Level1/ListItems/MemberListItem"
 import { AppState } from "src/store/reducers/rootReducer"
 
-import { IMemberDownload } from "../../../types"
+import { IMemberWithId } from "../../../types"
 import { CustomList } from "./CustomList"
 import { filterMembersSearch, sortMembers } from "./listUtils"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
 export interface MembersListProps {
-  members: IMemberDownload[]
-  secondaryAction?: (member: IMemberDownload) => React.ReactNode
+  members: IMemberWithId[]
+  secondaryAction?: (member: IMemberWithId) => React.ReactNode
 }
 
 export const MembersList: FC<MembersListProps> = ({

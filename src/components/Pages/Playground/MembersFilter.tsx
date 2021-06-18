@@ -8,7 +8,7 @@ import Select from "@material-ui/core/Select"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
 
-import { IMemberDownload } from "../../../types"
+import { IMemberWithId } from "../../../types"
 import { MembersList } from "../../Level2/Lists/MembersList"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -30,7 +30,7 @@ interface State {
 }
 
 interface Props {
-  members: IMemberDownload[]
+  members: IMemberWithId[]
   filter: string
 }
 

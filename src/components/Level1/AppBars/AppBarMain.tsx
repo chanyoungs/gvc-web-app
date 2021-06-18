@@ -18,7 +18,7 @@ import React, { Fragment, ReactNode, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { CustomAvatar } from "src/components/Level2/Avatars/CustomAvatar"
 import { SET_DRAWER_OPEN, SET_DRAWER_TRANSITION } from "src/store/actions/types"
-import { IMemberDownload } from "src/types"
+import { IMemberDownload, IMemberWithId } from "src/types"
 
 import { appBarSearchOnChange } from "../../../store/actions/appBarActions"
 import { AppState } from "../../../store/reducers/rootReducer"
@@ -125,6 +125,12 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
   const dispatch = useDispatch()
   const theme = useTheme()
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)
+  const uid = useSelector<AppState, string>((state) => state.firebase.auth.uid)
+  const profileWithId: IMemberWithId = {
+    ...(profile as IMemberDownload),
+    id: uid,
+  }
+
   const { drawerWidth, drawerOpen, drawerTransition, search } = useSelector<
     AppState,
     AppState["appBar"]
@@ -193,12 +199,8 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
                   <ShareIcon color="inherit" />
                 </IconButton>
               )}
-              {profile && (
-                <CustomAvatar
-                  member={profile as IMemberDownload}
-                  size={3}
-                  padding
-                />
+              {profileWithId && (
+                <CustomAvatar member={profileWithId} size={3} padding />
               )}
             </Toolbar>
           )}

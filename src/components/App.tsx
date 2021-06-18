@@ -2,18 +2,13 @@ import { createMuiTheme, CssBaseline } from "@material-ui/core"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { MuiThemeProvider } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
-import {
-  BrowserRouter,
-  Link,
-  Redirect,
-  Route,
-  Switch,
-  useHistory,
-  useLocation,
-} from "react-router-dom"
-import { Themes } from "src/types"
+import { BrowserRouter, Link, Redirect, Route, Switch, useHistory, useLocation } from "react-router-dom"
+import { ADD_MEMBERS_WITH_ID } from "src/store/actions/types"
+import { MembersReducer } from "src/store/reducers/membersReducer"
+import { CELL_MEMBERS, IMemberDownload, IMemberWithId, Themes } from "src/types"
+import { membersDownloadToMembersWithId, memberWithIdToDate } from "src/utils/membersConversion"
 import WebFont from "webfontloader"
 
 import { PrivateRoute } from "../auth/PrivateRoute"
@@ -47,17 +42,40 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
+export const CELL_MEMBERS_DOWNLOAD = "cellMembersDownload"
+
 export default function App() {
   const styles = useSelector((state: { styles: any }) => state.styles)
   const classes = useStyles(styles)
+  const dispatch = useDispatch()
   const isAuthenticated = useSelector<AppState, boolean>(
     (state) => !state.firebase.auth.isEmpty
   )
+  const profile = useSelector<AppState, any>((state) => state.firebase.profile)
 
   const location = useLocation<{ from: string }>()
   const fromOrHome: string = location.state?.from || "/"
 
   useFirestoreConnect(["themes", "fonts", "settings", "access", "cells"])
+
+  useFirestoreConnect([
+    {
+      collection: "members",
+      where: ["cell", "==", profile.cell ? profile.cell : ""], // querying cell == "" return permission error
+      storeAs: CELL_MEMBERS_DOWNLOAD,
+    },
+  ])
+
+  // const membersDownloadData = useSelector<
+  //   AppState,
+  //   { [key: string]: IMemberDownload }
+  // >((state) => state.firestore.data[CELL_MEMBERS_DOWNLOAD])
+
+  // const membersReducer = membersDownloadToMembersWithId(membersDownloadData)
+  // dispatch({
+  //   type: ADD_MEMBERS_WITH_ID,
+  //   payload: membersReducer,
+  // })
 
   const themes = useSelector<AppState, Themes>(
     (state) => state.firestore.data.themes

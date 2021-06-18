@@ -11,12 +11,12 @@ import Radio from "@material-ui/core/Radio"
 import RadioGroup from "@material-ui/core/RadioGroup"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
-import React, { FC, Fragment, useEffect, useRef, useState } from "react"
+import React, { FC, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Searchbar } from "src/components/Level1/TextFields/Searchbar"
-import { addNewCell, updateMemberCell } from "src/store/actions/adminActions"
+import { addNewCell } from "src/store/actions/adminActions"
 import { AppState } from "src/store/reducers/rootReducer"
-import { CELL_UNASSIGNED_ID, ICells, IMemberDownload, IMemberUpload } from "src/types"
+import { CELL_UNASSIGNED_ID, ICells } from "src/types"
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({

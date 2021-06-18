@@ -9,7 +9,7 @@ import React, { FC } from "react"
 import { CustomAvatar } from "src/components/Level2/Avatars/CustomAvatar"
 import { getName } from "src/components/Level2/Lists/listUtils"
 import { ProfileMenu } from "src/components/Level2/Menus/ProfileMenu"
-import { IMemberDownload } from "src/types"
+import { IMemberWithId } from "src/types"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 export interface MemberListItemProps {
-  member: IMemberDownload
-  secondaryAction?: (member: IMemberDownload) => React.ReactNode
+  member: IMemberWithId
+  secondaryAction?: (member: IMemberWithId) => React.ReactNode
 }
 
 export const MemberListItem: FC<MemberListItemProps> = ({
@@ -42,7 +42,7 @@ export const MemberListItem: FC<MemberListItemProps> = ({
         {secondaryAction ? (
           secondaryAction(member)
         ) : (
-          <ProfileMenu memberId={member.id} />
+          <ProfileMenu member={member} />
         )}
       </ListItemSecondaryAction>
     </ListItem>

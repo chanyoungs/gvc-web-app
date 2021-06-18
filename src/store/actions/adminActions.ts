@@ -1,4 +1,4 @@
-import { ICell, ICells, IMemberDownload, IMemberUpload } from "src/types"
+import { ICell } from "src/types"
 import { v4 as uuid } from "uuid"
 
 import { ThunkActionCustom } from "./types"

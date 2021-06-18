@@ -54,7 +54,7 @@ export type AuthTypes = {
   nameKor: string
   nameEng: string
   cell: string
-  cellRequest?: string
+  cellRequest: string
   dob: Date | null
   gender: "male" | "female" | null
   phoneNumber: string
@@ -85,6 +85,9 @@ export type AuthTypes = {
   rememberMe: boolean
   agreeTAndC: boolean
   photoUrl: string
+  positions: string[]
+  thumbnailUrl: string
+  settings: { language: Language }
 }
 
 // Auth Interface
@@ -118,16 +121,14 @@ export type ISignUp = Pick<
 
 export type Language = "english" | "korean"
 
-export interface IMemberUpload extends AuthTypes {
-  id: string
-  cell: string
-  positions: string[]
-  thumbnailUrl: string
-  settings?: { language: Language }
-}
-
-export interface IMemberDownload extends Omit<IMemberUpload, "dob"> {
+export interface IMemberDownload extends Omit<AuthTypes, "dob"> {
   dob: firebase.firestore.Timestamp // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
+}
+export interface IMemberWithId extends IMemberDownload {
+  id: string
+}
+export interface IMemberDate extends Omit<IMemberWithId, "dob"> {
+  dob: Date | null
 }
 
 // ---Cells---
@@ -140,6 +141,8 @@ export interface ICell {
 export interface ICells {
   [key: string]: ICell
 }
+
+export const CELL_MEMBERS = "cellMembers"
 
 // Firebase Error Interface
 export interface IFBError {

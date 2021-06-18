@@ -4,8 +4,10 @@ import { useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
+import { membersDownloadToMembersWithId } from "src/utils/membersConversion"
 
 import { AppState } from "../../store/reducers/rootReducer"
+import { CELL_MEMBERS_DOWNLOAD } from "../App"
 import { AddCellMemberPaper } from "../Level1/Papers/AddCellMemberPaper"
 import { MembersList } from "../Level2/Lists/MembersList"
 import { Notices } from "../Level2/SwipeableListViews/Notices"
@@ -35,7 +37,9 @@ export const MembersPage: FC<MembersPageProps> = (props) => {
     },
   ])
   const stateFS = useSelector<AppState, any>((state) => state.firestore)
-  const membersArr = stateFS.ordered.members
+  const membersArr = membersDownloadToMembersWithId(
+    stateFS.data[CELL_MEMBERS_DOWNLOAD]
+  ).ordered
   const noticesArr = stateFS.ordered.notices
 
   return (

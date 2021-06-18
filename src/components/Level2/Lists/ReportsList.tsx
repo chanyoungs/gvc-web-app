@@ -6,7 +6,7 @@ import { ReportListItem } from "src/components/Level1/ListItems/ReportListItem"
 import { ReportMode } from "src/components/Pages/ReportsPage"
 import { AppState } from "src/store/reducers/rootReducer"
 
-import { IMemberDownload, IReport, IReports } from "../../../types"
+import { IMemberWithId, IReport, IReports } from "../../../types"
 import { CustomList } from "./CustomList"
 import { filterMembersSearch } from "./listUtils"
 
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface ReportsListProps {
-  members: IMemberDownload[]
+  members: IMemberWithId[]
   reports: IReports
   date: Moment
   reportMode: ReportMode
@@ -66,7 +66,7 @@ export const ReportsList: FC<ReportsListProps> = ({
   //   return member1.name > member2.name ? 1 : -1
   // })
 
-  const render = (member: IMemberDownload) => {
+  const render = (member: IMemberWithId) => {
     const reportKey = `${date.format("YYYY.MM.DD")}-${member.id}`
     const reportDefault: IReport = {
       memberId: member.id,

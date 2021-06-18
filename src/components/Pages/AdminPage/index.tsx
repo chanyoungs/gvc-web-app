@@ -10,18 +10,18 @@ import React, { FC, Fragment, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
 import SwipeableViews from "react-swipeable-views"
+import { CELL_MEMBERS_DOWNLOAD } from "src/components/App"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
-import { CustomDialog } from "src/components/Level1/Dialogs/CustomDialog"
 import { Searchbar } from "src/components/Level1/TextFields/Searchbar"
 import { CellAllocationDialog } from "src/components/Level2/Dialogs/CellAllocationDialog"
 import { CellsList } from "src/components/Level2/Lists/CellsList"
 import { filterMembersSearch, sortMembers } from "src/components/Level2/Lists/listUtils"
 import { MembersList } from "src/components/Level2/Lists/MembersList"
-import { Notices } from "src/components/Level2/SwipeableListViews/Notices"
 import { updateMemberCell } from "src/store/actions/adminActions"
 import { AppState } from "src/store/reducers/rootReducer"
-import { CELL_UNASSIGNED_ID, ICell, ICells, IMemberDownload, INoticeWithMeta } from "src/types"
+import { CELL_UNASSIGNED_ID, ICells, IMemberDownload, IMemberWithId } from "src/types"
+import { membersDownloadToMembersWithId } from "src/utils/membersConversion"
 
 import { SortMenu } from "../../Level2/Menus/SortMenu"
 
@@ -63,7 +63,7 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
   const dispatch = useDispatch()
   const [adminModeIndex, setAdminModeIndex] = useState(0)
   const [sortMode, setSortMode] = useState<"name" | "cell">("name")
-  const [chosenMember, setChosenMember] = useState<IMemberDownload | null>(null)
+  const [chosenMember, setChosenMember] = useState<IMemberWithId | null>(null)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [search, setSearch] = useState("")
 
@@ -74,15 +74,18 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
     },
   ])
 
-  const stateFS = useSelector<AppState, any>((state) => state.firestore)
-  const members: IMemberDownload[] = stateFS.ordered.members
+  const membersWithId = useSelector<AppState, any>(
+    (state) =>
+      membersDownloadToMembersWithId(state.firestore.data.members).ordered
+  )
+
   const cells = useSelector<AppState, ICells>(
     (state) => state.firestore.data.cells.cells
   )
 
   const newMembersSorted =
-    members &&
-    [...members]
+    membersWithId &&
+    [...membersWithId]
       .filter(
         (member) =>
           member.cell === CELL_UNASSIGNED_ID || !(member.cell in cells)
@@ -90,8 +93,8 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
       .sort(sortMembers)
 
   const membersFilteredSorted =
-    members &&
-    [...members]
+    membersWithId &&
+    [...membersWithId]
       .filter(
         (member) =>
           filterMembersSearch(search)(member) &&
@@ -138,7 +141,7 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
           <div className={classes.padding}>
             <MembersList
               members={newMembersSorted}
-              secondaryAction={(member: IMemberDownload) => (
+              secondaryAction={(member: IMemberWithId) => (
                 <Fragment>
                   <IconButton
                     onClick={() => {

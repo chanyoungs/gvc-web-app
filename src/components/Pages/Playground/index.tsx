@@ -1,27 +1,22 @@
-import Button from "@material-ui/core/Button"
 import Container from "@material-ui/core/Container"
 import Grid from "@material-ui/core/Grid"
-import IconButton from "@material-ui/core/IconButton"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
-import PersonIcon from "@material-ui/icons/Person"
-import RemoveCircleIcon from "@material-ui/icons/RemoveCircle"
 import { DatePicker } from "@material-ui/pickers"
 import moment, { Moment } from "moment"
 import React, { FC, Fragment, useState } from "react"
 import { useSelector } from "react-redux"
-import { ExtendedFirestoreInstance, useFirestoreConnect } from "react-redux-firebase"
+import { useFirestoreConnect } from "react-redux-firebase"
+import { CELL_MEMBERS_DOWNLOAD } from "src/components/App"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
-import { ReportListItem } from "src/components/Level1/ListItems/ReportListItem"
+import { MembersReducer } from "src/store/reducers/membersReducer"
+import { membersDownloadToMembersWithId } from "src/utils/membersConversion"
 
 import { AppState } from "../../../store/reducers/rootReducer"
 import { INoticeWithMeta } from "../../../types"
 import { Notices as NoticesGridList } from "../../Level2/GridLists/Notices"
-import { DatesList, DatesListProps } from "../../Level2/Lists/DatesList"
-import { MembersEditList } from "../../Level2/Lists/MembersEditList"
-import { MembersList, MembersListProps } from "../../Level2/Lists/MembersList"
+import { DatesList } from "../../Level2/Lists/DatesList"
 import { NoticeCreator } from "../../Level2/NoticeCreator"
 import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Notices"
 import { GetNameInitialLetter } from "./GetNameInitialLetter"
@@ -73,11 +68,14 @@ export const Playground: FC = () => {
   // Get members from Firestore
   useFirestoreConnect("members")
 
-  const stateFS = useSelector<AppState, any>((state) => state.firestore)
+  const noticesArr = useSelector<AppState, INoticeWithMeta[]>(
+    (state) => state.firestore.ordered.notices
+  )
+  const membersReducer = useSelector<AppState, MembersReducer>((state) =>
+    membersDownloadToMembersWithId(state.firestore.data[CELL_MEMBERS_DOWNLOAD])
+  )
 
-  const noticesArr = stateFS.ordered.notices
-  const membersDic = stateFS.data.members
-  const membersArr = stateFS.ordered.members
+  const { data: membersDic, ordered: membersArr } = membersReducer
 
   const search = useSelector<AppState, string>((state) => state.appBar.search)
 

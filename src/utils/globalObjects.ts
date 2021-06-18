@@ -1,3 +1,4 @@
+import { WindowScrollController } from "@fullcalendar/core"
 import moment from "moment"
 import { ICell, ICells, IReport } from "src/types"
 
@@ -120,6 +121,22 @@ export const globalObjects = () => {
         .doc(memberId)
         .update({ cellRequest: memberDataRaw.cell })
     })
+  }
+
+  // @ts-ignore
+  window.testAdd = async () => {
+    db.collection("access").doc().set({ testing: 1 })
+  }
+
+  // @ts-ignore
+  window.testGet = async () => {
+    const snapshot = await db.collection("access").doc("test").get()
+    console.log(snapshot.data())
+  }
+
+  // @ts-ignore
+  window.testChangeId = async () => {
+    db.collection("access").doc("test").set({ testing: 1, id: "break" })
   }
 
   // // @ts-ignore

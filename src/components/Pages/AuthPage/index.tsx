@@ -11,15 +11,7 @@ import CalendarToday from "@material-ui/icons/CalendarToday"
 import Email from "@material-ui/icons/Email"
 import Lock from "@material-ui/icons/Lock"
 import Person from "@material-ui/icons/Person"
-import {
-  Field,
-  FieldAttributes,
-  Form,
-  Formik,
-  FormikHelpers,
-  useField,
-  useFormikContext,
-} from "formik"
+import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
 import React, { FC, Fragment, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { auth } from "src/firebase"
@@ -27,28 +19,14 @@ import { FormikContext } from "src/store/contexts/FormikContext"
 import * as yup from "yup"
 
 import FullLogo from "../../../images/gods_vision_church_logo.svg"
-import {
-  resetPassword,
-  signIn,
-  signUp,
-} from "../../../store/actions/authActions"
+import { resetPassword, signIn, signUp } from "../../../store/actions/authActions"
 import { AppState } from "../../../store/reducers/rootReducer"
-import {
-  AuthTypes,
-  CELL_UNASSIGNED_ID,
-  IResetPassword,
-  ISignIn,
-  ISignUp,
-} from "../../../types"
+import { AuthTypes, CELL_UNASSIGNED_ID, IResetPassword, ISignIn, ISignUp } from "../../../types"
 import { ContainerMain } from "../../Level1/Containers/ContainerMain"
 import { AlertDialog } from "../../Level1/Dialogs/AlertDialog"
 import { SignInAndResetPasswordForm } from "./SignInAndResetPasswordForm"
 import { SignUpForm } from "./SignUpForm"
-import {
-  emailSignIn,
-  emailSignUp,
-  getPartialAuthValidationSchema,
-} from "./validationSchema"
+import { emailSignIn, emailSignUp, getPartialAuthValidationSchema } from "./validationSchema"
 
 const useStyles = makeStyles<Theme, { signUpMode: boolean }>((theme) =>
   createStyles({
@@ -172,6 +150,9 @@ export const initialValues: AuthTypes = {
   rememberMe: false,
   agreeTAndC: false,
   photoUrl: "",
+  positions: [],
+  settings: { language: "english" },
+  thumbnailUrl: "",
 }
 
 export type AuthMode = "signIn" | "signUp" | "resetPassword"

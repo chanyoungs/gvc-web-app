@@ -29,11 +29,11 @@ import { SignUpFields, SignUpSteps } from "src/components/Pages/AuthPage/SignUpF
 import { getPartialAuthValidationSchema } from "src/components/Pages/AuthPage/validationSchema"
 import { FormikContext } from "src/store/contexts/FormikContext"
 import { AppState } from "src/store/reducers/rootReducer"
-import { memberDownloadToUpload } from "src/utils/memberDownloadToUpload"
+import { memberWithIdToDate } from "src/utils/membersConversion"
 import * as yup from "yup"
 
 import { editProfile } from "../../../../store/actions/authActions"
-import { AuthTypes, ICells, IMemberDownload, IMemberUpload } from "../../../../types"
+import { AuthTypes, ICells, IMemberDate, IMemberWithId } from "../../../../types"
 import { getName } from "../../Lists/listUtils"
 import { CellAllocationDialog } from "../CellAllocationDialog"
 
@@ -100,13 +100,13 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface ProfileDialogContentsProps {
-  member: IMemberDownload
+  member: IMemberWithId
   open: boolean
   handleClose: () => void
   onExited: () => void
 }
 
-const updateProfileValidationSchema = yup.object<Partial<IMemberUpload>>(
+const updateProfileValidationSchema = yup.object<Partial<IMemberDate>>(
   getPartialAuthValidationSchema([
     "nameKor",
     "dob",
@@ -144,8 +144,8 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
   })
   const [progress, setProgress] = React.useState<number>(0)
 
-  const [member, setMember] = React.useState<IMemberUpload>(
-    memberDownloadToUpload(props.member)
+  const [member, setMember] = React.useState<IMemberDate>(
+    memberWithIdToDate(props.member)
   )
 
   const [deleteImage, setDeleteImage] = React.useState<boolean>(false)
@@ -156,8 +156,8 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
   }
 
   const onSubmit = (
-    member: IMemberUpload,
-    { resetForm }: FormikHelpers<IMemberUpload>
+    member: IMemberDate,
+    { resetForm }: FormikHelpers<IMemberDate>
   ) => {
     console.log("submit")
     dispatch(
@@ -191,11 +191,11 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
   }
 
   return (
-    <Formik<IMemberUpload>
+    <Formik<IMemberDate>
       validateOnChange
       initialValues={{
         ...initialValues,
-        ...memberDownloadToUpload(props.member),
+        ...memberWithIdToDate(props.member),
       }}
       validationSchema={updateProfileValidationSchema}
       onSubmit={onSubmit}
