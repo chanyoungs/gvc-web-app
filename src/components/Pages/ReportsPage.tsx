@@ -200,7 +200,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
           type: ALERT_SAVED,
           payload: localise({
             english: "Reports copied to clipboard!",
-            korean: "보고서가 클립보드에 복사됐습니다!",
+            korean: "셀일기가 클립보드에 복사됐습니다!",
           }),
         })
       } catch (error) {
@@ -213,7 +213,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
     <Fragment>
       <AppBarMain
         onShare={onShare}
-        title={localise({ english: "Reports", korean: "보고서" })}
+        title={localise({ english: "Reports", korean: "셀일기" })}
       />
       <ContainerMain>
         <div className={classes.noticeAlert}>

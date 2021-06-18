@@ -140,7 +140,7 @@ export const CustomDrawer: FC<CustomDrawerProps> = (props) => {
       disabled: !isAuthenticated,
     },
     {
-      name: localise({ english: "Reports", korean: "보고서" }),
+      name: localise({ english: "Reports", korean: "셀일기" }),
       icon: <LibraryBooksIcon />,
       page: "/reports",
       // page: "/dates",

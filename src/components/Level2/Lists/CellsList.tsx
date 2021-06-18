@@ -80,7 +80,7 @@ export const CellsList: FC<CellsListProps> = ({
           variant="outlined"
           onClick={() => setExpandedStates(allExpandedStates)}
         >
-          {localise({ english: "Expand All", korean: "모드 펼침" })}
+          {localise({ english: "Expand All", korean: "모두 펼침" })}
         </Button>
 
         <Button
@@ -89,7 +89,7 @@ export const CellsList: FC<CellsListProps> = ({
           variant="outlined"
           onClick={() => setExpandedStates(allCollapsedStates)}
         >
-          {localise({ english: "Collapse All", korean: "모드 닫힘" })}
+          {localise({ english: "Collapse All", korean: "모두 닫힘" })}
         </Button>
       </div>
       {cells &&
