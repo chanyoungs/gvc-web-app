@@ -21,6 +21,7 @@ import { useFirestoreConnect } from "react-redux-firebase"
 import { CustomList } from "src/components/Level2/Lists/CustomList"
 import { deleteFont, uploadFont } from "src/store/actions/fontActions"
 import { AppState } from "src/store/reducers/rootReducer"
+import { localise } from "src/utils/localisation"
 
 export type Font = { name: string; font: string }
 
@@ -74,18 +75,29 @@ export const FontDialog: FC = () => {
   return (
     <Fragment>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        ADD NEW GOOGLE FONT
+        {localise({
+          english: "ADD NEW GOOGLE FONT",
+          korean: "새로운 구글폰트 추가하기",
+        })}
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Installed font family</DialogTitle>
+        <DialogTitle>
+          {localise({
+            english: "Installed font family",
+            korean: "폰트 패밀리 설치 완료",
+          })}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {"Copy and Paste Google Font URL from "}
+            {localise({
+              english: "Copy and Paste Google Font URL from ",
+              korean: "구글폰트 URL을 복사후 붙여주세요:",
+            })}
             <Link
               href="https://fonts.google.com/"
               onClick={(event: React.SyntheticEvent) => event.preventDefault()}
             >
-              HERE
+              {localise({ english: "HERE", korean: "링크" })}
             </Link>
           </DialogContentText>
           <CustomList items={fonts} render={render} />
@@ -94,7 +106,9 @@ export const FontDialog: FC = () => {
             {extractFontFromURL() && (
               <Fragment>
                 <Grid item>
-                  <Typography>Preview</Typography>
+                  <Typography>
+                    {localise({ english: "Preview", korean: "미리보기" })}
+                  </Typography>
                 </Grid>
                 <Grid item xs>
                   <List>
@@ -138,14 +152,14 @@ export const FontDialog: FC = () => {
                 color="primary"
                 disabled={fontURL === "" || extractFontFromURL() === null}
               >
-                ADD
+                {localise({ english: "ADD", korean: "추가하기" })}
               </Button>
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            CLOSE
+            {localise({ english: "CLOSE", korean: "닫기" })}
           </Button>
         </DialogActions>
       </Dialog>

@@ -4,6 +4,7 @@ import { useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 import { messaging } from "src/firebase"
+import { localise } from "src/utils/localisation"
 
 import { AppState } from "../../store/reducers/rootReducer"
 import { EditNotice } from "../Level2/EditNotice"
@@ -25,7 +26,7 @@ export const NoticesPage: FC<NoticesPageProps> = (props) => {
 
   return (
     <Fragment>
-      <AppBarMain title="Notices" />
+      <AppBarMain title={localise({ english: "Notices", korean: "공지" })} />
       <ContainerMain>
         {messaging && <Notifications messaging={messaging} />}
         <NoticeCreator />

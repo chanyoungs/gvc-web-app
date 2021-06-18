@@ -6,6 +6,7 @@ import React, { FC, Fragment } from "react"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 import { FormikDatePicker } from "src/components/Level1/DatePickers/FormikDatePicker"
+import { localise } from "src/utils/localisation"
 import * as yup from "yup"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -94,7 +95,7 @@ export const BulletinPage: FC = (props) => {
 
   return (
     <Fragment>
-      <AppBarMain title="Bulletin" />
+      <AppBarMain title={localise({ english: "Bulletin", korean: "주보" })} />
       <ContainerMain>
         <Formik<IBulletin>
           validateOnChange

@@ -6,6 +6,7 @@ import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { LoadingBackdrop } from "src/components/Level1/Backdrops/LoadingBackdrop"
 import { AppState } from "src/store/reducers/rootReducer"
 import { Themes } from "src/types"
+import { localise } from "src/utils/localisation"
 
 import { ThemeEditor } from "./ThemeEditor"
 
@@ -31,7 +32,9 @@ export const ThemeEditorPage: FC = () => {
 
   return (
     <Fragment>
-      <AppBarMain title="Theme Editor" />
+      <AppBarMain
+        title={localise({ english: "Theme Editor", korean: "테마 편집기" })}
+      />
 
       {isLoaded(themes) && isLoaded(settings) ? (
         <ThemeEditor themes={themes} currentThemeName={settings.theme.name} />

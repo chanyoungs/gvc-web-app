@@ -16,9 +16,11 @@ import ShareIcon from "@material-ui/icons/Share"
 import clsx from "clsx"
 import React, { Fragment, ReactNode, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { isLoaded } from "react-redux-firebase"
 import { CustomAvatar } from "src/components/Level2/Avatars/CustomAvatar"
 import { SET_DRAWER_OPEN, SET_DRAWER_TRANSITION } from "src/store/actions/types"
 import { IMemberDownload, IMemberWithId } from "src/types"
+import { localise } from "src/utils/localisation"
 
 import { appBarSearchOnChange } from "../../../store/actions/appBarActions"
 import { AppState } from "../../../store/reducers/rootReducer"
@@ -183,7 +185,10 @@ export const AppBarMain: React.FC<AppBarMainProps> = ({
                     <SearchIcon />
                   </div>
                   <InputBase
-                    placeholder="Search…"
+                    placeholder={localise({
+                      english: "Search…",
+                      korean: "검색...",
+                    })}
                     value={search}
                     onChange={setSearch}
                     classes={{

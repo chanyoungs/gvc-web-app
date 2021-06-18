@@ -11,6 +11,7 @@ import { CELL_MEMBERS_DOWNLOAD } from "src/components/App"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 import { MembersReducer } from "src/store/reducers/membersReducer"
+import { localise } from "src/utils/localisation"
 import { membersDownloadToMembersWithId } from "src/utils/membersConversion"
 
 import { AppState } from "../../../store/reducers/rootReducer"
@@ -98,7 +99,9 @@ export const Playground: FC = () => {
 
   return (
     <Fragment>
-      <AppBarMain title="Playground" />
+      <AppBarMain
+        title={localise({ english: "Playground", korean: "놀이터" })}
+      />
       <ContainerMain>
         {/* <Toolbar /> */}
         <Typography>Notices in scrollable Grid List</Typography>

@@ -15,6 +15,7 @@ import { useSelector } from "react-redux"
 import { IBiblePageOpen, IBiblePageSetOpen, IBibleRef } from "src/components/Pages/BiblePage"
 import { BibleState } from "src/store/reducers/bibleReducer"
 import { AppState } from "src/store/reducers/rootReducer"
+import { languageRef } from "src/utils/localisation"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,33 +63,33 @@ export const BibleDialog: FC<BibleDialogProps> = (props) => {
     setOpen({ ...open, [bibleRefKey]: false })
   }
 
-  const onClickItem = <K extends keyof IBibleRef>(value: IBibleRef[K]) => (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    let updatedBibleRef = {
-      ...bibleRef,
-      [bibleRefKey as K]: value,
-    }
-
-    let updatedOpen = {
-      ...open,
-      [bibleRefKey as K]: false,
-    }
-
-    if (bibleRefKey === "book") {
-      updatedBibleRef = {
-        ...updatedBibleRef,
-        chapter: null,
+  const onClickItem =
+    <K extends keyof IBibleRef>(value: IBibleRef[K]) =>
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      let updatedBibleRef = {
+        ...bibleRef,
+        [bibleRefKey as K]: value,
       }
-      updatedOpen = {
-        ...updatedOpen,
-        chapter: true,
-      }
-    }
 
-    setAndUploadBibleRef(updatedBibleRef)
-    setOpen(updatedOpen)
-  }
+      let updatedOpen = {
+        ...open,
+        [bibleRefKey as K]: false,
+      }
+
+      if (bibleRefKey === "book") {
+        updatedBibleRef = {
+          ...updatedBibleRef,
+          chapter: null,
+        }
+        updatedOpen = {
+          ...updatedOpen,
+          chapter: true,
+        }
+      }
+
+      setAndUploadBibleRef(updatedBibleRef)
+      setOpen(updatedOpen)
+    }
 
   const translationFull = {
     niv: "NIV",
@@ -224,7 +225,15 @@ export const BibleDialog: FC<BibleDialogProps> = (props) => {
             </Grid>
             <Grid item xs>
               <Typography variant="h6" align="center">
-                Choose a {bibleRefKey}
+                {languageRef.value === "korean"
+                  ? `${
+                      bibleRefKey === "translation"
+                        ? "번역"
+                        : bibleRefKey === "book"
+                        ? "서적"
+                        : "장"
+                    }을 선택하세요`
+                  : `Choose a ${bibleRefKey}`}
               </Typography>
             </Grid>
           </Grid>

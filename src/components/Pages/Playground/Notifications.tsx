@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
 import { deleteToken, uploadToken } from "src/store/actions/noticeActions"
 import { AppState } from "src/store/reducers/rootReducer"
+import { localise } from "src/utils/localisation"
 
 const useStyles = makeStyles<Theme>((theme) => createStyles({}))
 
@@ -60,7 +61,9 @@ export const Notifications: FC<NotificationsProps> = ({ messaging }) => {
           }
         }}
       >
-        {token && tokens && token in tokens ? "Unsubscribe" : "Subscribe"}
+        {token && tokens && token in tokens
+          ? localise({ english: "Unsubscribe", korean: "구독취소" })
+          : localise({ english: "Subscribe", korean: "구독" })}
       </Button>
     </Fragment>
   )

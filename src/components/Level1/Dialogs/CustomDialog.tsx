@@ -5,6 +5,7 @@ import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import React, { FC } from "react"
+import { localise } from "src/utils/localisation"
 
 export interface CustomDialogProps {
   title?: string | JSX.Element
@@ -45,7 +46,7 @@ export const CustomDialog: FC<CustomDialogProps> = (props) => {
           }}
           color="secondary"
         >
-          {props.cancelText || "CANCEL"}
+          {props.cancelText || localise({ english: "CANCEL", korean: "취소" })}
         </Button>
         <Button
           onClick={() => {
@@ -55,7 +56,8 @@ export const CustomDialog: FC<CustomDialogProps> = (props) => {
           color="secondary"
           autoFocus
         >
-          {props.confirmText || "CONFIRM"}
+          {props.confirmText ||
+            localise({ english: "CONFIRM", korean: "확정" })}
         </Button>
       </DialogActions>
     </Dialog>

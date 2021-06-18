@@ -21,6 +21,7 @@ import { MembersList } from "src/components/Level2/Lists/MembersList"
 import { updateMemberCell } from "src/store/actions/adminActions"
 import { AppState } from "src/store/reducers/rootReducer"
 import { CELL_UNASSIGNED_ID, ICells, IMemberDownload, IMemberWithId } from "src/types"
+import { localise } from "src/utils/localisation"
 import { membersDownloadToMembersWithId } from "src/utils/membersConversion"
 
 import { SortMenu } from "../../Level2/Menus/SortMenu"
@@ -120,7 +121,7 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
           }
         />
       )}
-      <AppBarMain title="Admin" />
+      <AppBarMain title={localise({ english: "Admin", korean: "관리자" })} />
       <ContainerMain>
         <Tabs
           className={classes.padding}
@@ -130,8 +131,12 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
             setAdminModeIndex(value)
           }
         >
-          <Tab label="New Members" />
-          <Tab label="All Members" />
+          <Tab
+            label={localise({ english: "New Members", korean: "신규가입자" })}
+          />
+          <Tab
+            label={localise({ english: "All Members", korean: "전체성도" })}
+          />
         </Tabs>
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}

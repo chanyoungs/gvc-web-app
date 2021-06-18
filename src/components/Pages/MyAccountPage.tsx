@@ -2,6 +2,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { FC, Fragment, useState } from "react"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
+import { localise } from "src/utils/localisation"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
@@ -15,7 +16,9 @@ export const MyAccountPage: FC<MyAccountPageProps> = (props) => {
 
   return (
     <Fragment>
-      <AppBarMain title="My Account" />
+      <AppBarMain
+        title={localise({ english: "My Account", korean: "내 계정" })}
+      />
       <ContainerMain>My Account Page</ContainerMain>
     </Fragment>
   )

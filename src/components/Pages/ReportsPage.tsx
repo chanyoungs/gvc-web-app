@@ -28,6 +28,7 @@ import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 import { ALERT_CLOSE, ALERT_SAVED } from "src/store/actions/types"
 import { IAlertState } from "src/store/reducers/alertReducer"
 import { IMemberWithId, IReports } from "src/types"
+import { localise } from "src/utils/localisation"
 import { membersDownloadToMembersWithId } from "src/utils/membersConversion"
 
 import { AppState } from "../../store/reducers/rootReducer"
@@ -162,7 +163,10 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
     console.log({ members, reports })
 
     const reportContent = {
-      title: `Prayer list ${date.format("YYYY/MM/DD")}`,
+      title: `${localise({
+        english: "Prayer list",
+        korean: "기도제목",
+      })} ${date.format("YYYY/MM/DD")}`,
       text: members
         ? members
             .map((member) => {
@@ -194,7 +198,10 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
         )
         dispatch({
           type: ALERT_SAVED,
-          payload: "Reports copied to clipboard!",
+          payload: localise({
+            english: "Reports copied to clipboard!",
+            korean: "보고서가 클립보드에 복사됐습니다!",
+          }),
         })
       } catch (error) {
         console.error(error)
@@ -204,25 +211,30 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
 
   return (
     <Fragment>
-      <AppBarMain onShare={onShare} title="Reports" />
+      <AppBarMain
+        onShare={onShare}
+        title={localise({ english: "Reports", korean: "보고서" })}
+      />
       <ContainerMain>
-        {/* <CellAllocationDialog
-          open
-          handleClose={() => {}}
-          onConfirm={() => {}}
-        /> */}
         <div className={classes.noticeAlert}>
           {reportModes[reportModeIndex] === "prayer" ? (
             <NoticeAlert
-              title={"Notice"}
-              content={"이번 주 오프라인으로 교회에서 예배드립니다."}
+              title={localise({ english: "Notice", korean: "공지" })}
+              content={localise({
+                english:
+                  "The service will be held offline at the church this week.",
+                korean: "이번 주 오프라인으로 교회에서 예배드립니다.",
+              })}
               severity="info"
               icon={<InfoIcon />}
             />
           ) : (
             <NoticeAlert
-              title={"출석체크"}
-              content={"셀원들의 출석을 체크하고 저장해주세요."}
+              title={localise({ english: "Attendance", korean: "출석체크" })}
+              content={localise({
+                english: "Please register the cell members' attendance.",
+                korean: "셀원들의 출석을 체크해주세요.",
+              })}
               severity="error"
               icon={<InfoIcon />}
             />
@@ -251,11 +263,6 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
             inputProps={{ style: { textAlign: "center" } }}
             InputProps={{
               disableUnderline: true,
-              // startAdornment: (
-              //   <InputAdornment position="start">
-              //     <EventIcon />
-              //   </InputAdornment>
-              // ),
               classes: { input: classes.datePicker },
             }}
           />
@@ -276,8 +283,10 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
             setReportModeIndex(value)
           }
         >
-          <Tab label="Prayers" />
-          <Tab label="Attendance" />
+          <Tab label={localise({ english: "Prayers", korean: "기도제목" })} />
+          <Tab
+            label={localise({ english: "Attendance", korean: "출석체크" })}
+          />
         </Tabs>
         {isLoaded(reports) && isLoaded(members) ? (
           <SwipeableViews
@@ -310,7 +319,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
               size="small"
               onClick={handleSnackbarClose}
             >
-              CLOSE
+              {localise({ english: "CLOSE", korean: "닫기" })}
             </Button>
           }
           className={classes.snackbar}

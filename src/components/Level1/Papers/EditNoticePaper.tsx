@@ -4,6 +4,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import React, { FC } from "react"
 import { useDispatch } from "react-redux"
+import { localise } from "src/utils/localisation"
 
 import { updateNotice } from "../../../store/actions/noticeActions"
 import { INotice, INoticeWithMeta } from "../../../types"
@@ -37,23 +38,22 @@ export const EditNoticePaper: FC<EditNoticePaperProps> = ({ notice }) => {
     setValues(notice)
   }, [notice])
 
-  const onChange = (name: keyof INotice) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setValues({ ...values, [name]: e.target.value })
-  }
+  const onChange =
+    (name: keyof INotice) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValues({ ...values, [name]: e.target.value })
+    }
 
   const dispatch = useDispatch()
-  const onSubmit = (values: INoticeWithMeta) => (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault()
-    setValues({
-      title: "",
-      content: "",
-    })
-    dispatch(updateNotice(values))
-  }
+  const onSubmit =
+    (values: INoticeWithMeta) =>
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.preventDefault()
+      setValues({
+        title: "",
+        content: "",
+      })
+      dispatch(updateNotice(values))
+    }
 
   return (
     <Paper className={classes.paper}>
@@ -83,7 +83,7 @@ export const EditNoticePaper: FC<EditNoticePaperProps> = ({ notice }) => {
             createdAt: notice.createdAt,
           })}
         >
-          Update notice
+          {localise({ english: "Update notice", korean: "공지 업데이트" })}
         </Button>
       </div>
     </Paper>

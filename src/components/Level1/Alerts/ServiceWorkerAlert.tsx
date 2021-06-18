@@ -8,6 +8,7 @@ import React, { FC, Fragment, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { SERVICE_WORKER_INIT } from "src/store/actions/types"
 import { AppState } from "src/store/reducers/rootReducer"
+import { localise } from "src/utils/localisation"
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -56,7 +57,10 @@ export const ServiceWorkerAlert: FC = () => {
             dispatch({ type: SERVICE_WORKER_INIT, payload: false })
           }}
         >
-          Page has been saved for offline use
+          {localise({
+            english: "Page has been saved for offline use",
+            korean: "오프라인에도 사용가능하게 페이지가 저장됐습니다",
+          })}
         </Alert>
       </Snackbar>
 
@@ -70,11 +74,14 @@ export const ServiceWorkerAlert: FC = () => {
               variant="outlined"
               onClick={updateServiceWorker}
             >
-              UPDATE
+              {localise({ english: "UPDATE", korean: "업데이트" })}
             </Button>
           }
         >
-          New version available!
+          {localise({
+            english: "New version available!",
+            korean: "새로운 버전이 나왔습니다!",
+          })}
         </Alert>
       </Snackbar>
     </Fragment>

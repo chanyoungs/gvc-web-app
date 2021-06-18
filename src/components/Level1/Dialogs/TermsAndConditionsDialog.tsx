@@ -6,6 +6,7 @@ import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import Link from "@material-ui/core/Link"
 import React, { FC, Fragment } from "react"
+import { localise } from "src/utils/localisation"
 
 export const TermsAndConditionsDialog: FC = () => {
   const [open, setOpen] = React.useState(false)
@@ -27,7 +28,7 @@ export const TermsAndConditionsDialog: FC = () => {
         variant="caption"
         color="inherit"
       >
-        Terms & Conditions
+        {localise({ english: "Terms & Conditions", korean: "이용 약관 보기" })}
       </Link>
 
       <Dialog
@@ -36,7 +37,9 @@ export const TermsAndConditionsDialog: FC = () => {
         scroll="paper"
         aria-labelledby="scroll-dialog-title"
       >
-        <DialogTitle id="scroll-dialog-title">Terms and Conditions</DialogTitle>
+        <DialogTitle id="scroll-dialog-title">
+          {localise({ english: "Terms and Conditions", korean: "이용 약관" })}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
             CONDITIONS OF USE Welcome to our online store! MYCOMPANY and its
@@ -190,7 +193,7 @@ export const TermsAndConditionsDialog: FC = () => {
         </DialogContent>
         <DialogActions>
           <Link onClick={handleClose} color="primary">
-            Close
+            {localise({ english: "Close", korean: "닫기" })}
           </Link>
         </DialogActions>
       </Dialog>

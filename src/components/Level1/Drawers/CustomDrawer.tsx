@@ -8,6 +8,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
 import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
 import { SvgIconProps } from "@material-ui/core/SvgIcon"
+import Switch from "@material-ui/core/Switch"
 import Typography from "@material-ui/core/Typography"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
@@ -18,21 +19,24 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
 import ChevronRightIcon from "@material-ui/icons/ChevronRight"
 import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted"
+import LanguageIcon from "@material-ui/icons/Language"
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks"
 import MenuBookIcon from "@material-ui/icons/MenuBook"
 import PaletteIcon from "@material-ui/icons/Palette"
 import PeopleIcon from "@material-ui/icons/People"
 import WidgetsIcon from "@material-ui/icons/Widgets"
 import preval from "preval.macro"
-import React, { FC, Fragment } from "react"
+import React, { FC, Fragment, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useFirestoreConnect } from "react-redux-firebase"
+import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
 import { useHistory, useLocation } from "react-router-dom"
 import { SET_DRAWER_OPEN, SET_DRAWER_TRANSITION } from "src/store/actions/types"
+import { localise } from "src/utils/localisation"
 
-import { signOut } from "../../../store/actions/authActions"
+import { signOut, updateLanguage } from "../../../store/actions/authActions"
 import { AppState } from "../../../store/reducers/rootReducer"
-import { IMemberDownload, Paths } from "../../../types"
+import { IMemberDownload, Language, Paths } from "../../../types"
 
 const useStyles = makeStyles<Theme, { drawerWidth: number }>((theme: Theme) =>
   createStyles({
@@ -84,7 +88,9 @@ type Item = {
   disabled?: boolean
 }
 
-export const CustomDrawer: FC = () => {
+export interface CustomDrawerProps {}
+
+export const CustomDrawer: FC<CustomDrawerProps> = (props) => {
   const theme = useTheme()
   const location = useLocation()
   const history = useHistory()
@@ -102,6 +108,7 @@ export const CustomDrawer: FC = () => {
   const classes = useStyles({ drawerWidth })
 
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)
+  const language = isLoaded(profile) ? profile.settings.language : "korean"
 
   const isAuthenticated = useSelector<AppState, boolean>(
     (state) => !state.firebase.auth.isEmpty
@@ -113,60 +120,62 @@ export const CustomDrawer: FC = () => {
 
   const items: Item[] = [
     {
-      name: isAuthenticated ? "My Account" : "Sign In",
+      name: isAuthenticated
+        ? localise({ english: "My Account", korean: "내 계정" })
+        : localise({ english: "Sign In", korean: "로그인" }),
       icon: <Avatar src={profile.thumbnailUrl} />,
       page: isAuthenticated ? "/myaccount" : "/auth",
       divider: "below",
     },
     {
-      name: "Admin",
+      name: localise({ english: "Admin", korean: "관리자" }),
       icon: <AssignmentIndIcon />,
       page: "/admin",
       disabled: !isAuthenticated || !isAdmin,
     },
     {
-      name: "Members",
+      name: localise({ english: "Members", korean: "멤버" }),
       icon: <PeopleIcon />,
       page: "/members",
       disabled: !isAuthenticated,
     },
     {
-      name: "Reports",
+      name: localise({ english: "Reports", korean: "보고서" }),
       icon: <LibraryBooksIcon />,
       page: "/reports",
       // page: "/dates",
       disabled: !isAuthenticated,
     },
     {
-      name: "Notices",
+      name: localise({ english: "Notices", korean: "공지" }),
       icon: <AnnouncementIcon />,
       page: "/notices",
       disabled: !isAuthenticated,
     },
     {
-      name: "Calendar",
+      name: localise({ english: "Calendar", korean: "달력" }),
       icon: <CalendarTodayIcon />,
       page: "/calendar",
       disabled: !isAuthenticated,
     },
     {
-      name: "Bible",
+      name: localise({ english: "Bible", korean: "성경" }),
       icon: <MenuBookIcon />,
       page: "/bible",
     },
     {
-      name: "Bulletin",
+      name: localise({ english: "Bulletin", korean: "주보" }),
       icon: <FormatListBulletedIcon />,
       page: "/bulletin",
     },
     {
-      name: "Playground",
+      name: localise({ english: "Playground", korean: "놀이터" }),
       icon: <WidgetsIcon />,
       page: "/playground",
       divider: "above",
     },
     {
-      name: "Theme",
+      name: localise({ english: "Theme", korean: "테마" }),
       icon: <PaletteIcon />,
       page: "/theme",
     },
@@ -261,13 +270,34 @@ export const CustomDrawer: FC = () => {
             <ListItem
               button
               onClick={() => {
+                dispatch(
+                  updateLanguage({
+                    memberId: profile.id,
+                    language: language === "english" ? "korean" : "english",
+                  })
+                )
+              }}
+            >
+              <ListItemIcon className={classes.listItemIcon}>
+                <LanguageIcon />
+              </ListItemIcon>
+              <Typography>한글</Typography>
+              <Switch checked={language === "english"} color="default" />
+              <Typography>ENG</Typography>
+            </ListItem>
+
+            <ListItem
+              button
+              onClick={() => {
                 dispatch(signOut())
               }}
             >
               <ListItemIcon className={classes.listItemIcon}>
                 <ExitToAppIcon />
               </ListItemIcon>
-              <ListItemText primary={"Sign Out"} />
+              <ListItemText
+                primary={localise({ english: "Sign Out", korean: "로그아웃" })}
+              />
             </ListItem>
             <ListItem className={classes.version}>
               <Typography variant="caption">{version}</Typography>

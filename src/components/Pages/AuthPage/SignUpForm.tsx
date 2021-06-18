@@ -8,6 +8,7 @@ import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft"
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight"
 import React, { FC, Fragment } from "react"
 import { AuthTypes, ISignUp } from "src/types"
+import { localise } from "src/utils/localisation"
 
 import { AuthCheckboxTextField } from "./AuthCheckboxTextField"
 import { SignUpFields, SignUpSteps } from "./SignUpFields"
@@ -62,7 +63,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
               onClick={onNext}
               disabled={activeStep === activeSteps}
             >
-              Next
+              {localise({ english: "Next", korean: "다음" })}
               {theme.direction === "rtl" ? (
                 <KeyboardArrowLeftIcon />
               ) : (
@@ -77,7 +78,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
               ) : (
                 <KeyboardArrowLeftIcon />
               )}
-              Back
+              {localise({ english: "Back", korean: "이전" })}
             </Button>
           }
         />

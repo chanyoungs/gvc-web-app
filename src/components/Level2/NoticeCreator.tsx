@@ -1,29 +1,29 @@
-import Button from '@material-ui/core/Button'
-import Textfield from '@material-ui/core/TextField'
-import React, { Fragment } from 'react'
-import { useDispatch } from 'react-redux'
+import Button from "@material-ui/core/Button"
+import Textfield from "@material-ui/core/TextField"
+import React, { Fragment } from "react"
+import { useDispatch } from "react-redux"
+import { localise } from "src/utils/localisation"
 
-import { createNotice } from './../../store/actions/noticeActions'
-import { INotice } from './../../types'
+import { createNotice } from "./../../store/actions/noticeActions"
+import { INotice } from "./../../types"
 
 export const NoticeCreator: React.FC = () => {
   const [values, setValues] = React.useState<INotice>({
-    title: '',
-    content: ''
+    title: "",
+    content: "",
   })
 
-  const onChange = (name: keyof INotice) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setValues({ ...values, [name]: event.target.value })
-  }
+  const onChange =
+    (name: keyof INotice) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValues({ ...values, [name]: event.target.value })
+    }
 
   const dispatch = useDispatch()
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
     setValues({
-      title: '',
-      content: ''
+      title: "",
+      content: "",
     })
 
     dispatch(createNotice(values))
@@ -35,7 +35,7 @@ export const NoticeCreator: React.FC = () => {
         data-testid="title"
         label="Title"
         fullWidth
-        onChange={onChange('title')}
+        onChange={onChange("title")}
         value={values.title}
       />
       <Textfield
@@ -45,11 +45,11 @@ export const NoticeCreator: React.FC = () => {
         multiline
         rowsMax="4"
         label="Content"
-        onChange={onChange('content')}
+        onChange={onChange("content")}
         value={values.content}
       />
       <Button data-testid="submit" onClick={onSubmit}>
-        Create new notice
+        {localise({ english: "Create new notice", korean: "새 공지 만들기" })}
       </Button>
     </Fragment>
   )

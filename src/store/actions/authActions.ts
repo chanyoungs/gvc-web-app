@@ -19,7 +19,7 @@ import {
   UPLOAD_PHOTO,
   UPLOAD_PHOTO_ERROR,
 } from "src/store/actions/types"
-import { AuthTypes } from "src/types"
+import { AuthTypes, IMemberWithId, Language } from "src/types"
 import {
   applyExifOrientation,
   base64ToArrayBuffer,
@@ -372,5 +372,24 @@ export const editProfile =
       handleClose()
     } catch (error) {
       console.error("Profile Edit Error!", error)
+    }
+  }
+
+export interface UpdateLanguageProps {
+  memberId: string
+  language: Language
+}
+
+export const updateLanguage =
+  ({ memberId, language }: UpdateLanguageProps): ThunkActionCustom<void> =>
+  async (dispatch, getState, { getFirestore, getFirebase }) => {
+    const firestore = getFirestore()
+    try {
+      await firestore.collection("members").doc(memberId).update({
+        "settings.language": language,
+      })
+      console.log("Language updated successfully!")
+    } catch (error) {
+      console.error("Language update error", error)
     }
   }

@@ -6,6 +6,7 @@ import FormHelperText from "@material-ui/core/FormHelperText"
 import Grid from "@material-ui/core/Grid"
 import Link from "@material-ui/core/Link"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import Switch from "@material-ui/core/Switch"
 import Typography from "@material-ui/core/Typography"
 import CalendarToday from "@material-ui/icons/CalendarToday"
 import Email from "@material-ui/icons/Email"
@@ -13,15 +14,17 @@ import Lock from "@material-ui/icons/Lock"
 import Person from "@material-ui/icons/Person"
 import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
 import React, { FC, Fragment, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { auth } from "src/firebase"
 import { FormikContext } from "src/store/contexts/FormikContext"
+import { languageRef, localise } from "src/utils/localisation"
 import * as yup from "yup"
 
 import FullLogo from "../../../images/gods_vision_church_logo.svg"
 import { resetPassword, signIn, signUp } from "../../../store/actions/authActions"
 import { AppState } from "../../../store/reducers/rootReducer"
-import { AuthTypes, CELL_UNASSIGNED_ID, IResetPassword, ISignIn, ISignUp } from "../../../types"
+import { AuthTypes, CELL_UNASSIGNED_ID, IResetPassword, ISignIn, ISignUp, Language } from "../../../types"
 import { ContainerMain } from "../../Level1/Containers/ContainerMain"
 import { AlertDialog } from "../../Level1/Dialogs/AlertDialog"
 import { SignInAndResetPasswordForm } from "./SignInAndResetPasswordForm"
@@ -151,13 +154,15 @@ export const initialValues: AuthTypes = {
   agreeTAndC: false,
   photoUrl: "",
   positions: [],
-  settings: { language: "english" },
+  settings: { language: "korean" },
   thumbnailUrl: "",
 }
 
 export type AuthMode = "signIn" | "signUp" | "resetPassword"
 
 export const AuthPage: FC = () => {
+  const [toggle, setToggle] = useState(true)
+
   const dispatch = useDispatch()
   const fbFeedback = useSelector<AppState, AppState["auth"]>(
     (state) => state.auth
@@ -281,10 +286,22 @@ export const AuthPage: FC = () => {
                               type="submit"
                             >
                               <Typography>
-                                {authMode === "signIn" && "Sign in"}
-                                {authMode === "signUp" && "Sign up"}
+                                {authMode === "signIn" &&
+                                  localise({
+                                    english: "Sign in",
+                                    korean: "로그인",
+                                  })}
+                                {authMode === "signUp" &&
+                                  localise({
+                                    english: "Sign up",
+                                    korean: "등록",
+                                  })}
                                 {authMode === "resetPassword" &&
-                                  "Email me reset password link"}
+                                  localise({
+                                    english: "Email me reset password link",
+                                    korean:
+                                      "비밀번호 초기화 링크 이메일로 전송",
+                                  })}
                               </Typography>
                             </Button>
                             {isSubmitting && (
@@ -308,7 +325,7 @@ export const AuthPage: FC = () => {
                       </Grid>
                     )}
 
-                    <Grid item xs>
+                    <Grid item xs={12}>
                       <Link
                         onClick={() =>
                           setAuthMode(
@@ -321,19 +338,49 @@ export const AuthPage: FC = () => {
                         color="inherit"
                       >
                         {authMode === "signIn"
-                          ? "Not a member? Sign up"
+                          ? localise({
+                              english: "Not a member? Sign up",
+                              korean: "등록을 아직 안하셨나요? 등록하기",
+                            })
                           : authMode === "signUp"
-                          ? "Already a member? Sign in"
-                          : "Return to sign in page?"}
+                          ? localise({
+                              english: "Already a member? Sign in",
+                              korean: "등록을 이미 하셨나요? 로그인하기",
+                            })
+                          : localise({
+                              english: "Return to sign in page?",
+                              korean: "로그인 페이지로 돌아가기",
+                            })}
                       </Link>
                     </Grid>
                   </Grid>
                 </div>
+                <div>
+                  한글
+                  <Switch
+                    onClick={() => {
+                      languageRef.value =
+                        languageRef.value === "korean" ? "english" : "korean"
+                      setToggle(!toggle)
+                    }}
+                    checked={languageRef.value === "english"}
+                    color="default"
+                  />
+                  Eng
+                </div>
               </div>
             </ContainerMain>
             <AlertDialog
-              title="Password reset link sent!"
-              content="Password reset link has been sent to your email. Please check your email to reset your password, and then come back to sign in."
+              title={localise({
+                english: "Password reset link sent!",
+                korean: "비밀번호 초기화 링크가 전송됐습니다!",
+              })}
+              content={localise({
+                english:
+                  "Password reset link has been sent to your email. Please check your email to reset your password, and then come back to sign in.",
+                korean:
+                  "비밀번호 초기화 링크가 귀하 이메일 주소로 전송됐습니다. 이메일을 확인하신후 비밀번호를 변경후 다시 돌아와서 로그인 해주세요.",
+              })}
               open={alertResetPassword}
               handleClose={() => {
                 setAlertResetPassword(false)
@@ -341,8 +388,14 @@ export const AuthPage: FC = () => {
               }}
             />
             <AlertDialog
-              title="Sign up successful!"
-              content="Please now sign in"
+              title={localise({
+                english: "Sign up successful!",
+                korean: "성공적으로 등록이 됐습니다!",
+              })}
+              content={localise({
+                english: "Please now sign in",
+                korean: "이제 로그인을 해주세요",
+              })}
               open={alertSignUp}
               handleClose={() => {
                 setAlertSignUp(false)

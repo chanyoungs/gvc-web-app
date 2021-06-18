@@ -18,6 +18,7 @@ import { BibleDisplay } from "src/components/Pages/BiblePage/BibleDisplay"
 import { uploadBibleRef } from "src/store/actions/bibleActions"
 import { BibleState } from "src/store/reducers/bibleReducer"
 import { AppState } from "src/store/reducers/rootReducer"
+import { localise } from "src/utils/localisation"
 
 import { BibleDialog } from "../../Level1/Dialogs/BibleDialog"
 
@@ -155,7 +156,10 @@ export const BiblePage: FC<BiblePageProps> = (props) => {
 
   return (
     <Fragment>
-      <AppBarMain title="Bible" searchBar />
+      <AppBarMain
+        title={localise({ english: "Bible", korean: "성경" })}
+        searchBar
+      />
       <ContainerMain>
         <div className={classes.root}>
           {bibleRef.book !== null && bibleRef.chapter !== null && (

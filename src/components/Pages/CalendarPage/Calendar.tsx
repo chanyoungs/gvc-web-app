@@ -9,6 +9,7 @@ import { CELL_MEMBERS_DOWNLOAD } from "src/components/App"
 import { getName } from "src/components/Level2/Lists/listUtils"
 import { MembersReducer } from "src/store/reducers/membersReducer"
 import { AppState } from "src/store/reducers/rootReducer"
+import { localise } from "src/utils/localisation"
 import { membersDownloadToMembersWithId, memberWithIdToDate } from "src/utils/membersConversion"
 
 import { dayGridPlugin, interactionPlugin, listPlugin, rrulePlugin, timeGridPlugin } from "./pluginModules"
@@ -108,27 +109,27 @@ export const CustomCalendar: FC = () => {
       initialView="dayGridMonth"
       customButtons={{
         listButton: {
-          text: "List",
+          text: localise({ english: "List", korean: "일정" }),
           click: changeMode("List"),
         },
         calendarButton: {
-          text: "Calendar",
+          text: localise({ english: "Calendar", korean: "달력" }),
           click: changeMode("Calendar"),
         },
         dayButton: {
-          text: "Day",
+          text: localise({ english: "Day", korean: "일" }),
           click: changeDWMY("Day"),
         },
         weekButton: {
-          text: "Week",
+          text: localise({ english: "Week", korean: "주" }),
           click: changeDWMY("Week"),
         },
         monthButton: {
-          text: "Month",
+          text: localise({ english: "Month", korean: "월" }),
           click: changeDWMY("Month"),
         },
         yearButton: {
-          text: "Year",
+          text: localise({ english: "Year", korean: "년" }),
           click: changeDWMY("Year"),
         },
       }}
@@ -141,7 +142,7 @@ export const CustomCalendar: FC = () => {
         listMonth: {},
         listYear: {},
         today: {
-          buttonText: "Today",
+          buttonText: localise({ english: "Today", korean: "오늘" }),
         },
       }}
       headerToolbar={{

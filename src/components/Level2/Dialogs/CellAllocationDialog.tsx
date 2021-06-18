@@ -17,6 +17,7 @@ import { Searchbar } from "src/components/Level1/TextFields/Searchbar"
 import { addNewCell } from "src/store/actions/adminActions"
 import { AppState } from "src/store/reducers/rootReducer"
 import { CELL_UNASSIGNED_ID, ICells } from "src/types"
+import { localise } from "src/utils/localisation"
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -91,9 +92,15 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
     >
       <DialogTitle id="alert-dialog-title">Select a cell</DialogTitle>
       <DialogContent>
-        <DialogContentText>{`Current cell: ${cells[cellCurrent].name}`}</DialogContentText>
+        <DialogContentText>{`${localise({
+          english: "Current cell",
+          korean: "현재 셀",
+        })}: ${cells[cellCurrent].name}`}</DialogContentText>
         {cellRequest !== cellCurrent && cellRequest && (
-          <DialogContentText>{`Requested cell: ${cells[cellRequest].name}`}</DialogContentText>
+          <DialogContentText>{`${localise({
+            english: "Requested cell",
+            korean: "셀 요청",
+          })}: ${cells[cellRequest].name}`}</DialogContentText>
         )}
         <div className={classes.searchbar}>
           <Searchbar setSearch={setSearch} />
@@ -130,7 +137,10 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
                   inputRef={newCellNameTextField}
                   value={addNewCellName}
                   onChange={(event) => setAddNewCellName(event.target.value)}
-                  label="New Cell Name"
+                  label={localise({
+                    english: "New Cell Name",
+                    korean: "추가할셀 이름",
+                  })}
                   error={cellAlreadyExists}
                   helperText={
                     cellAlreadyExists &&
@@ -150,7 +160,7 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
               color="secondary"
               onClick={() => newCellNameTextField.current?.focus()}
             >
-              Add Cell
+              {localise({ english: "Add Cell", korean: "셀추가" })}
             </Button>
           </Grid>
           <Grid item>
@@ -160,7 +170,7 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
               }}
               color="secondary"
             >
-              CANCEL
+              {localise({ english: "CANCEL", korean: "취소" })}
             </Button>
             <Button
               onClick={() => {
@@ -180,7 +190,7 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
                 (newCellId === ADD_NEW_CELL_SELECTION && addNewCellName === "")
               }
             >
-              CONFIRM
+              {localise({ english: "CONFIRM", korean: "확정" })}
             </Button>
           </Grid>
         </Grid>

@@ -17,6 +17,7 @@ import { ReportMode } from "src/components/Pages/ReportsPage"
 import { getReportDocId, updateAttendance, updatePrayer, updateReport, uploadReport } from "src/store/actions/reportActions"
 import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberWithId, IReport } from "src/types"
+import { localise } from "src/utils/localisation"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -114,7 +115,10 @@ export const ReportListItem: FC<ReportListItemProps> = ({
             <TextField
               // InputProps={{ className: classes.textFieldInputProps }}
               fullWidth
-              placeholder="Enter prayer request"
+              placeholder={localise({
+                english: "Enter prayer request",
+                korean: "기도제목을 입력해주세요",
+              })}
               multiline
               rows={2}
               rowsMax={2}
@@ -138,7 +142,7 @@ export const ReportListItem: FC<ReportListItemProps> = ({
                   })
                 }}
               >
-                예배
+                {localise({ english: "Service", korean: "예배" })}
               </ToggleButton>
               <ToggleButton
                 value="cell"
@@ -150,7 +154,7 @@ export const ReportListItem: FC<ReportListItemProps> = ({
                   })
                 }}
               >
-                셀
+                {localise({ english: "Cell", korean: "셀" })}
               </ToggleButton>
               <ToggleButton
                 value="all"
@@ -163,7 +167,7 @@ export const ReportListItem: FC<ReportListItemProps> = ({
                   setAttendance(newAttendance)
                 }}
               >
-                전체
+                {localise({ english: "All", korean: "전체" })}
               </ToggleButton>
             </ToggleButtonGroup>
           )

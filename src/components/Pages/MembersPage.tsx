@@ -4,6 +4,7 @@ import { useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
+import { localise } from "src/utils/localisation"
 import { membersDownloadToMembersWithId } from "src/utils/membersConversion"
 
 import { AppState } from "../../store/reducers/rootReducer"
@@ -44,7 +45,7 @@ export const MembersPage: FC<MembersPageProps> = (props) => {
 
   return (
     <Fragment>
-      <AppBarMain title="Members" />
+      <AppBarMain title={localise({ english: "Members", korean: "멤버" })} />
       <ContainerMain>
         <Notices notices={noticesArr} />
         <AddCellMemberPaper />

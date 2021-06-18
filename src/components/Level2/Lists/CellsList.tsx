@@ -9,6 +9,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import clsx from "clsx"
 import React, { FC, Fragment, useState } from "react"
 import { CELL_UNASSIGNED_ID, ICells, IMemberWithId } from "src/types"
+import { languageRef, localise } from "src/utils/localisation"
 
 import { sortMembers } from "./listUtils"
 import { MembersList } from "./MembersList"
@@ -79,7 +80,7 @@ export const CellsList: FC<CellsListProps> = ({
           variant="outlined"
           onClick={() => setExpandedStates(allExpandedStates)}
         >
-          Expand All
+          {localise({ english: "Expand All", korean: "모드 펼침" })}
         </Button>
 
         <Button
@@ -88,7 +89,7 @@ export const CellsList: FC<CellsListProps> = ({
           variant="outlined"
           onClick={() => setExpandedStates(allCollapsedStates)}
         >
-          Collapse All
+          {localise({ english: "Collapse All", korean: "모드 닫힘" })}
         </Button>
       </div>
       {cells &&
@@ -101,7 +102,11 @@ export const CellsList: FC<CellsListProps> = ({
                 className={classes.cellButton}
               >
                 <Grid container justify="space-between" alignItems="center">
-                  <Typography variant="h6">{`Cell ${cells[cellId].name}`}</Typography>
+                  <Typography variant="h6">
+                    {languageRef.value === "korean"
+                      ? `${cells[cellId].name}셀`
+                      : `Cell ${cells[cellId].name}`}
+                  </Typography>
                   <div
                     className={clsx(classes.expand, {
                       [classes.expandOpen]: expandedStates[cellId],

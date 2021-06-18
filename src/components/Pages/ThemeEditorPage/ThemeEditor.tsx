@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux"
 import { FontDialog } from "src/components/Level1/Dialogs/FontDialog"
 import { deleteTheme, setCurrentThemeName, uploadTheme } from "src/store/actions/themeActions"
 import { Themes } from "src/types"
+import { localise } from "src/utils/localisation"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,9 +40,8 @@ export const ThemeEditor: FC<ThemeEditorProps> = ({
 }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const [currentThemeNameState, setCurrentThemeNameState] = useState<string>(
-    currentThemeName
-  )
+  const [currentThemeNameState, setCurrentThemeNameState] =
+    useState<string>(currentThemeName)
   const [createNewThemeMode, setCreateNewThemeMode] = useState<boolean>(false)
   const [newThemeName, setNewThemeName] = useState<string>(currentThemeName)
 
@@ -183,7 +183,7 @@ export const ThemeEditor: FC<ThemeEditorProps> = ({
               variant="contained"
               color="primary"
             >
-              {"SAVE & Apply"}
+              {localise({ english: "SAVE & Apply", korean: "저장후 적용" })}
             </Button>
           )}
         </Grid>
@@ -203,7 +203,7 @@ export const ThemeEditor: FC<ThemeEditorProps> = ({
               variant="contained"
               color="secondary"
             >
-              DELETE
+              {localise({ english: "DELETE", korean: "삭제" })}
             </Button>
           )}
         </Grid>
@@ -220,7 +220,10 @@ export const ThemeEditor: FC<ThemeEditorProps> = ({
               }}
               disabled={JSONErrorMessage !== "" || !createNewThemeMode}
             >
-              Auto Format JSON
+              {localise({
+                english: "Auto Format JSON",
+                korean: "JSON 자동 포맷하기",
+              })}
             </Button>
           </Grid>
         )}

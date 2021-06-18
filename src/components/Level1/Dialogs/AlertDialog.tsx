@@ -5,6 +5,7 @@ import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import React, { FC } from "react"
+import { localise } from "src/utils/localisation"
 
 export interface AlertDialogProps {
   title: string
@@ -34,7 +35,7 @@ export const AlertDialog: FC<AlertDialogProps> = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary" autoFocus>
-          OK
+          {localise({ english: "OK", korean: "확인" })}
         </Button>
       </DialogActions>
     </Dialog>

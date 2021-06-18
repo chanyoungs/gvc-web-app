@@ -8,6 +8,7 @@ import React, { FC, Fragment } from "react"
 import { FormikCheckbox } from "src/components/Level1/SelectionControls/FormikCheckbox"
 import { FormikTextField } from "src/components/Level1/TextFields/FormikTextField"
 import { ISignIn } from "src/types"
+import { localise } from "src/utils/localisation"
 
 import { AuthMode } from "."
 
@@ -27,7 +28,7 @@ export const SignInAndResetPasswordForm: FC<SignInAndResetPasswordFormProps> =
         <Grid item xs={12}>
           <FormikTextField<ISignIn>
             textFieldProps={{
-              label: "Email Address",
+              label: localise({ english: "Email Address*", korean: "이메일*" }),
               placeholder: "johnsmith@gmail.com",
               type: "email",
             }}
@@ -39,8 +40,11 @@ export const SignInAndResetPasswordForm: FC<SignInAndResetPasswordFormProps> =
           <Grid item xs={12}>
             <FormikTextField<ISignIn>
               textFieldProps={{
-                label: "Password",
-                placeholder: "Password",
+                label: localise({ english: "Password*", korean: "비밀번호*" }),
+                placeholder: localise({
+                  english: "Password",
+                  korean: "비밀번호",
+                }),
                 autoComplete: "current-password",
                 type: "password",
               }}
@@ -53,7 +57,14 @@ export const SignInAndResetPasswordForm: FC<SignInAndResetPasswordFormProps> =
           <Fragment>
             <Grid item xs>
               <FormikCheckbox<ISignIn>
-                label={<Typography variant="caption">Remember me</Typography>}
+                label={
+                  <Typography variant="caption">
+                    {localise({
+                      english: "Remember me",
+                      korean: "로그인 유지",
+                    })}
+                  </Typography>
+                }
                 name="rememberMe"
               />
             </Grid>
@@ -65,7 +76,10 @@ export const SignInAndResetPasswordForm: FC<SignInAndResetPasswordFormProps> =
                 variant="caption"
                 color="inherit"
               >
-                Forgot Password?
+                {localise({
+                  english: "Forgot Password?",
+                  korean: "비밀번호를 잊으셨나요?",
+                })}
               </Link>
             </Grid>
           </Fragment>

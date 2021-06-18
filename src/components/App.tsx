@@ -8,6 +8,7 @@ import { BrowserRouter, Link, Redirect, Route, Switch, useHistory, useLocation }
 import { ADD_MEMBERS_WITH_ID } from "src/store/actions/types"
 import { MembersReducer } from "src/store/reducers/membersReducer"
 import { CELL_MEMBERS, IMemberDownload, IMemberWithId, Themes } from "src/types"
+import { languageRef } from "src/utils/localisation"
 import { membersDownloadToMembersWithId, memberWithIdToDate } from "src/utils/membersConversion"
 import WebFont from "webfontloader"
 
@@ -53,6 +54,10 @@ export default function App() {
   )
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)
 
+  if (isLoaded(profile) && isAuthenticated) {
+    languageRef.value = (profile as IMemberDownload).settings.language
+  }
+
   const location = useLocation<{ from: string }>()
   const fromOrHome: string = location.state?.from || "/"
 
@@ -65,17 +70,6 @@ export default function App() {
       storeAs: CELL_MEMBERS_DOWNLOAD,
     },
   ])
-
-  // const membersDownloadData = useSelector<
-  //   AppState,
-  //   { [key: string]: IMemberDownload }
-  // >((state) => state.firestore.data[CELL_MEMBERS_DOWNLOAD])
-
-  // const membersReducer = membersDownloadToMembersWithId(membersDownloadData)
-  // dispatch({
-  //   type: ADD_MEMBERS_WITH_ID,
-  //   payload: membersReducer,
-  // })
 
   const themes = useSelector<AppState, Themes>(
     (state) => state.firestore.data.themes

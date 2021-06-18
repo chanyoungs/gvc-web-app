@@ -29,6 +29,7 @@ import { SignUpFields, SignUpSteps } from "src/components/Pages/AuthPage/SignUpF
 import { getPartialAuthValidationSchema } from "src/components/Pages/AuthPage/validationSchema"
 import { FormikContext } from "src/store/contexts/FormikContext"
 import { AppState } from "src/store/reducers/rootReducer"
+import { localise } from "src/utils/localisation"
 import { memberWithIdToDate } from "src/utils/membersConversion"
 import * as yup from "yup"
 
@@ -273,7 +274,10 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                           startIcon={<UndoIcon />}
                           onClick={() => setDeleteImage(false)}
                         >
-                          UNDO DELETE
+                          {localise({
+                            english: "UNDO DELETE",
+                            korean: "삭제 취소",
+                          })}
                         </Button>
                       </div>
                     )
@@ -308,7 +312,10 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                                   component="div"
                                   color="inherit"
                                 >
-                                  CHOOSE PHOTO
+                                  {localise({
+                                    english: "CHOOSE PHOTO",
+                                    korean: "이미지 고르기",
+                                  })}
                                 </Button>
                               </label>
                               {props.member.photoUrl && (
@@ -318,7 +325,10 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                                   size="large"
                                   color="inherit"
                                 >
-                                  DELETE PHOTO
+                                  {localise({
+                                    english: "DELETE PHOTO",
+                                    korean: "이미지 삭제",
+                                  })}
                                 </Button>
                               )}
                             </div>
@@ -422,7 +432,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                   variant="contained"
                   fullWidth
                 >
-                  SAVE
+                  {localise({ english: "SAVE", korean: "저장" })}
                 </Button>
               )}
             </DialogActions>
