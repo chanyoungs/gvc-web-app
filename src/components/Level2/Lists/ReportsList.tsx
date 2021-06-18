@@ -62,9 +62,6 @@ export const ReportsList: FC<ReportsListProps> = ({
   const search = useSelector<AppState, string>((state) => state.appBar.search)
 
   const members_ = members && [...members].filter(filterMembersSearch(search))
-  // .sort((member1, member2) => {
-  //   return member1.name > member2.name ? 1 : -1
-  // })
 
   const render = (member: IMemberWithId) => {
     const reportKey = `${date.format("YYYY.MM.DD")}-${member.id}`
