@@ -6,10 +6,10 @@ import { alertReducer } from "./alertReducer"
 import { appBarReducer } from "./appBarReducer"
 import { authReducer } from "./authReducer"
 import { bibleReducer } from "./bibleReducer"
+import { dialogReducer } from "./dialogReducer"
 import { membersReducer } from "./membersReducer"
 import { noticeReducer } from "./noticeReducer"
 import { prayerReducer } from "./prayerReducer"
-import { profileDialogReducer } from "./profileDialogReducer"
 import { reportReducer } from "./reportReducer"
 import { serviceWorkerReducer } from "./serviceWorkerReducer"
 
@@ -25,7 +25,7 @@ export const rootReducer = combineReducers({
   alert: alertReducer,
   reports: reportReducer,
   serviceWorker: serviceWorkerReducer,
-  profileDialog: profileDialogReducer,
+  dialog: dialogReducer,
 })
 
 export type AppState = ReturnType<typeof rootReducer>

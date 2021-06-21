@@ -2,7 +2,7 @@ import { ExtendedFirestoreInstance, getFirebase } from "react-redux-firebase"
 import { ThunkAction } from "redux-thunk"
 import { Font } from "src/components/Level1/Dialogs/FontDialog"
 import { IBibleRef } from "src/components/Pages/BiblePage"
-import { IMemberDownload } from "src/types"
+import { IMemberDownload, IMemberWithId } from "src/types"
 
 import { IFBError, INotice, IReport, IReports, TPrayerQueries } from "../../types"
 import { MembersReducer } from "../reducers/membersReducer"
@@ -44,7 +44,9 @@ export interface AddMembersWithId {
 
 export type MembersActionTypes = AddMembersWithId
 
-// Profile dialog actions
+// Dialog actions
+
+// > Profile
 export const OPEN_PROFILE_DIALOG = "OPEN_PROFILE_DIALOG"
 export interface OpenProfileDialog {
   type: typeof OPEN_PROFILE_DIALOG
@@ -61,10 +63,23 @@ export interface UnmountProfileDialog {
   type: typeof UNMOUNT_PROFILE_DIALOG
 }
 
-export type ProfileDialogActionTypes =
+// > Cell Allocation
+export const OPEN_CELL_ALLOCATION_DIALOG = "OPEN_CELL_ALLOCATION_DIALOG"
+export interface OpenCellAllocationDialog {
+  type: typeof OPEN_CELL_ALLOCATION_DIALOG
+  payload: { onConfirm: (chosenCellId: string) => void; memberId: string }
+}
+export const CLOSE_CELL_ALLOCATION_DIALOG = "CLOSE_CELL_ALLOCATION_DIALOG"
+export interface CloseCellAllocationDialog {
+  type: typeof CLOSE_CELL_ALLOCATION_DIALOG
+}
+
+export type DialogActionTypes =
   | OpenProfileDialog
   | CloseProfileDialog
   | UnmountProfileDialog
+  | OpenCellAllocationDialog
+  | CloseCellAllocationDialog
 
 // Report actions
 export const UPDATE_REPORT = "UPDATE_REPORT"
@@ -443,5 +458,5 @@ export type AppActions =
   | AlertActionTypes
   | ReportActionTypes
   | ServiceWorkerActionTypes
-  | ProfileDialogActionTypes
+  | DialogActionTypes
   | MembersActionTypes
