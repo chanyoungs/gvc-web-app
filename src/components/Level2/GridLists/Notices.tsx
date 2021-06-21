@@ -2,7 +2,7 @@ import GridList from "@material-ui/core/GridList"
 import GridListTile from "@material-ui/core/GridListTile"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
-import React, { FC, Fragment } from "react"
+import React, { FC } from "react"
 
 import { INoticeWithMeta } from "../../../types"
 import { NoticePaper } from "../../Level1/Papers/NoticePaper"

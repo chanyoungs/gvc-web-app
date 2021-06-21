@@ -65,8 +65,7 @@ export const createNotice = (notice: INotice): ThunkActionCustom<void> => (
 ) => {
   console.log("createNotice", notice)
   const firestore = getFirestore()
-  const firebase = getFirebase()
-
+  
   firestore
     .collection("notices")
     .add({ ...notice, createdAt: new Date() })
@@ -108,8 +107,7 @@ export const updateNotice = (
   { getFirestore, getFirebase }
 ) => {
   const firestore = getFirestore()
-  const firebase = getFirebase()
-
+  
   firestore
     .collection("notices")
     .doc(notice.id)

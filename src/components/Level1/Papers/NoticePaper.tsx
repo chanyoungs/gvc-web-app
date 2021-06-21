@@ -1,8 +1,9 @@
-import Paper from '@material-ui/core/Paper'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import React, { FC, Fragment, useState } from 'react'
-import { INoticeWithMeta } from '../../../types'
+import Paper from "@material-ui/core/Paper"
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
+import React, { FC } from "react"
+
+import { INoticeWithMeta } from "../../../types"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

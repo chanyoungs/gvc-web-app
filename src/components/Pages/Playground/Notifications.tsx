@@ -1,20 +1,20 @@
 import Button from "@material-ui/core/Button"
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import React, { FC, Fragment, useEffect, useState } from "react"
+import React, { FC, Fragment, useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
 import { deleteToken, uploadToken } from "src/store/actions/noticeActions"
 import { AppState } from "src/store/reducers/rootReducer"
 import { localise } from "src/utils/localisation"
 
-const useStyles = makeStyles<Theme>((theme) => createStyles({}))
+// import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+// const useStyles = makeStyles<Theme>((theme) => createStyles({}))
 
 export interface NotificationsProps {
   messaging: firebase.messaging.Messaging
 }
 
 export const Notifications: FC<NotificationsProps> = ({ messaging }) => {
-  const classes = useStyles()
+  // const classes = useStyles()
   const dispatch = useDispatch()
   const uid = useSelector<AppState, string>((state) => state.firebase.auth.uid)
 
@@ -29,7 +29,7 @@ export const Notifications: FC<NotificationsProps> = ({ messaging }) => {
 
   const [token, setToken] = useState<string | null>(null)
 
-  const updateToken = async (upload?: boolean) => {
+  const updateToken = useCallback(async (upload?: boolean) => {
     try {
       const t = await messaging.getToken()
       setToken(t)
@@ -41,11 +41,11 @@ export const Notifications: FC<NotificationsProps> = ({ messaging }) => {
     } catch (error) {
       console.error(error)
     }
-  }
+  }, [dispatch, messaging, tokens])
 
   useEffect(() => {
     updateToken()
-  }, [])
+  }, [updateToken])
 
   return (
     <Fragment>

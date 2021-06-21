@@ -7,11 +7,9 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
 import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
-import { SvgIconProps } from "@material-ui/core/SvgIcon"
 import Switch from "@material-ui/core/Switch"
 import Typography from "@material-ui/core/Typography"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
-import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import AnnouncementIcon from "@material-ui/icons/Announcement"
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd"
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday"
@@ -26,17 +24,16 @@ import PaletteIcon from "@material-ui/icons/Palette"
 import PeopleIcon from "@material-ui/icons/People"
 import WidgetsIcon from "@material-ui/icons/Widgets"
 import preval from "preval.macro"
-import React, { FC, Fragment, useState } from "react"
-import { useEffect } from "react"
+import React, { FC, Fragment } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
+import { isLoaded } from "react-redux-firebase"
 import { useHistory, useLocation } from "react-router-dom"
 import { SET_DRAWER_OPEN, SET_DRAWER_TRANSITION } from "src/store/actions/types"
 import { localise } from "src/utils/localisation"
 
 import { signOut, updateLanguage } from "../../../store/actions/authActions"
 import { AppState } from "../../../store/reducers/rootReducer"
-import { IMemberDownload, Language, Paths } from "../../../types"
+import { Paths } from "../../../types"
 
 const useStyles = makeStyles<Theme, { drawerWidth: number }>((theme: Theme) =>
   createStyles({
@@ -189,8 +186,7 @@ export const CustomDrawer: FC<CustomDrawerProps> = (props) => {
   ("0" + new Date().getHours()).slice(-2) + ":" +
   ("0" + new Date().getMinutes()).slice(-2)`
 
-  const d = new Date().toUTCString()
-  return (
+    return (
     <Drawer
       className={classes.drawer}
       variant={desktopMode ? "persistent" : "temporary"}

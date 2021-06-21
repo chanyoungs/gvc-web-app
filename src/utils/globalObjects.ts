@@ -1,8 +1,8 @@
-import { WindowScrollController } from "@fullcalendar/core"
 import moment from "moment"
-import { ICell, ICells, IReport } from "src/types"
+import { ICells, IReport } from "src/types"
 
 import { db } from "./../firebase"
+
 
 export const globalObjects = () => {
   // @ts-ignore
@@ -69,10 +69,6 @@ export const globalObjects = () => {
   window.createCells = (cells = 5) => {
     const cellsDocument: ICells = {}
     for (let cell = 1; cell <= cells; cell++) {
-      let members: string[] = []
-      for (let member = 0; member <= 3; member++) {
-        const memberId = "c" + cell + "m" + member
-      }
       cellsDocument[cell] = {
         id: "" + cell,
         leaders: [`c${cell}m0`],
@@ -124,19 +120,13 @@ export const globalObjects = () => {
   }
 
   // @ts-ignore
-  window.testAdd = async () => {
-    db.collection("access").doc().set({ testing: 1 })
-  }
-
-  // @ts-ignore
-  window.testGet = async () => {
-    const snapshot = await db.collection("access").doc("test").get()
-    console.log(snapshot.data())
-  }
-
-  // @ts-ignore
-  window.testChangeId = async () => {
-    db.collection("access").doc("test").set({ testing: 1, id: "break" })
+  window.addSettings = async () => {
+    const membersSnapshot = await db.collection("members").get()
+    membersSnapshot.forEach((memberSnapshot) => {
+      db.collection("members")
+        .doc(memberSnapshot.id)
+        .update({ settings: { language: "english" } })
+    })
   }
 
   // // @ts-ignore

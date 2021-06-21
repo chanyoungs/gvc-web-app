@@ -6,7 +6,7 @@ import Radio from "@material-ui/core/Radio"
 import RadioGroup from "@material-ui/core/RadioGroup"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { FieldAttributes, useField } from "formik"
-import React, { FC } from "react"
+import React from "react"
 import { FormikContext } from "src/store/contexts/FormikContext"
 
 const useStyles = makeStyles<Theme>((theme) =>

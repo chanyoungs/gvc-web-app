@@ -1,13 +1,11 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
-import React, { FC, Fragment } from "react"
-import { useSelector } from "react-redux"
-import { useFirestoreConnect } from "react-redux-firebase"
+import React, { FC } from "react"
 import SwipeableViews from "react-swipeable-views"
 
-import { AppState } from "../../../store/reducers/rootReducer"
 import { INoticeWithMeta } from "../../../types"
 import { NoticePaper } from "../../Level1/Papers/NoticePaper"
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

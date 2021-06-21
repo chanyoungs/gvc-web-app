@@ -1,9 +1,7 @@
-import { updateMemberCell } from "src/store/actions/adminActions"
 import {
   DELETE_PHOTO,
   DELETE_PHOTO_ERROR,
   EDIT_PROFILE,
-  EDIT_PROFILE_ERROR,
   MEMBER_PROFILE_CREATED,
   REMEMBER_ME,
   REMEMBER_ME_ERROR,
@@ -17,23 +15,13 @@ import {
   SIGN_OUT_ERROR,
   SIGN_UP_ERROR,
   UPLOAD_PHOTO,
-  UPLOAD_PHOTO_ERROR,
 } from "src/store/actions/types"
-import { AuthTypes, IMemberWithId, Language } from "src/types"
-import {
-  applyExifOrientation,
-  base64ToArrayBuffer,
-  fileToBase64,
-  imageProcessor,
-  mirror,
-  noop,
-  resize,
-  rotate,
-  sharpen,
-} from "ts-image-processor"
+import { AuthTypes, Language } from "src/types"
+import { applyExifOrientation, base64ToArrayBuffer, fileToBase64, imageProcessor, resize } from "ts-image-processor"
 
-import { IFBError, IMemberDate, IResetPassword, ISignIn, ISignUp } from "../../types"
+import { IFBError, IMemberDate } from "../../types"
 import { ThunkActionCustom } from "./types"
+
 
 // Sign Up Member
 export const signUp =
@@ -45,11 +33,9 @@ export const signUp =
   (dispatch, getState, { getFirestore, getFirebase }) => {
     const { password, rememberMe, ...profile } = authFormValues
 
-    // This is to to typecheck against ISignUp
-    const check: ISignUp = { password, ...profile }
-
+    
     setSubmitting(true)
-    const firestore = getFirestore()
+    
     const firebase = getFirebase()
 
     firebase

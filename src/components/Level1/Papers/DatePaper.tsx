@@ -3,11 +3,10 @@ import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
-import PersonIcon from "@material-ui/icons/Person"
-import moment, { Moment } from "moment"
-import React, { FC, Fragment } from "react"
+import { Moment } from "moment"
+import React, { FC } from "react"
 
-import { IMemberDownload } from "../../../types"
+
 
 // import { IMember } from "./../../../interfaces"
 

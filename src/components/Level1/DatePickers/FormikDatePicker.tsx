@@ -1,8 +1,7 @@
 import InputAdornment from "@material-ui/core/InputAdornment"
-import TextField from "@material-ui/core/TextField"
 import { DatePicker } from "@material-ui/pickers"
 import { FieldAttributes, useField, useFormikContext } from "formik"
-import React, { FC } from "react"
+import React from "react"
 import { FormikContext } from "src/store/contexts/FormikContext"
 
 export function FormikDatePicker<T>({

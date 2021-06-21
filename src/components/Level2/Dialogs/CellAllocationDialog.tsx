@@ -11,7 +11,7 @@ import Radio from "@material-ui/core/Radio"
 import RadioGroup from "@material-ui/core/RadioGroup"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
-import React, { FC, useEffect, useRef, useState } from "react"
+import React, { FC, useCallback, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Searchbar } from "src/components/Level1/TextFields/Searchbar"
 import { addNewCell } from "src/store/actions/adminActions"
@@ -46,19 +46,18 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
   const dispatch = useDispatch()
   const [search, setSearch] = useState("")
   const [newCellId, setNewCellId] = useState("na")
-  const [addCellDialogOpen, setAddCellDialogOpen] = useState(false)
-  const [addNewCellName, setAddNewCellName] = useState("")
+    const [addNewCellName, setAddNewCellName] = useState("")
 
   const newCellNameTextField = useRef<HTMLInputElement>(null)
 
-  const initialiseCell = () => {
+  const initialiseCell = useCallback(() => {
     setNewCellId(cellRequest || cellCurrent)
     setAddNewCellName("")
-  }
+  }, [cellRequest, cellCurrent])
 
   useEffect(() => {
     initialiseCell()
-  }, [cellCurrent, cellRequest])
+  }, [initialiseCell])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewCellId((event.target as HTMLInputElement).value)

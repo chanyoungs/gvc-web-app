@@ -1,14 +1,14 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { Form, Formik, FormikHelpers } from "formik"
 import moment from "moment"
-import { Moment } from "moment"
 import React, { FC, Fragment } from "react"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
-import { FormikDatePicker } from "src/components/Level1/DatePickers/FormikDatePicker"
 import { localise } from "src/utils/localisation"
 import * as yup from "yup"
 
+// import { Moment } from "moment"
+// import { FormikDatePicker } from "src/components/Level1/DatePickers/FormikDatePicker"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {},
@@ -79,18 +79,18 @@ export const BulletinPage: FC = (props) => {
     values: IBulletin,
     { setSubmitting, setFieldValue }: FormikHelpers<IBulletin>
   ) => {
-    const {
-      date,
-      preacher,
-      praise,
-      choir,
-      readings,
-      sermon,
-      offeringHymn,
-      notices,
-      blessing,
-      benediction,
-    } = values
+    // const {
+    //   date,
+    //   preacher,
+    //   praise,
+    //   choir,
+    //   readings,
+    //   sermon,
+    //   offeringHymn,
+    //   notices,
+    //   blessing,
+    //   benediction,
+    // } = values
   }
 
   return (

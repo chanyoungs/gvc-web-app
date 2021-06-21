@@ -1,8 +1,7 @@
-import { IconTypeMap } from "@material-ui/core"
 import Icon, { IconProps } from "@material-ui/core/Icon"
-import { OverridableComponent } from "@material-ui/core/OverridableComponent"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { FC } from "react"
+
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({

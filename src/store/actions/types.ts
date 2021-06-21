@@ -1,12 +1,11 @@
 import { ExtendedFirestoreInstance, getFirebase } from "react-redux-firebase"
 import { ThunkAction } from "redux-thunk"
-import { Font } from "src/components/Level1/Dialogs/FontDialog"
 import { IBibleRef } from "src/components/Pages/BiblePage"
-import { IMemberDownload, IMemberWithId } from "src/types"
 
 import { IFBError, INotice, IReport, IReports, TPrayerQueries } from "../../types"
 import { MembersReducer } from "../reducers/membersReducer"
 import { AppState } from "../reducers/rootReducer"
+
 
 // Setup
 export type ThunkActionCustom<ReturnType> = ThunkAction<

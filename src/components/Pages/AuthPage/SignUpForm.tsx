@@ -2,23 +2,23 @@ import Box from "@material-ui/core/Box"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import MobileStepper from "@material-ui/core/MobileStepper"
-import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
+import { useTheme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft"
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight"
 import React, { FC, Fragment } from "react"
-import { AuthTypes, ISignUp } from "src/types"
+import { AuthTypes } from "src/types"
 import { localise } from "src/utils/localisation"
 
-import { AuthCheckboxTextField } from "./AuthCheckboxTextField"
 import { SignUpFields, SignUpSteps } from "./SignUpFields"
 
-const useStyles = makeStyles<Theme>((theme) =>
-  createStyles({
-    icon: { textAlign: "center" },
-    img: { height: "100%" },
-  })
-)
+
+// const useStyles = makeStyles<Theme>((theme) =>
+//   createStyles({
+//     icon: { textAlign: "center" },
+//     img: { height: "100%" },
+//   })
+// )
 
 export interface SignUpFormProps {
   activeStep: number
@@ -33,7 +33,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
   onNext,
   onBack,
 }) => {
-  const classes = useStyles()
+  // const classes = useStyles()
   const theme = useTheme()
 
   return (

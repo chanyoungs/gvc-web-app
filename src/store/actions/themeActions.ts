@@ -1,5 +1,3 @@
-import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme"
-
 import { IFBError } from "./../../types"
 import {
   DELETE_THEME,
@@ -10,6 +8,8 @@ import {
   UPLOAD_THEME,
   UPLOAD_THEME_ERROR,
 } from "./types"
+
+
 
 export interface UploadThemeProps {
   name: string

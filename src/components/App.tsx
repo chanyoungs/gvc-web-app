@@ -2,20 +2,16 @@ import { createMuiTheme, CssBaseline } from "@material-ui/core"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { MuiThemeProvider } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
-import { BrowserRouter, Link, Redirect, Route, Switch, useHistory, useLocation } from "react-router-dom"
-import { ADD_MEMBERS_WITH_ID } from "src/store/actions/types"
-import { MembersReducer } from "src/store/reducers/membersReducer"
-import { CELL_MEMBERS, IMemberDownload, IMemberWithId, Themes } from "src/types"
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
+import { IMemberDownload, Themes } from "src/types"
 import { languageRef } from "src/utils/localisation"
-import { membersDownloadToMembersWithId, memberWithIdToDate } from "src/utils/membersConversion"
 import WebFont from "webfontloader"
 
 import { PrivateRoute } from "../auth/PrivateRoute"
 import { AppState } from "../store/reducers/rootReducer"
 import { ServiceWorkerAlert } from "./Level1/Alerts/ServiceWorkerAlert"
-import { AppBarMain } from "./Level1/AppBars/AppBarMain"
 import { LoadingBackdrop } from "./Level1/Backdrops/LoadingBackdrop"
 import { Font } from "./Level1/Dialogs/FontDialog"
 import { ProfileDialog } from "./Level2/Dialogs/ProfileDialog"
@@ -48,7 +44,6 @@ export const CELL_MEMBERS_DOWNLOAD = "cellMembersDownload"
 export default function App() {
   const styles = useSelector((state: { styles: any }) => state.styles)
   const classes = useStyles(styles)
-  const dispatch = useDispatch()
   const isAuthenticated = useSelector<AppState, boolean>(
     (state) => !state.firebase.auth.isEmpty
   )
@@ -58,8 +53,8 @@ export default function App() {
     languageRef.value = (profile as IMemberDownload).settings.language
   }
 
-  const location = useLocation<{ from: string }>()
-  const fromOrHome: string = location.state?.from || "/"
+  // const location = useLocation<{ from: string }>()
+  // const fromOrHome: string = location.state?.from || "/"
 
   useFirestoreConnect(["themes", "fonts", "settings", "access", "cells"])
 

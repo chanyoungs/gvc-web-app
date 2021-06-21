@@ -1,4 +1,4 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+// import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { FC } from "react"
 import { useSelector } from "react-redux"
 import { MemberListItem } from "src/components/Level1/ListItems/MemberListItem"
@@ -8,7 +8,7 @@ import { IMemberWithId } from "../../../types"
 import { CustomList } from "./CustomList"
 import { filterMembersSearch, sortMembers } from "./listUtils"
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}))
+// const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
 export interface MembersListProps {
   members: IMemberWithId[]
@@ -19,7 +19,7 @@ export const MembersList: FC<MembersListProps> = ({
   members,
   secondaryAction,
 }) => {
-  const classes = useStyles()
+  // const classes = useStyles()
 
   const search = useSelector<AppState, string>((state) => state.appBar.search)
 

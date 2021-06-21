@@ -1,4 +1,4 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+// import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { Moment } from "moment"
 import React, { FC } from "react"
 import { useSelector } from "react-redux"
@@ -10,38 +10,37 @@ import { IMemberWithId, IReport, IReports } from "../../../types"
 import { CustomList } from "./CustomList"
 import { filterMembersSearch } from "./listUtils"
 
-// import { Iprayer } from "./../../../interfaces"
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: "100%",
-      overflow: "auto",
-      // maxHeight: 400,
-    },
+// const useStyles = makeStyles((theme: Theme) =>
+//   createStyles({
+//     root: {
+//       width: "100%",
+//       overflow: "auto",
+//       // maxHeight: 400,
+//     },
 
-    subheader: {
-      background: theme.palette.background.default,
-    },
-    paper: {
-      background: theme.palette.primary.main,
-      width: "100%",
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      paddingTop: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
-    },
-    textEdit: {
-      color: theme.palette.secondary.light,
-    },
-    textprayer: {
-      color: theme.palette.secondary.dark,
-    },
+//     subheader: {
+//       background: theme.palette.background.default,
+//     },
+//     paper: {
+//       background: theme.palette.primary.main,
+//       width: "100%",
+//       paddingLeft: theme.spacing(2),
+//       paddingRight: theme.spacing(2),
+//       paddingTop: theme.spacing(1),
+//       paddingBottom: theme.spacing(1),
+//     },
+//     textEdit: {
+//       color: theme.palette.secondary.light,
+//     },
+//     textprayer: {
+//       color: theme.palette.secondary.dark,
+//     },
 
-    listItem: {
-      padding: theme.spacing(0.5),
-    },
-  })
-)
+//     listItem: {
+//       padding: theme.spacing(0.5),
+//     },
+//   })
+// )
 
 export interface ReportsListProps {
   members: IMemberWithId[]
@@ -58,7 +57,7 @@ export const ReportsList: FC<ReportsListProps> = ({
   reportMode,
   setIsTyping,
 }) => {
-  const classes = useStyles()
+  // const classes = useStyles()
   const search = useSelector<AppState, string>((state) => state.appBar.search)
 
   const members_ = members && [...members].filter(filterMembersSearch(search))

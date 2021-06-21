@@ -1,11 +1,11 @@
-import FormControl, { FormControlTypeMap } from "@material-ui/core/FormControl"
+import FormControl from "@material-ui/core/FormControl"
 import FormHelperText from "@material-ui/core/FormHelperText"
 import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { FieldAttributes, useField } from "formik"
-import React, { FC } from "react"
+import React from "react"
 import { FormikContext } from "src/store/contexts/FormikContext"
 
 const useStyles = makeStyles<Theme>((theme) =>

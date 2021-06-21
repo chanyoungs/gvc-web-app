@@ -1,11 +1,11 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+// import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import React, { Fragment } from "react"
 
 import { getNameInitialLetter } from "../../../utils/getNameInitialLetter"
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}))
+// const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
 export interface Props {}
 
@@ -14,7 +14,7 @@ export interface State {
 }
 
 function GetNameInitialLetter(props: Props) {
-  const classes = useStyles()
+  // const classes = useStyles()
   const [values, setValues] = React.useState<State>({
     text: "박주영"
   })

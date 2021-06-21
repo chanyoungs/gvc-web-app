@@ -76,7 +76,7 @@ export const Playground: FC = () => {
     membersDownloadToMembersWithId(state.firestore.data[CELL_MEMBERS_DOWNLOAD])
   )
 
-  const { data: membersDic, ordered: membersArr } = membersReducer
+  const { ordered: membersArr } = membersReducer
 
   const search = useSelector<AppState, string>((state) => state.appBar.search)
 

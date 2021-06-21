@@ -5,7 +5,7 @@ import {
   UPDATE_PRAYER,
   UPDATE_REPORT,
 } from "src/store/actions/types"
-import { IReport, IReports } from "src/types"
+import { IReports } from "src/types"
 
 import { getReportDocId } from "../actions/reportActions"
 

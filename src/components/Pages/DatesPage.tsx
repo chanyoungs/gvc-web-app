@@ -1,5 +1,4 @@
 import Grid from "@material-ui/core/Grid"
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { DatePicker } from "@material-ui/pickers"
 import moment, { Moment } from "moment"
 import React, { FC, Fragment, useState } from "react"
@@ -12,7 +11,8 @@ import { ContainerMain } from "../Level1/Containers/ContainerMain"
 import { DatesList } from "../Level2/Lists/DatesList"
 import { Notices } from "../Level2/SwipeableListViews/Notices"
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}))
+// import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+// const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
 export interface ISDatesPage {
   from: Moment
@@ -20,7 +20,7 @@ export interface ISDatesPage {
 }
 
 export const DatesPage: FC = () => {
-  const classes = useStyles()
+  // const classes = useStyles()
   const [dates, setDates] = useState<ISDatesPage>({
     from: moment(moment().format("YYYY") + "0101", "YYYYMMDD"),
     to: moment(),

@@ -1,4 +1,3 @@
-import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme"
 import firebase from "firebase"
 
 // ---Themes---

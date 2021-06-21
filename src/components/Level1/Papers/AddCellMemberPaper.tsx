@@ -1,11 +1,10 @@
 import Avatar from "@material-ui/core/Avatar"
 import ButtonBase from "@material-ui/core/ButtonBase"
 import Grid from "@material-ui/core/Grid"
-import Paper from "@material-ui/core/Paper"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import PersonAddIcon from "@material-ui/icons/PersonAdd"
-import React, { Fragment } from "react"
+import React from "react"
 import { localise } from "src/utils/localisation"
 
 const useStyles = makeStyles((theme: Theme) =>

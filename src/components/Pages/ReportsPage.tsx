@@ -1,19 +1,10 @@
 import Button from "@material-ui/core/Button"
-import ButtonBase from "@material-ui/core/ButtonBase"
 import Divider from "@material-ui/core/Divider"
-import Fab from "@material-ui/core/Fab"
 import IconButton from "@material-ui/core/IconButton"
-import InputAdornment from "@material-ui/core/InputAdornment"
 import Snackbar from "@material-ui/core/Snackbar"
 import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
 import Tab from "@material-ui/core/Tab"
 import Tabs from "@material-ui/core/Tabs"
-import Toolbar from "@material-ui/core/Toolbar"
-import Typography from "@material-ui/core/Typography"
-import useMediaQuery from "@material-ui/core/useMediaQuery"
-import Zoom from "@material-ui/core/Zoom"
-import DoneAllIcon from "@material-ui/icons/DoneAll"
-import EventIcon from "@material-ui/icons/Event"
 import InfoIcon from "@material-ui/icons/Info"
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore"
 import NavigateNextIcon from "@material-ui/icons/NavigateNext"
@@ -27,7 +18,7 @@ import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 import { ALERT_CLOSE, ALERT_SAVED } from "src/store/actions/types"
 import { IAlertState } from "src/store/reducers/alertReducer"
-import { IMemberWithId, IReports } from "src/types"
+import { IReports } from "src/types"
 import { localise } from "src/utils/localisation"
 import { membersDownloadToMembersWithId } from "src/utils/membersConversion"
 
@@ -36,10 +27,8 @@ import { CELL_MEMBERS_DOWNLOAD } from "../App"
 import { NoticeAlert } from "../Level1/Alerts/NoticeAlert"
 import { LoadingBackdrop } from "../Level1/Backdrops/LoadingBackdrop"
 import { LoadingProgress } from "../Level1/Progress/LoadingProgress"
-import { CellAllocationDialog } from "../Level2/Dialogs/CellAllocationDialog"
-import { getName, sortMembers } from "../Level2/Lists/listUtils"
+import { getName } from "../Level2/Lists/listUtils"
 import { ReportsList } from "../Level2/Lists/ReportsList"
-import { Notices } from "../Level2/SwipeableListViews/Notices"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -97,13 +86,8 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
 
   const theme = useTheme()
 
-  const transitionDuration = {
-    enter: theme.transitions.duration.enteringScreen,
-    exit: theme.transitions.duration.leavingScreen,
-  }
-
   const dispatch = useDispatch()
-  const desktopMode = useMediaQuery(theme.breakpoints.up("sm"))
+  // const desktopMode = useMediaQuery(theme.breakpoints.up("sm"))
 
   useFirestoreConnect([
     { collection: "notices", orderBy: ["createdAt", "asc"] },
@@ -131,7 +115,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   ])
 
   const stateFS = useSelector<AppState, any>((state) => state.firestore)
-  const notices = stateFS.ordered.notices
+  // const notices = stateFS.ordered.notices
   const members = membersDownloadToMembersWithId(
     stateFS.data[CELL_MEMBERS_DOWNLOAD]
   ).ordered
@@ -139,12 +123,12 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   const reports = useSelector<AppState, IReports>(
     (state) => state.firestore.data.reports
   )
-  const localReports = useSelector<AppState, IReports>((state) => state.reports)
+  // const localReports = useSelector<AppState, IReports>((state) => state.reports)
 
   const alert = useSelector<AppState, IAlertState>((state) => state.alert)
 
-  const [backdropOpen, setBackdropOpen] = useState(false)
-  const [isTyping, setIsTyping] = useState(false)
+  const [backdropOpen] = useState(false)
+  const [, setIsTyping] = useState(false)
 
   const handleSnackbarClose = (
     event: React.SyntheticEvent | React.MouseEvent,

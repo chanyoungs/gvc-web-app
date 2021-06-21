@@ -1,6 +1,6 @@
 import { IReports } from "src/types"
 
-import { IFBError, IReport } from "./../../types"
+import { IReport } from "./../../types"
 import {
   ALERT_SAVED,
   ALERT_SAVED_ERROR,

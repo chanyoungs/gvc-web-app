@@ -1,6 +1,5 @@
 import Grid from "@material-ui/core/Grid"
 import Link from "@material-ui/core/Link"
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import EmailIcon from "@material-ui/icons/Email"
 import LockIcon from "@material-ui/icons/Lock"
@@ -12,7 +11,8 @@ import { localise } from "src/utils/localisation"
 
 import { AuthMode } from "."
 
-const useStyles = makeStyles<Theme>((theme) => createStyles({}))
+// import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+// const useStyles = makeStyles<Theme>((theme) => createStyles({}))
 
 export interface SignInAndResetPasswordFormProps {
   authMode: AuthMode
@@ -21,7 +21,7 @@ export interface SignInAndResetPasswordFormProps {
 
 export const SignInAndResetPasswordForm: FC<SignInAndResetPasswordFormProps> =
   ({ authMode, onForgotPassword }) => {
-    const classes = useStyles()
+    // const classes = useStyles()
 
     return (
       <Fragment>

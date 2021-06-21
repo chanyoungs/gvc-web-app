@@ -1,4 +1,4 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+// import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { FC, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { CELL_MEMBERS_DOWNLOAD } from "src/components/App"
@@ -8,7 +8,7 @@ import { IMemberDownload, IMemberWithId } from "src/types"
 
 import { ProfileDialogContents } from "./ProfileDialogContents"
 
-const useStyles = makeStyles<Theme>((theme) => createStyles({}))
+// const useStyles = makeStyles<Theme>((theme) => createStyles({}))
 
 export interface ProfileDialogContainerProps {
   memberId: string
@@ -18,7 +18,7 @@ export interface ProfileDialogContainerProps {
 export const ProfileDialogContainer: FC<ProfileDialogContainerProps> = (
   props
 ) => {
-  const classes = useStyles()
+  // const classes = useStyles()
   const dispatch = useDispatch()
   const memberFS = useSelector<AppState, null | IMemberWithId>((state) => {
     const members: { [key: string]: IMemberDownload } =
@@ -32,7 +32,7 @@ export const ProfileDialogContainer: FC<ProfileDialogContainerProps> = (
 
   useEffect(() => {
     if (memberFS) setMemberLocal(memberFS)
-  }, [props.memberId])
+  }, [props.memberId, memberFS])
 
   return (
     memberLocal && (

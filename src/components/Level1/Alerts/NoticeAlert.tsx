@@ -1,5 +1,4 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import InfoIcon from "@material-ui/icons/Info"
 import { Alert, AlertProps, AlertTitle } from "@material-ui/lab"
 import React, { FC, ReactNode } from "react"
 

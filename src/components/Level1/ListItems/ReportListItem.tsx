@@ -1,4 +1,3 @@
-import Avatar from "@material-ui/core/Avatar"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
@@ -8,16 +7,18 @@ import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import ToggleButton from "@material-ui/lab/ToggleButton"
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup"
-import React, { FC, useCallback, useEffect } from "react"
+import React, { FC, useEffect } from "react"
+import { useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { CustomAvatar } from "src/components/Level2/Avatars/CustomAvatar"
 import { getName } from "src/components/Level2/Lists/listUtils"
 import { ProfileMenu } from "src/components/Level2/Menus/ProfileMenu"
 import { ReportMode } from "src/components/Pages/ReportsPage"
-import { getReportDocId, updateAttendance, updatePrayer, updateReport, uploadReport } from "src/store/actions/reportActions"
+import { getReportDocId, updateReport, uploadReport } from "src/store/actions/reportActions"
 import { AppState } from "src/store/reducers/rootReducer"
 import { IMemberWithId, IReport } from "src/types"
 import { localise } from "src/utils/localisation"
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,9 +54,10 @@ export const ReportListItem: FC<ReportListItemProps> = ({
   const attendance = reportLocal ? reportLocal.attendance : report.attendance
 
   const dispatch = useDispatch()
-  const setPrayer = (prayer: string) => {
+  const setPrayer = useCallback((prayer: string) => {
     if (reportLocal) dispatch(updateReport({ ...reportLocal, prayer }))
-  }
+  }, [dispatch, reportLocal])
+
   const setAttendance = (attendance: IReport["attendance"]) => {
     if (reportLocal) {
       const newReport = { ...reportLocal, attendance }
@@ -66,29 +68,34 @@ export const ReportListItem: FC<ReportListItemProps> = ({
 
   useEffect(() => {
     dispatch(updateReport(report))
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [report])
 
   useEffect(() => {
     setPrayer(report.prayer)
-  }, [report.prayer])
+  }, [report.prayer, setPrayer])
 
   useEffect(() => {
     if (reportLocal)
       dispatch(updateReport({ ...reportLocal, attendance: report.attendance }))
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     report.attendance.cell,
     report.attendance.service,
     report.attendance.info,
+    reportLocal
   ])
-
-  useEffect(() => {
-    const timer = setTimeout(savePrayerChanges, 1000)
-    return () => clearTimeout(timer)
-  }, [prayer])
 
   const savePrayerChanges = () => {
     if (prayer !== report.prayer) dispatch(uploadReport({ ...report, prayer }))
   }
+  
+  useEffect(() => {
+    const timer = setTimeout(savePrayerChanges, 1000)
+    return () => clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prayer])
+
 
   const onPrayerChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>

@@ -1,4 +1,4 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+// import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import MoreVertIcon from "@material-ui/icons/MoreVert"
 import React, { FC } from "react"
 import { useDispatch } from "react-redux"
@@ -7,14 +7,14 @@ import { OPEN_PROFILE_DIALOG } from "src/store/actions/types"
 import { IMemberWithId } from "src/types"
 import { localise } from "src/utils/localisation"
 
-const useStyles = makeStyles<Theme>((theme) => createStyles({}))
+// const useStyles = makeStyles<Theme>((theme) => createStyles({}))
 
 export interface ProfileMenuProps {
   member: IMemberWithId
 }
 
 export const ProfileMenu: FC<ProfileMenuProps> = ({ member }) => {
-  const classes = useStyles()
+  // const classes = useStyles()
   const dispatch = useDispatch()
   const menus = [
     {

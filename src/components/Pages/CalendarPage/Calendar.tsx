@@ -1,10 +1,9 @@
 import { VerboseFormattingArg } from "@fullcalendar/core"
 import { DateClickArg } from "@fullcalendar/interaction"
 import FullCalendar, { EventClickArg, EventInput } from "@fullcalendar/react"
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import moment from "moment"
 import React, { FC, useRef, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { CELL_MEMBERS_DOWNLOAD } from "src/components/App"
 import { getName } from "src/components/Level2/Lists/listUtils"
 import { MembersReducer } from "src/store/reducers/membersReducer"
@@ -14,18 +13,19 @@ import { membersDownloadToMembersWithId, memberWithIdToDate } from "src/utils/me
 
 import { dayGridPlugin, interactionPlugin, listPlugin, rrulePlugin, timeGridPlugin } from "./pluginModules"
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}))
+// import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+// const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
 type Mode = "List" | "Calendar"
 type DWMY = "Day" | "Week" | "Month" | "Year"
 
 export const CustomCalendar: FC = () => {
-  const classes = useStyles()
+  // const classes = useStyles()
   const [events, setEvents] = useState<EventInput[]>([])
   const [mode, setMode] = useState<Mode>("Calendar")
   const [dwmy, setDMWY] = useState<DWMY>("Month")
 
-  const profile = useSelector<AppState, any>((state) => state.firebase.profile)
+  
 
   const members = useSelector<AppState, MembersReducer["ordered"]>(
     (state) =>
@@ -34,7 +34,7 @@ export const CustomCalendar: FC = () => {
       ).ordered
   )
 
-  const dispatch = useDispatch()
+  
 
   const calendarRef = useRef<FullCalendar>(null)
 

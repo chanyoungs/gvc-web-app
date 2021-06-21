@@ -1,4 +1,3 @@
-import { Typography } from "@material-ui/core"
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
@@ -7,6 +6,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import Link from "@material-ui/core/Link"
 import React, { FC, Fragment } from "react"
 import { localise } from "src/utils/localisation"
+
 
 export const TermsAndConditionsDialog: FC = () => {
   const [open, setOpen] = React.useState(false)

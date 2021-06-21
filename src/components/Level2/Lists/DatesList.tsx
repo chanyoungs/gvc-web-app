@@ -1,17 +1,9 @@
-import Avatar from "@material-ui/core/Avatar"
 import ButtonBase from "@material-ui/core/ButtonBase"
 import { red } from "@material-ui/core/colors"
-import Container from "@material-ui/core/Container"
-import IconButton from "@material-ui/core/IconButton"
-import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
-import ListItemAvatar from "@material-ui/core/ListItemAvatar"
-import ListItemText from "@material-ui/core/ListItemText"
-import Paper from "@material-ui/core/Paper"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
 import moment, { Moment } from "moment"
-import React, { FC, Fragment } from "react"
+import React, { FC } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { DatePaper } from "src/components/Level1/Papers/DatePaper"
@@ -19,6 +11,7 @@ import { queryPrayer } from "src/store/actions/prayerActions"
 import { AppState } from "src/store/reducers/rootReducer"
 
 import { CustomList } from "./CustomList"
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

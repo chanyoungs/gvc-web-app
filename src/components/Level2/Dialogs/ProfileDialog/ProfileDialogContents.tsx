@@ -7,34 +7,30 @@ import DialogContent from "@material-ui/core/DialogContent"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
-import InputAdornment from "@material-ui/core/InputAdornment"
 import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles"
-import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import CloseIcon from "@material-ui/icons/Close"
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
-import GroupIcon from "@material-ui/icons/Group"
 import ImageIcon from "@material-ui/icons/Image"
 import UndoIcon from "@material-ui/icons/Undo"
 import VisibilityIcon from "@material-ui/icons/Visibility"
 import { Form, Formik, FormikHelpers } from "formik"
-import React, { FC, Fragment, useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { FC, Fragment, useState } from "react"
+import { useDispatch } from "react-redux"
 import { LoadingBackdrop } from "src/components/Level1/Backdrops/LoadingBackdrop"
 import { initialValues } from "src/components/Pages/AuthPage"
 import { SignUpFields, SignUpSteps } from "src/components/Pages/AuthPage/SignUpFields"
 import { getPartialAuthValidationSchema } from "src/components/Pages/AuthPage/validationSchema"
 import { FormikContext } from "src/store/contexts/FormikContext"
-import { AppState } from "src/store/reducers/rootReducer"
 import { localise } from "src/utils/localisation"
 import { memberWithIdToDate } from "src/utils/membersConversion"
 import * as yup from "yup"
 
 import { editProfile } from "../../../../store/actions/authActions"
-import { AuthTypes, ICells, IMemberDate, IMemberWithId } from "../../../../types"
+import { AuthTypes, IMemberDate, IMemberWithId } from "../../../../types"
 import { getName } from "../../Lists/listUtils"
 import { CellAllocationDialog } from "../CellAllocationDialog"
 
@@ -127,12 +123,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
   const classes = useStyles()
   const [openCellAlllocationDialog, setOpenCellAlllocationDialog] =
     useState(false)
-  const isAdmin = useSelector<AppState, boolean>((state) =>
-    state.firestore.data.access?.admins.admins.includes(state.firebase.auth.uid)
-  )
-  const cells: ICells = useSelector<AppState, ICells>(
-    (state) => state.firestore.data.cells?.cells
-  )
+  
   const dispatch = useDispatch()
   const desktopMode = useMediaQuery(theme.breakpoints.up("sm"))
   const [edit, setEdit] = React.useState<boolean>(false)
@@ -143,9 +134,9 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
     file: null,
     url: "",
   })
-  const [progress, setProgress] = React.useState<number>(0)
+  const [, setProgress] = React.useState<number>(0)
 
-  const [member, setMember] = React.useState<IMemberDate>(
+  const [member,] = React.useState<IMemberDate>(
     memberWithIdToDate(props.member)
   )
 
@@ -188,7 +179,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
       setLocalImage({ ...localImage, file: imageFile, url: imageUrl })
       // setUpdating(false)
     }
-    const result = imageFile ? reader.readAsDataURL(imageFile) : ""
+    // const result = imageFile ? reader.readAsDataURL(imageFile) : ""
   }
 
   return (
