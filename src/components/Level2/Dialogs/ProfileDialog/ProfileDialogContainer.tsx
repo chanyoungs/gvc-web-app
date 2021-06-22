@@ -32,7 +32,8 @@ export const ProfileDialogContainer: FC<ProfileDialogContainerProps> = (
 
   useEffect(() => {
     if (memberFS) setMemberLocal(memberFS)
-  }, [props.memberId, memberFS])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.memberId])
 
   return (
     memberLocal && (

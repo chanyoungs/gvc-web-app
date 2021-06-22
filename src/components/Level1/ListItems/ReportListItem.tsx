@@ -8,7 +8,6 @@ import Typography from "@material-ui/core/Typography"
 import ToggleButton from "@material-ui/lab/ToggleButton"
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup"
 import React, { FC, useEffect } from "react"
-import { useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { CustomAvatar } from "src/components/Level2/Avatars/CustomAvatar"
 import { getName } from "src/components/Level2/Lists/listUtils"
@@ -54,10 +53,9 @@ export const ReportListItem: FC<ReportListItemProps> = ({
   const attendance = reportLocal ? reportLocal.attendance : report.attendance
 
   const dispatch = useDispatch()
-  const setPrayer = useCallback((prayer: string) => {
+  const setPrayer = (prayer: string) => {
     if (reportLocal) dispatch(updateReport({ ...reportLocal, prayer }))
-  }, [dispatch, reportLocal])
-
+  }
   const setAttendance = (attendance: IReport["attendance"]) => {
     if (reportLocal) {
       const newReport = { ...reportLocal, attendance }
@@ -69,11 +67,12 @@ export const ReportListItem: FC<ReportListItemProps> = ({
   useEffect(() => {
     dispatch(updateReport(report))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [report])
+  }, [])
 
   useEffect(() => {
     setPrayer(report.prayer)
-  }, [report.prayer, setPrayer])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [report.prayer])
 
   useEffect(() => {
     if (reportLocal)
@@ -83,19 +82,17 @@ export const ReportListItem: FC<ReportListItemProps> = ({
     report.attendance.cell,
     report.attendance.service,
     report.attendance.info,
-    reportLocal
   ])
 
-  const savePrayerChanges = () => {
-    if (prayer !== report.prayer) dispatch(uploadReport({ ...report, prayer }))
-  }
-  
   useEffect(() => {
     const timer = setTimeout(savePrayerChanges, 1000)
     return () => clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prayer])
 
+  const savePrayerChanges = () => {
+    if (prayer !== report.prayer) dispatch(uploadReport({ ...report, prayer }))
+  }
 
   const onPrayerChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
