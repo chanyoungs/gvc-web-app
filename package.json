@@ -34,6 +34,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-firestore": "^0.15.0",
     "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
     "rrule": "^2.6.8",
     "ts-image-processor": "^1.1.17",
     "typescript": "3.7.5",

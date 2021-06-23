@@ -1,6 +1,7 @@
-import { firebaseReducer } from "react-redux-firebase"
+import { FirebaseReducer, firebaseReducer } from "react-redux-firebase"
 import { combineReducers } from "redux"
 import { firestoreReducer } from "redux-firestore"
+import { IMemberDownload } from "src/types"
 
 import { alertReducer } from "./alertReducer"
 import { appBarReducer } from "./appBarReducer"
@@ -28,4 +29,6 @@ export const rootReducer = combineReducers({
   dialog: dialogReducer,
 })
 
-export type AppState = ReturnType<typeof rootReducer>
+export type AppState = Omit<ReturnType<typeof rootReducer>, "firebase"> & {
+  firebase: FirebaseReducer.Reducer<IMemberDownload>
+}

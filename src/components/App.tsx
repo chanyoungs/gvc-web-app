@@ -5,6 +5,7 @@ import React, { Fragment } from "react"
 import { useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
+import { checkAdmin } from "src/store/selectors/accessRights"
 import { IMemberDownload, Themes } from "src/types"
 import { languageRef } from "src/utils/localisation"
 import WebFont from "webfontloader"
@@ -47,7 +48,9 @@ export default function App() {
   const isAuthenticated = useSelector<AppState, boolean>(
     (state) => !state.firebase.auth.isEmpty
   )
-  const profile = useSelector<AppState, any>((state) => state.firebase.profile)
+  const profile = useSelector<AppState, AppState["firebase"]["profile"]>(
+    (state) => state.firebase.profile
+  )
 
   if (isLoaded(profile) && isAuthenticated) {
     languageRef.value = (profile as IMemberDownload).settings.language
@@ -78,9 +81,10 @@ export default function App() {
     (state) => state.firestore.data.settings
   )
 
-  const isAdmin = useSelector<AppState, boolean>((state) =>
-    state.firestore.data.access?.admins.admins.includes(state.firebase.auth.uid)
-  )
+  // const isAdmin = useSelector<AppState, boolean>((state) =>
+  //   state.firestore.data.access?.admins.admins.includes(state.firebase.auth.uid)
+  // )
+  const isAdmin = useSelector<AppState, boolean>(checkAdmin)
 
   if (isLoaded(fonts) && fonts.length > 0) {
     WebFont.load({
