@@ -1,7 +1,7 @@
 import InputAdornment from "@material-ui/core/InputAdornment"
 import TextField, { TextFieldProps } from "@material-ui/core/TextField"
 import { FieldAttributes, useField } from "formik"
-import React from "react"
+import React, { useContext } from "react"
 import { FormikContext } from "src/store/contexts/FormikContext"
 
 export type FormikTextFieldProps<Form> = FieldAttributes<{}> & {
@@ -17,31 +17,26 @@ function FormikTextField<Form>({
 }: FormikTextFieldProps<Form>) {
   const [field, meta] = useField(fieldProps)
   const errorText = meta.error && meta.touched ? meta.error : ""
+  const formikContext = useContext(FormikContext)
+  const textFieldContext = formikContext.textField
+    ? formikContext.textField
+    : {}
   return (
-    <FormikContext.Consumer>
-      {(formikContext) => {
-        const textFieldContext = formikContext.textField
-          ? formikContext.textField
-          : {}
-        return (
-          <TextField
-            {...field}
-            {...({
-              ...textFieldContext,
-              ...textFieldProps,
-            } as TextFieldProps)}
-            helperText={errorText}
-            error={!!errorText}
-            InputProps={{
-              ...textFieldContext.InputProps,
-              endAdornment: icon && (
-                <InputAdornment position="end">{icon}</InputAdornment>
-              ),
-            }}
-          />
-        )
+    <TextField
+      {...field}
+      {...({
+        ...textFieldContext,
+        ...textFieldProps,
+      } as TextFieldProps)}
+      helperText={errorText}
+      error={!!errorText}
+      InputProps={{
+        ...textFieldContext.InputProps,
+        endAdornment: icon && (
+          <InputAdornment position="end">{icon}</InputAdornment>
+        ),
       }}
-    </FormikContext.Consumer>
+    />
   )
 }
 

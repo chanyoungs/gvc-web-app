@@ -5,7 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { FieldAttributes, useField } from "formik"
-import React from "react"
+import React, { useContext } from "react"
 import { FormikContext } from "src/store/contexts/FormikContext"
 
 const useStyles = makeStyles<Theme>((theme) =>
@@ -27,34 +27,29 @@ export function FormikSelect<T, V>({
   const classes = useStyles()
   const [field, meta] = useField({ ...props, type: "select" })
   const errorText = meta.error && meta.touched ? meta.error : ""
+  const formikContext = useContext(FormikContext)
+  const { variant, ...selectContext } = formikContext.select
+    ? formikContext.select
+    : { variant: undefined }
   return (
-    <FormikContext.Consumer>
-      {(formikContext) => {
-        const { variant, ...selectContext } = formikContext.select
-          ? formikContext.select
-          : { variant: undefined }
-        return (
-          <FormControl
-            variant={variant}
-            required
-            error={!!errorText}
-            className={classes.root}
+    <FormControl
+      variant={variant}
+      required
+      error={!!errorText}
+      className={classes.root}
+    >
+      <InputLabel>{label}</InputLabel>
+      <Select {...field} {...selectContext} label={label}>
+        {menuItems.map((menuItem) => (
+          <MenuItem
+            key={menuItem.label}
+            value={menuItem.value as unknown as string | undefined}
           >
-            <InputLabel>{label}</InputLabel>
-            <Select {...field} {...selectContext} label={label}>
-              {menuItems.map((menuItem) => (
-                <MenuItem
-                  key={menuItem.label}
-                  value={(menuItem.value as unknown) as string | undefined}
-                >
-                  {menuItem.label}
-                </MenuItem>
-              ))}
-            </Select>
-            <FormHelperText>{errorText}</FormHelperText>
-          </FormControl>
-        )
-      }}
-    </FormikContext.Consumer>
+            {menuItem.label}
+          </MenuItem>
+        ))}
+      </Select>
+      <FormHelperText>{errorText}</FormHelperText>
+    </FormControl>
   )
 }

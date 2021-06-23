@@ -1,7 +1,7 @@
 import InputAdornment from "@material-ui/core/InputAdornment"
 import { DatePicker } from "@material-ui/pickers"
 import { FieldAttributes, useField, useFormikContext } from "formik"
-import React from "react"
+import React, { useContext } from "react"
 import { FormikContext } from "src/store/contexts/FormikContext"
 
 export function FormikDatePicker<T>({
@@ -17,37 +17,32 @@ export function FormikDatePicker<T>({
   const [field, meta] = useField(props)
   const { setFieldValue } = useFormikContext()
   const errorText = meta.error && meta.touched ? meta.error : ""
+  const formikContext = useContext(FormikContext)
+  const datePickerContext = formikContext.datePicker
+    ? formikContext.datePicker
+    : {}
 
   return (
-    <FormikContext.Consumer>
-      {(formikContext) => {
-        const datePickerContext = formikContext.datePicker
-          ? formikContext.datePicker
-          : {}
-        return (
-          <DatePicker
-            {...field}
-            {...datePickerContext}
-            label={label}
-            placeholder={placeholder}
-            helperText={errorText}
-            error={!!errorText}
-            disableFuture
-            openTo="year"
-            format="dd/MM/yyyy"
-            views={["year", "month", "date"]}
-            onChange={(val) => {
-              setFieldValue(field.name, val)
-            }}
-            InputProps={{
-              ...datePickerContext.InputProps,
-              endAdornment: icon && (
-                <InputAdornment position="end">{icon}</InputAdornment>
-              ),
-            }}
-          />
-        )
+    <DatePicker
+      {...field}
+      {...datePickerContext}
+      label={label}
+      placeholder={placeholder}
+      helperText={errorText}
+      error={!!errorText}
+      disableFuture
+      openTo="year"
+      format="dd/MM/yyyy"
+      views={["year", "month", "date"]}
+      onChange={(val) => {
+        setFieldValue(field.name, val)
       }}
-    </FormikContext.Consumer>
+      InputProps={{
+        ...datePickerContext.InputProps,
+        endAdornment: icon && (
+          <InputAdornment position="end">{icon}</InputAdornment>
+        ),
+      }}
+    />
   )
 }
