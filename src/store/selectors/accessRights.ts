@@ -19,5 +19,7 @@ export const checkCellLeader = createSelector<
 >(
   [getProfileWithId, (state) => state.firestore.data.cells?.cells],
   (profile, cells) =>
-    profile.cell in cells && cells[profile.cell].leaders.includes(profile.id)
+    cells &&
+    profile.cell in cells &&
+    cells[profile.cell].leaders.includes(profile.id)
 )
