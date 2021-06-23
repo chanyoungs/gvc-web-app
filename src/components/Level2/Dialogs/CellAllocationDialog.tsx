@@ -138,7 +138,7 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
                   onChange={(event) => setAddNewCellName(event.target.value)}
                   label={localise({
                     english: "New Cell Name",
-                    korean: "추가할셀 이름",
+                    korean: "추가할 셀이름",
                   })}
                   error={cellAlreadyExists}
                   helperText={

@@ -1,13 +1,8 @@
-// import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { FC, Fragment } from "react"
 import { useSelector } from "react-redux"
 import { AppState } from "src/store/reducers/rootReducer"
 
 import { ProfileDialogContainer } from "./ProfileDialogContainer"
-
-
-
-// const useStyles = makeStyles<Theme>((theme) => createStyles({}))
 
 export interface ProfileDialogProps {}
 
