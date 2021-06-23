@@ -4,12 +4,12 @@ import FullCalendar, { EventClickArg, EventInput } from "@fullcalendar/react"
 import moment from "moment"
 import React, { FC, useRef, useState } from "react"
 import { useSelector } from "react-redux"
-import { CELL_MEMBERS_DOWNLOAD } from "src/components/App"
 import { getName } from "src/components/Level2/Lists/listUtils"
-import { MembersReducer } from "src/store/reducers/membersReducer"
 import { AppState } from "src/store/reducers/rootReducer"
+import { getCellMembersWithIds } from "src/store/selectors/members"
+import { IMembersWithIdCollection } from "src/types"
 import { localise } from "src/utils/localisation"
-import { membersDownloadToMembersWithId, memberWithIdToDate } from "src/utils/membersConversion"
+import { memberWithIdToDate } from "src/utils/membersConversion"
 
 import { dayGridPlugin, interactionPlugin, listPlugin, rrulePlugin, timeGridPlugin } from "./pluginModules"
 
@@ -25,16 +25,11 @@ export const CustomCalendar: FC = () => {
   const [mode, setMode] = useState<Mode>("Calendar")
   const [dwmy, setDMWY] = useState<DWMY>("Month")
 
-  
-
-  const members = useSelector<AppState, MembersReducer["ordered"]>(
-    (state) =>
-      membersDownloadToMembersWithId(
-        state.firestore.data[CELL_MEMBERS_DOWNLOAD]
-      ).ordered
+  const membersWithId = useSelector<AppState, IMembersWithIdCollection>(
+    getCellMembersWithIds
   )
 
-  
+  const membersArr = Object.values(membersWithId)
 
   const calendarRef = useRef<FullCalendar>(null)
 
@@ -77,8 +72,8 @@ export const CustomCalendar: FC = () => {
     calendarRef.current?.getApi().changeView(view)
   }
 
-  const birthdays: EventInput[] = members
-    ? members.map((m) => {
+  const birthdays: EventInput[] = membersArr
+    ? membersArr.map((m) => {
         const member = memberWithIdToDate(m)
 
         return {
@@ -91,8 +86,6 @@ export const CustomCalendar: FC = () => {
         }
       })
     : []
-
-  console.log("CustomCalendar:FC -> birthdays", birthdays)
 
   return (
     <FullCalendar

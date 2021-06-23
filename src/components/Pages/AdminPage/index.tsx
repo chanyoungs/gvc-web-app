@@ -19,9 +19,9 @@ import { filterMembersSearch, sortMembers } from "src/components/Level2/Lists/li
 import { MembersList } from "src/components/Level2/Lists/MembersList"
 import { updateMemberCell } from "src/store/actions/adminActions"
 import { AppState } from "src/store/reducers/rootReducer"
-import { CELL_UNASSIGNED_ID, ICells, IMemberWithId } from "src/types"
+import { getAllMembersWithIds } from "src/store/selectors/members"
+import { CELL_UNASSIGNED_ID, ICells, IMembersWithIdCollection, IMemberWithId } from "src/types"
 import { localise } from "src/utils/localisation"
-import { membersDownloadToMembersWithId } from "src/utils/membersConversion"
 
 import { SortMenu } from "../../Level2/Menus/SortMenu"
 
@@ -74,18 +74,18 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
     },
   ])
 
-  const membersWithId = useSelector<AppState, any>(
-    (state) =>
-      membersDownloadToMembersWithId(state.firestore.data.members).ordered
+  const membersWithId = useSelector<AppState, IMembersWithIdCollection>(
+    getAllMembersWithIds
   )
+  const membersArr = Object.values(membersWithId)
 
   const cells = useSelector<AppState, ICells>(
     (state) => state.firestore.data.cells.cells
   )
 
   const newMembersSorted =
-    membersWithId &&
-    [...membersWithId]
+    membersArr &&
+    [...membersArr]
       .filter(
         (member) =>
           member.cell === CELL_UNASSIGNED_ID || !(member.cell in cells)
@@ -93,8 +93,8 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
       .sort(sortMembers)
 
   const membersFilteredSorted =
-    membersWithId &&
-    [...membersWithId]
+    membersArr &&
+    [...membersArr]
       .filter(
         (member) =>
           filterMembersSearch(search)(member) &&

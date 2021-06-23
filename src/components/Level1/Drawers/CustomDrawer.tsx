@@ -29,11 +29,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { isLoaded } from "react-redux-firebase"
 import { useHistory, useLocation } from "react-router-dom"
 import { SET_DRAWER_OPEN, SET_DRAWER_TRANSITION } from "src/store/actions/types"
+import { checkAdmin } from "src/store/selectors/accessRights"
+import { getProfileWithId } from "src/store/selectors/members"
 import { localise } from "src/utils/localisation"
 
 import { signOut, updateLanguage } from "../../../store/actions/authActions"
 import { AppState } from "../../../store/reducers/rootReducer"
-import { Paths } from "../../../types"
+import { IMemberWithId, Paths } from "../../../types"
 
 const useStyles = makeStyles<Theme, { drawerWidth: number }>((theme: Theme) =>
   createStyles({
@@ -104,16 +106,14 @@ export const CustomDrawer: FC<CustomDrawerProps> = (props) => {
   >((state) => state.appBar)
   const classes = useStyles({ drawerWidth })
 
-  const profile = useSelector<AppState, any>((state) => state.firebase.profile)
+  const profile = useSelector<AppState, IMemberWithId>(getProfileWithId)
   const language = isLoaded(profile) ? profile.settings.language : "korean"
 
   const isAuthenticated = useSelector<AppState, boolean>(
     (state) => !state.firebase.auth.isEmpty
   )
 
-  const isAdmin = useSelector<AppState, boolean>((state) =>
-    state.firestore.data.access?.admins.admins.includes(state.firebase.auth.uid)
-  )
+  const isAdmin = useSelector<AppState, boolean>(checkAdmin)
 
   const items: Item[] = [
     {
@@ -186,7 +186,7 @@ export const CustomDrawer: FC<CustomDrawerProps> = (props) => {
   ("0" + new Date().getHours()).slice(-2) + ":" +
   ("0" + new Date().getMinutes()).slice(-2)`
 
-    return (
+  return (
     <Drawer
       className={classes.drawer}
       variant={desktopMode ? "persistent" : "temporary"}

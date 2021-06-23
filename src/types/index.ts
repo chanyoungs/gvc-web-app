@@ -124,13 +124,13 @@ export interface IMemberDownload extends Omit<AuthTypes, "dob"> {
   dob: firebase.firestore.Timestamp // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
 }
 
-export type IMembersDownload = { [key: string]: IMemberDownload }
+export type IMembersDownloadCollection = { [key: string]: IMemberDownload }
 
 export interface IMemberWithId extends IMemberDownload {
   id: string
 }
 
-export type IMembersWithId = { [key: string]: IMemberWithId }
+export type IMembersWithIdCollection = { [key: string]: IMemberWithId }
 
 export interface IMemberDate extends Omit<IMemberWithId, "dob"> {
   dob: Date | null

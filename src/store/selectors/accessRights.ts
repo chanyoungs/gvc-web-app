@@ -1,6 +1,7 @@
 import { createSelector } from "reselect"
 import { AppState } from "src/store/reducers/rootReducer"
-import { ICells, IMemberDownload } from "src/types"
+import { getProfileWithId } from "src/store/selectors/members"
+import { ICells, IMemberWithId } from "src/types"
 
 export const checkAdmin = createSelector<AppState, string[], string, boolean>(
   [
@@ -12,16 +13,11 @@ export const checkAdmin = createSelector<AppState, string[], string, boolean>(
 
 export const checkCellLeader = createSelector<
   AppState,
-  string,
-  IMemberDownload,
+  IMemberWithId,
   ICells,
   boolean
 >(
-  [
-    (state) => state.firebase.auth.uid,
-    (state) => state.firebase.profile,
-    (state) => state.firestore.data.cells?.cells,
-  ],
-  (uid, profile, cells) =>
-    profile.cell in cells && cells[profile.cell].leaders.includes(uid)
+  [getProfileWithId, (state) => state.firestore.data.cells?.cells],
+  (profile, cells) =>
+    profile.cell in cells && cells[profile.cell].leaders.includes(profile.id)
 )

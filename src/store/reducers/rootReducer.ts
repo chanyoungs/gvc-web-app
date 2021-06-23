@@ -8,7 +8,6 @@ import { appBarReducer } from "./appBarReducer"
 import { authReducer } from "./authReducer"
 import { bibleReducer } from "./bibleReducer"
 import { dialogReducer } from "./dialogReducer"
-import { membersReducer } from "./membersReducer"
 import { noticeReducer } from "./noticeReducer"
 import { prayerReducer } from "./prayerReducer"
 import { reportReducer } from "./reportReducer"
@@ -20,7 +19,6 @@ export const rootReducer = combineReducers({
   notice: noticeReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer,
-  members: membersReducer,
   appBar: appBarReducer,
   prayers: prayerReducer,
   alert: alertReducer,

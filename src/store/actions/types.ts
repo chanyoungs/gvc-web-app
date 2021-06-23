@@ -3,9 +3,7 @@ import { ThunkAction } from "redux-thunk"
 import { IBibleRef } from "src/components/Pages/BiblePage"
 
 import { IFBError, INotice, IReport, IReports, TPrayerQueries } from "../../types"
-import { MembersReducer } from "../reducers/membersReducer"
 import { AppState } from "../reducers/rootReducer"
-
 
 // Setup
 export type ThunkActionCustom<ReturnType> = ThunkAction<
@@ -33,15 +31,6 @@ export interface ServiceWorkerUpdate {
 }
 
 export type ServiceWorkerActionTypes = ServiceWorkerInit | ServiceWorkerUpdate
-
-// Members actions
-export const ADD_MEMBERS_WITH_ID = "ADD_MEMBERS_WITH_ID"
-export interface AddMembersWithId {
-  type: typeof ADD_MEMBERS_WITH_ID
-  payload: MembersReducer
-}
-
-export type MembersActionTypes = AddMembersWithId
 
 // Dialog actions
 
@@ -458,4 +447,3 @@ export type AppActions =
   | ReportActionTypes
   | ServiceWorkerActionTypes
   | DialogActionTypes
-  | MembersActionTypes

@@ -7,15 +7,13 @@ import moment, { Moment } from "moment"
 import React, { FC, Fragment, useState } from "react"
 import { useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
-import { CELL_MEMBERS_DOWNLOAD } from "src/components/App"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
-import { MembersReducer } from "src/store/reducers/membersReducer"
+import { getCellMembersWithIds } from "src/store/selectors/members"
 import { localise } from "src/utils/localisation"
-import { membersDownloadToMembersWithId } from "src/utils/membersConversion"
 
 import { AppState } from "../../../store/reducers/rootReducer"
-import { INoticeWithMeta } from "../../../types"
+import { IMembersWithIdCollection, INoticeWithMeta } from "../../../types"
 import { Notices as NoticesGridList } from "../../Level2/GridLists/Notices"
 import { DatesList } from "../../Level2/Lists/DatesList"
 import { NoticeCreator } from "../../Level2/NoticeCreator"
@@ -66,17 +64,15 @@ export const Playground: FC = () => {
   useFirestoreConnect([
     { collection: "notices", orderBy: ["createdAt", "asc"] },
   ])
-  // Get members from Firestore
-  useFirestoreConnect("members")
 
   const noticesArr = useSelector<AppState, INoticeWithMeta[]>(
     (state) => state.firestore.ordered.notices
   )
-  const membersReducer = useSelector<AppState, MembersReducer>((state) =>
-    membersDownloadToMembersWithId(state.firestore.data[CELL_MEMBERS_DOWNLOAD])
+  const membersWithId = useSelector<AppState, IMembersWithIdCollection>(
+    getCellMembersWithIds
   )
 
-  const { ordered: membersArr } = membersReducer
+  const membersArr = Object.values(membersWithId)
 
   const search = useSelector<AppState, string>((state) => state.appBar.search)
 

@@ -18,12 +18,11 @@ import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 import { ALERT_CLOSE, ALERT_SAVED } from "src/store/actions/types"
 import { IAlertState } from "src/store/reducers/alertReducer"
-import { IReports } from "src/types"
+import { getCellMembersWithIds, getProfileWithId } from "src/store/selectors/members"
+import { IMembersWithIdCollection, IMemberWithId, IReports } from "src/types"
 import { localise } from "src/utils/localisation"
-import { membersDownloadToMembersWithId } from "src/utils/membersConversion"
 
 import { AppState } from "../../store/reducers/rootReducer"
-import { CELL_MEMBERS_DOWNLOAD } from "../App"
 import { NoticeAlert } from "../Level1/Alerts/NoticeAlert"
 import { LoadingBackdrop } from "../Level1/Backdrops/LoadingBackdrop"
 import { LoadingProgress } from "../Level1/Progress/LoadingProgress"
@@ -82,7 +81,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
   const [reportModeIndex, setReportModeIndex] = useState(0)
   const reportModes: ReportMode[] = ["prayer", "attendance"]
 
-  const profile = useSelector<AppState, any>((state) => state.firebase.profile)
+  const profile = useSelector<AppState, IMemberWithId>(getProfileWithId)
 
   const theme = useTheme()
 
@@ -114,11 +113,10 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
     },
   ])
 
-  const stateFS = useSelector<AppState, any>((state) => state.firestore)
-  // const notices = stateFS.ordered.notices
-  const members = membersDownloadToMembersWithId(
-    stateFS.data[CELL_MEMBERS_DOWNLOAD]
-  ).ordered
+  const membersWithId = useSelector<AppState, IMembersWithIdCollection>(
+    getCellMembersWithIds
+  )
+  const membersArr = Object.values(membersWithId)
 
   const reports = useSelector<AppState, IReports>(
     (state) => state.firestore.data.reports
@@ -144,15 +142,15 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
 
   const nav: any = navigator
   const onShare = async () => {
-    console.log({ members, reports })
+    console.log({ membersArr, reports })
 
     const reportContent = {
       title: `${localise({
         english: "Prayer list",
         korean: "기도제목",
       })} ${date.format("YYYY/MM/DD")}`,
-      text: members
-        ? members
+      text: membersArr
+        ? membersArr
             .map((member) => {
               const reportId = `${date.format("YYYY.MM.DD")}-${member.id}`
               const report = reports && reportId in reports && reports[reportId]
@@ -272,7 +270,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
             label={localise({ english: "Attendance", korean: "출석체크" })}
           />
         </Tabs>
-        {isLoaded(reports) && isLoaded(members) ? (
+        {isLoaded(reports) && isLoaded(membersArr) ? (
           <SwipeableViews
             axis={theme.direction === "rtl" ? "x-reverse" : "x"}
             index={reportModeIndex}
@@ -282,7 +280,7 @@ export const ReportsPage: FC<ReportsPageProps> = (props) => {
               <ReportsList
                 key={reportMode}
                 reports={reports}
-                members={members}
+                members={membersArr}
                 date={date}
                 reportMode={reportMode}
                 setIsTyping={setIsTyping}
