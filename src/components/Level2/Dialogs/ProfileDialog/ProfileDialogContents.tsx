@@ -57,14 +57,6 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
     },
 
-    imageContainer: {
-      minHeight: theme.spacing(16),
-      position: "relative",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-    },
     return: {
       padding: 0,
     },
@@ -95,8 +87,19 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       height: "100%",
     },
+    imageContainer: {
+      position: "relative",
+      width: "100%",
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+    },
     image: {
       width: "100%",
+      height: "100%",
+      objectFit: "cover",
     },
     overlay: {
       background: "rgba(0,0,0, 0.5)",
@@ -294,6 +297,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
                         ) : (
                           <div className={classes.imageContainer}>
                             {localImage.url || member.photoUrl ? (
+                              // <div />
                               <img
                                 src={localImage.url || member.photoUrl}
                                 alt={getName(member)}
