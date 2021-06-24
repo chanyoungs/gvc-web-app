@@ -163,14 +163,15 @@ export const SignUpFields = (
       gender: (
         <FormikRadio<ISignUp, ISignUp["gender"]>
           name="gender"
+          label={localise({ english: "Gender", korean: "성별" })}
           radios={[
             {
               value: "male",
-              label: localise({ english: "Male", korean: "남자" }),
+              label: localise({ english: "Male", korean: "남" }),
             },
             {
               value: "female",
-              label: localise({ english: "Female", korean: "여자" }),
+              label: localise({ english: "Female", korean: "여" }),
             },
           ]}
         />

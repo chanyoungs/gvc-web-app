@@ -13,6 +13,7 @@ const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
     root: { width: "100%" },
     radio: { flex: 1 },
+    formLabel: { fontSize: "0.75em" },
   })
 )
 
@@ -47,7 +48,11 @@ export function FormikRadio<T, V>({
       component="fieldset"
       className={classes.root}
     >
-      {label && <FormLabel component="legend">{label}</FormLabel>}
+      {label && (
+        <FormLabel component="legend" className={classes.formLabel}>
+          {label}
+        </FormLabel>
+      )}
       <RadioGroup row {...field} {...radioContext}>
         {radios.map((radio) => (
           <FormControlLabel
