@@ -1,3 +1,4 @@
+import Avatar from "@material-ui/core/Avatar"
 import Box from "@material-ui/core/Box"
 import Button from "@material-ui/core/Button"
 import CircularProgress from "@material-ui/core/CircularProgress"
@@ -33,6 +34,12 @@ import { editProfile } from "../../../../store/actions/authActions"
 import { AuthTypes, IMemberDate, IMemberWithId } from "../../../../types"
 import { getName } from "../../Lists/listUtils"
 import { CellAllocationDialog } from "../CellAllocationDialog"
+
+const avatarPercentageFull = 60
+const avatarPercentage = {
+  full: `${avatarPercentageFull}%`,
+  halfComplement: `${(100 - avatarPercentageFull) / 2}%`,
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -76,6 +83,23 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     input: {
       display: "none",
+    },
+    avatarSuperContainer: {
+      padding: "10% 20% 10% 20%",
+    },
+    avatarContainer: {
+      position: "relative",
+      width: "100%",
+      paddingTop: "100%",
+    },
+    avatar: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      width: "100%",
+      height: "100%",
     },
     image: {
       width: "100%",
@@ -123,7 +147,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
   const classes = useStyles()
   const [openCellAlllocationDialog, setOpenCellAlllocationDialog] =
     useState(false)
-  
+
   const dispatch = useDispatch()
   const desktopMode = useMediaQuery(theme.breakpoints.up("sm"))
   const [edit, setEdit] = React.useState<boolean>(false)
@@ -136,9 +160,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
   })
   const [, setProgress] = React.useState<number>(0)
 
-  const [member,] = React.useState<IMemberDate>(
-    memberWithIdToDate(props.member)
-  )
+  const [member] = React.useState<IMemberDate>(memberWithIdToDate(props.member))
 
   const [deleteImage, setDeleteImage] = React.useState<boolean>(false)
 
@@ -254,80 +276,86 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
               />
               <Grid container justify="center" alignItems="center" spacing={1}>
                 <Grid item xs={12}>
-                  {deleteImage ? (
-                    edit && (
-                      <div className={classes.imageContainer}>
-                        <AccountCircleIcon
-                          fontSize="large"
-                          className={classes.accountCircleIcon}
-                        />
-                        <Button
-                          startIcon={<UndoIcon />}
-                          onClick={() => setDeleteImage(false)}
-                        >
-                          {localise({
-                            english: "UNDO DELETE",
-                            korean: "삭제 취소",
-                          })}
-                        </Button>
-                      </div>
-                    )
-                  ) : (
-                    <div className={classes.imageContainer}>
-                      {localImage.url || member.photoUrl ? (
-                        <img
-                          src={localImage.url || member.photoUrl}
-                          alt={getName(member)}
-                          className={classes.image}
-                        />
-                      ) : (
-                        !edit && <AccountCircleIcon fontSize="large" />
-                      )}
-                      {edit && (
-                        <div className={classes.overlay}>
-                          {isSubmitting ? (
-                            <CircularProgress />
-                          ) : (
-                            <div className={classes.actions}>
-                              <input
-                                accept="image/*"
-                                className={classes.input}
-                                id="icon-button-file"
-                                type="file"
-                                onChange={handleImageChange}
+                  <div className={classes.avatarSuperContainer}>
+                    <div className={classes.avatarContainer}>
+                      <Avatar className={classes.avatar}>
+                        {deleteImage ? (
+                          edit && (
+                            <div className={classes.imageContainer}>
+                              <AccountCircleIcon
+                                fontSize="large"
+                                className={classes.accountCircleIcon}
                               />
-                              <label htmlFor="icon-button-file">
-                                <Button
-                                  startIcon={<ImageIcon />}
-                                  size="large"
-                                  component="div"
-                                  color="inherit"
-                                >
-                                  {localise({
-                                    english: "CHOOSE PHOTO",
-                                    korean: "이미지 고르기",
-                                  })}
-                                </Button>
-                              </label>
-                              {props.member.photoUrl && (
-                                <Button
-                                  startIcon={<DeleteIcon />}
-                                  onClick={() => setDeleteImage(true)}
-                                  size="large"
-                                  color="inherit"
-                                >
-                                  {localise({
-                                    english: "DELETE PHOTO",
-                                    korean: "이미지 삭제",
-                                  })}
-                                </Button>
-                              )}
+                              <Button
+                                startIcon={<UndoIcon />}
+                                onClick={() => setDeleteImage(false)}
+                              >
+                                {localise({
+                                  english: "UNDO DELETE",
+                                  korean: "삭제 취소",
+                                })}
+                              </Button>
                             </div>
-                          )}
-                        </div>
-                      )}
+                          )
+                        ) : (
+                          <div className={classes.imageContainer}>
+                            {localImage.url || member.photoUrl ? (
+                              <img
+                                src={localImage.url || member.photoUrl}
+                                alt={getName(member)}
+                                className={classes.image}
+                              />
+                            ) : (
+                              !edit && <AccountCircleIcon fontSize="large" />
+                            )}
+                            {edit && (
+                              <div className={classes.overlay}>
+                                {isSubmitting ? (
+                                  <CircularProgress />
+                                ) : (
+                                  <div className={classes.actions}>
+                                    <input
+                                      accept="image/*"
+                                      className={classes.input}
+                                      id="icon-button-file"
+                                      type="file"
+                                      onChange={handleImageChange}
+                                    />
+                                    <label htmlFor="icon-button-file">
+                                      <Button
+                                        startIcon={<ImageIcon />}
+                                        size="large"
+                                        component="div"
+                                        color="inherit"
+                                      >
+                                        {localise({
+                                          english: "CHOOSE PHOTO",
+                                          korean: "이미지 고르기",
+                                        })}
+                                      </Button>
+                                    </label>
+                                    {props.member.photoUrl && (
+                                      <Button
+                                        startIcon={<DeleteIcon />}
+                                        onClick={() => setDeleteImage(true)}
+                                        size="large"
+                                        color="inherit"
+                                      >
+                                        {localise({
+                                          english: "DELETE PHOTO",
+                                          korean: "이미지 삭제",
+                                        })}
+                                      </Button>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </Avatar>
                     </div>
-                  )}
+                  </div>
                 </Grid>
                 <FormikContext.Provider
                   value={{
