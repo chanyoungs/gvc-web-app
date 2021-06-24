@@ -35,12 +35,6 @@ import { AuthTypes, IMemberDate, IMemberWithId } from "../../../../types"
 import { getName } from "../../Lists/listUtils"
 import { CellAllocationDialog } from "../CellAllocationDialog"
 
-const avatarPercentageFull = 60
-const avatarPercentage = {
-  full: `${avatarPercentageFull}%`,
-  halfComplement: `${(100 - avatarPercentageFull) / 2}%`,
-}
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     actions: {

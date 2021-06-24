@@ -7,7 +7,6 @@ import { IMembersWithIdCollection } from "src/types"
 import { localise } from "src/utils/localisation"
 
 import { AppState } from "../../store/reducers/rootReducer"
-import { AddCellMemberPaper } from "../Level1/Papers/AddCellMemberPaper"
 import { MembersList } from "../Level2/Lists/MembersList"
 
 // import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
@@ -30,7 +29,6 @@ export const MembersPage: FC<MembersPageProps> = (props) => {
     <Fragment>
       <AppBarMain title={localise({ english: "Members", korean: "멤버" })} />
       <ContainerMain>
-        <AddCellMemberPaper />
         <MembersList members={membersArr} />
       </ContainerMain>
     </Fragment>
