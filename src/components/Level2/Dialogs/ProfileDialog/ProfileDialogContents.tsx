@@ -25,6 +25,7 @@ import { LoadingBackdrop } from "src/components/Level1/Backdrops/LoadingBackdrop
 import { initialValues } from "src/components/Pages/AuthPage"
 import { SignUpFields, SignUpSteps } from "src/components/Pages/AuthPage/SignUpFields"
 import { getPartialAuthValidationSchema } from "src/components/Pages/AuthPage/validationSchema"
+import { CLOSE_PROFILE_DIALOG, UNMOUNT_PROFILE_DIALOG } from "src/store/actions/types"
 import { FormikContext } from "src/store/contexts/FormikContext"
 import { localise } from "src/utils/localisation"
 import { memberWithIdToDate } from "src/utils/membersConversion"
@@ -120,8 +121,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export interface ProfileDialogContentsProps {
   member: IMemberWithId
   open: boolean
-  handleClose: () => void
-  onExited: () => void
 }
 
 const updateProfileValidationSchema = yup.object<Partial<IMemberDate>>(
@@ -161,8 +160,11 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
 
   const [deleteImage, setDeleteImage] = React.useState<boolean>(false)
 
+  const handleClose = () => dispatch({ type: CLOSE_PROFILE_DIALOG })
+  const onExited = () => dispatch({ type: UNMOUNT_PROFILE_DIALOG })
+
   const handleCloseAndReset = (resetForm: () => void) => () => {
-    props.handleClose()
+    handleClose()
     resetForm()
   }
 
@@ -177,7 +179,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
         image: localImage,
         deleteImage,
         setProgress,
-        handleClose: props.handleClose,
+        handleClose,
       })
     )
   }
@@ -227,7 +229,7 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
             open={props.open}
             onClose={handleCloseAndReset(resetForm)}
             aria-labelledby="form-dialog-title"
-            onExited={props.onExited}
+            onExited={onExited}
           >
             <LoadingBackdrop open={isSubmitting} />
             <DialogTitle disableTypography id="form-dialog-title">
