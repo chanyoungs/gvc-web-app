@@ -55,11 +55,20 @@ export interface UnmountProfileDialog {
 export const OPEN_CELL_ALLOCATION_DIALOG = "OPEN_CELL_ALLOCATION_DIALOG"
 export interface OpenCellAllocationDialog {
   type: typeof OPEN_CELL_ALLOCATION_DIALOG
-  payload: { onConfirm: (chosenCellId: string) => void; memberId: string }
+  payload: {
+    cellCurrent?: string
+    cellRequest?: string
+    onConfirm: (chosenCellId: string) => void
+  }
 }
 export const CLOSE_CELL_ALLOCATION_DIALOG = "CLOSE_CELL_ALLOCATION_DIALOG"
 export interface CloseCellAllocationDialog {
   type: typeof CLOSE_CELL_ALLOCATION_DIALOG
+}
+
+export const UNMOUNT_CELL_ALLOCATION_DIALOG = "UNMOUNT_CELL_ALLOCATION_DIALOG"
+export interface UnmountCellAllocationDialog {
+  type: typeof UNMOUNT_CELL_ALLOCATION_DIALOG
 }
 
 export type DialogActionTypes =
@@ -68,6 +77,7 @@ export type DialogActionTypes =
   | UnmountProfileDialog
   | OpenCellAllocationDialog
   | CloseCellAllocationDialog
+  | UnmountCellAllocationDialog
 
 // Report actions
 export const UPDATE_REPORT = "UPDATE_REPORT"

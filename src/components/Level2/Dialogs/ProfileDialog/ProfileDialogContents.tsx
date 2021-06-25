@@ -19,7 +19,7 @@ import ImageIcon from "@material-ui/icons/Image"
 import UndoIcon from "@material-ui/icons/Undo"
 import VisibilityIcon from "@material-ui/icons/Visibility"
 import { Form, Formik, FormikHelpers } from "formik"
-import React, { FC, Fragment, useState } from "react"
+import React, { FC, Fragment } from "react"
 import { useDispatch } from "react-redux"
 import { LoadingBackdrop } from "src/components/Level1/Backdrops/LoadingBackdrop"
 import { initialValues } from "src/components/Pages/AuthPage"
@@ -34,7 +34,6 @@ import * as yup from "yup"
 import { editProfile } from "../../../../store/actions/authActions"
 import { AuthTypes, IMemberDate, IMemberWithId } from "../../../../types"
 import { getName } from "../../Lists/listUtils"
-import { CellAllocationDialog } from "../CellAllocationDialog"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -141,8 +140,6 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
 ) => {
   const theme = useTheme()
   const classes = useStyles()
-  const [openCellAlllocationDialog, setOpenCellAlllocationDialog] =
-    useState(false)
 
   const dispatch = useDispatch()
   const desktopMode = useMediaQuery(theme.breakpoints.up("sm"))
@@ -261,18 +258,6 @@ export const ProfileDialogContents: FC<ProfileDialogContentsProps> = (
             </DialogTitle>
 
             <DialogContent>
-              <CellAllocationDialog
-                cellCurrent={props.member.cell}
-                open={openCellAlllocationDialog}
-                handleClose={() => setOpenCellAlllocationDialog(false)}
-                onConfirm={(chosenCellId) =>
-                  setValues({
-                    ...values,
-                    cell: chosenCellId,
-                    cellRequest: chosenCellId,
-                  })
-                }
-              />
               <Grid container justify="center" alignItems="center" spacing={1}>
                 <Grid item xs={12}>
                   <div className={classes.avatarSuperContainer}>

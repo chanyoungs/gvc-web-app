@@ -16,6 +16,7 @@ import { AppState } from "../store/reducers/rootReducer"
 import { ServiceWorkerAlert } from "./Level1/Alerts/ServiceWorkerAlert"
 import { LoadingBackdrop } from "./Level1/Backdrops/LoadingBackdrop"
 import { Font } from "./Level1/Dialogs/FontDialog"
+import { CellAllocationDialog } from "./Level2/Dialogs/CellAllocationDialog"
 import { ProfileDialog } from "./Level2/Dialogs/ProfileDialog"
 import { AdminPage } from "./Pages/AdminPage"
 import { AuthPage } from "./Pages/AuthPage"
@@ -102,6 +103,7 @@ export default function App() {
           <div className={classes.root}>
             <ServiceWorkerAlert />
             <ProfileDialog />
+            <CellAllocationDialog />
             <BrowserRouter>
               <Switch>
                 <PrivateRoute path="/" exact component={ReportsPage} />

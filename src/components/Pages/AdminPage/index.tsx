@@ -13,11 +13,11 @@ import SwipeableViews from "react-swipeable-views"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 import { Searchbar } from "src/components/Level1/TextFields/Searchbar"
-import { CellAllocationDialog } from "src/components/Level2/Dialogs/CellAllocationDialog"
 import { CellsList } from "src/components/Level2/Lists/CellsList"
 import { filterMembersSearch, sortMembers } from "src/components/Level2/Lists/listUtils"
 import { MembersList } from "src/components/Level2/Lists/MembersList"
 import { updateMemberCell } from "src/store/actions/adminActions"
+import { OPEN_CELL_ALLOCATION_DIALOG } from "src/store/actions/types"
 import { AppState } from "src/store/reducers/rootReducer"
 import { getAllMembersWithIds } from "src/store/selectors/members"
 import { CELL_UNASSIGNED_ID, ICells, IMembersWithIdCollection, IMemberWithId } from "src/types"
@@ -64,7 +64,6 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
   const [adminModeIndex, setAdminModeIndex] = useState(0)
   const [sortMode, setSortMode] = useState<"name" | "cell">("name")
   const [chosenMember, setChosenMember] = useState<IMemberWithId | null>(null)
-  const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [search, setSearch] = useState("")
 
   // Get members from Firestore
@@ -104,22 +103,6 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
 
   return (
     <Fragment>
-      {chosenMember && (
-        <CellAllocationDialog
-          cellCurrent={chosenMember.cell}
-          cellRequest={chosenMember.cellRequest}
-          open={openDialog}
-          handleClose={() => setOpenDialog(false)}
-          onConfirm={(chosenCellId) =>
-            dispatch(
-              updateMemberCell({
-                memberId: chosenMember.id,
-                newCellId: chosenCellId,
-              })
-            )
-          }
-        />
-      )}
       <AppBarMain title={localise({ english: "Admin", korean: "관리자" })} />
       <ContainerMain>
         <Tabs
@@ -150,7 +133,20 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
                   <IconButton
                     onClick={() => {
                       setChosenMember(member)
-                      setOpenDialog(true)
+                      dispatch({
+                        type: OPEN_CELL_ALLOCATION_DIALOG,
+                        payload: {
+                          cellCurrent: member.cell,
+                          cellRequest: member.cellRequest,
+                          onConfirm: (chosenCellId: string) =>
+                            dispatch(
+                              updateMemberCell({
+                                memberId: member.id,
+                                newCellId: chosenCellId,
+                              })
+                            ),
+                        },
+                      })
                     }}
                   >
                     <CheckIcon className={classes.checkIcon} />

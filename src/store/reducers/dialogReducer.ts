@@ -1,23 +1,27 @@
 import {
+  CLOSE_CELL_ALLOCATION_DIALOG,
   CLOSE_PROFILE_DIALOG,
   DialogActionTypes,
   OPEN_CELL_ALLOCATION_DIALOG,
   OPEN_PROFILE_DIALOG,
+  UNMOUNT_CELL_ALLOCATION_DIALOG,
   UNMOUNT_PROFILE_DIALOG,
 } from "../actions/types"
 
 export interface DialogState {
   profile: { memberId: null | string; open: boolean }
   cellAllocation: {
-    memberId: null | string
+    cellCurrent?: string
+    cellRequest?: string
     open: boolean
+    mount: boolean
     onConfirm: null | ((chosenCellId: string) => void)
   }
 }
 
 const initState: DialogState = {
   profile: { memberId: null, open: false },
-  cellAllocation: { memberId: null, open: false, onConfirm: null },
+  cellAllocation: { open: false, mount: false, onConfirm: null },
 }
 
 export const dialogReducer = (
@@ -30,15 +34,27 @@ export const dialogReducer = (
     case CLOSE_PROFILE_DIALOG:
       return { ...state, profile: { ...state.profile, open: false } }
     case UNMOUNT_PROFILE_DIALOG:
-      return { ...state, profile: { memberId: null, open: false } }
+      return { ...state, profile: initState.profile }
     case OPEN_CELL_ALLOCATION_DIALOG:
       return {
         ...state,
         cellAllocation: {
-          memberId: action.payload.memberId,
+          cellCurrent: action.payload.cellCurrent,
+          cellRequest: action.payload.cellRequest,
           open: true,
+          mount: true,
           onConfirm: action.payload.onConfirm,
         },
+      }
+    case CLOSE_CELL_ALLOCATION_DIALOG:
+      return {
+        ...state,
+        cellAllocation: { ...state.cellAllocation, open: false },
+      }
+    case UNMOUNT_CELL_ALLOCATION_DIALOG:
+      return {
+        ...state,
+        cellAllocation: initState.cellAllocation,
       }
     default:
       return state

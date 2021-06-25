@@ -46,7 +46,7 @@ export const CellAllocationDialog: FC<CellAllocationDialogProps> = ({
   const dispatch = useDispatch()
   const [search, setSearch] = useState("")
   const [newCellId, setNewCellId] = useState("na")
-    const [addNewCellName, setAddNewCellName] = useState("")
+  const [addNewCellName, setAddNewCellName] = useState("")
 
   const newCellNameTextField = useRef<HTMLInputElement>(null)
 

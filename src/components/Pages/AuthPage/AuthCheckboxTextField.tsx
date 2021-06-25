@@ -4,7 +4,6 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { useField } from "formik"
 import React, { FC } from "react"
 import { FormikTextField } from "src/components/Level1/TextFields/FormikTextField"
-import { FormikContext } from "src/store/contexts/FormikContext"
 import { ISignUp } from "src/types"
 
 const useStyles = makeStyles<Theme>((theme) =>
@@ -26,25 +25,19 @@ export const AuthCheckboxTextField: FC<AuthCheckboxTextFieldProps> = ({
   const [{ value }] = useField(name)
 
   return (
-    <FormikContext.Consumer>
-      {(formikContext) => {
-        return (
-          <FormControlLabel
-            control={<Checkbox className={classes.checkbox} />}
-            checked={!!value}
-            label={
-              <FormikTextField
-                textFieldProps={{
-                  label,
-                  placeholder,
-                  variant: "standard",
-                }}
-                name={name}
-              />
-            }
-          />
-        )
-      }}
-    </FormikContext.Consumer>
+    <FormControlLabel
+      control={<Checkbox className={classes.checkbox} />}
+      checked={!!value}
+      label={
+        <FormikTextField
+          textFieldProps={{
+            label,
+            placeholder,
+            variant: "standard",
+          }}
+          name={name}
+        />
+      }
+    />
   )
 }
