@@ -63,7 +63,6 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
   const dispatch = useDispatch()
   const [adminModeIndex, setAdminModeIndex] = useState(0)
   const [sortMode, setSortMode] = useState<"name" | "cell">("name")
-  const [chosenMember, setChosenMember] = useState<IMemberWithId | null>(null)
   const [search, setSearch] = useState("")
 
   // Get members from Firestore
@@ -131,8 +130,7 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
               secondaryAction={(member: IMemberWithId) => (
                 <Fragment>
                   <IconButton
-                    onClick={() => {
-                      setChosenMember(member)
+                    onClick={() =>
                       dispatch({
                         type: OPEN_CELL_ALLOCATION_DIALOG,
                         payload: {
@@ -147,7 +145,7 @@ export const AdminPage: FC<AdminPageProps> = (props) => {
                             ),
                         },
                       })
-                    }}
+                    }
                   >
                     <CheckIcon className={classes.checkIcon} />
                   </IconButton>

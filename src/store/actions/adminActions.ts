@@ -1,12 +1,12 @@
-import { ICell } from "src/types"
+import { ICell, IMemberWithId } from "src/types"
 import { v4 as uuid } from "uuid"
 
+import { checkAdmin } from "../selectors/accessRights"
 import { ThunkActionCustom } from "./types"
 
 export interface UpdateMemberCellProps {
   memberId: string
   newCellId: string
-
   callback?: () => void
 }
 
@@ -14,21 +14,26 @@ export const updateMemberCell =
   ({
     memberId,
     newCellId,
-
     callback,
   }: UpdateMemberCellProps): ThunkActionCustom<void> =>
   async (dispatch, getState, { getFirestore, getFirebase }) => {
     const firestore = getFirestore()
+    const isAdmin = checkAdmin(getState())
+
+    const memberUpdate: Partial<IMemberWithId> = { cellRequest: newCellId }
+    if (isAdmin) memberUpdate.cell = newCellId
 
     try {
-      await firestore
-        .collection("members")
-        .doc(memberId)
-        .update({ cell: newCellId, cellRequest: newCellId })
-      console.log("Cell (re)allocation success!")
+      await firestore.collection("members").doc(memberId).update(memberUpdate)
+      console.log(
+        isAdmin ? "Cell (re)allocation success!" : "Cell requst made!"
+      )
       callback && callback()
     } catch (error) {
-      console.error("Cell (re)allocation fail!", error)
+      console.error(
+        isAdmin ? "Cell (re)allocation fail!" : "Cell request failed!",
+        error
+      )
     }
   }
 
