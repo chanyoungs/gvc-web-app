@@ -1,6 +1,10 @@
 ## TODO LIST
 
 - [ ] Make Profile Edit Dialog safe on Front & Backend following the authority level
+- [ ] Make cell allocation have firebase security rules based on admin/cell leader
+- [ ] Refactor requests to have separate firestore collection
+- [ ] Implement promotion and demotion of cell leaders
+- [ ] Implement promotion and demotion of admins
 - [x] 10/03/21 CY - Made checkboxes and radio buttons readonly when in viemode
 - [x] 10/03/21 CY - ~~Issue: In ProfileEditDialog, either: Formik component outside Dialog component makes \<Button type="submit"> not work(temporary fix is to use onClick={submitForm}), OR if Formik component is inside the Dialog component, then the dialog's sticky title and action breaks~~ &larr; Fixed by using first method
 - [x] 10/03/21 CY - ~~Issue: Error messages do not show when submitting form~~ &larr; Fixed by having initial values have defined initial values. When they're undefined, no error message shows.
